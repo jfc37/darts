@@ -1,0 +1,10 @@
+<form (ngSubmit)="handleSubmit()">
+    @for (team of teamsForm.value; let i = $index; track $index) {
+        <label for="team1">Team {{ i + 1 }}:
+            
+            <input type="text" [id]="'team' + i" [name]="'team' + i" required>
+        </label>
+    }
+    
+    <button type="submit">Continue</button>
+</form>

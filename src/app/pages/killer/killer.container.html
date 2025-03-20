@@ -1,1 +1,7 @@
-<p>killer works!</p>
+<h1>Killer</h1>
+
+@if (step == 'enter-teams') {
+    <app-enter-teams (teamsChanged)="handleTeamsChanged($event)"></app-enter-teams>
+} @else if (step == 'enter-targets') {
+ <div>enter targets</div>   
+}
