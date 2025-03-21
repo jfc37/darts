@@ -2,6 +2,6 @@
 
 @if (step == 'enter-teams') {
     <app-enter-teams (teamsChanged)="handleTeamsChanged($event)"></app-enter-teams>
-} @else if (step == 'enter-targets') {
- <div>enter targets</div>   
+} @else if (step == 'enter-numbers') {
+    <app-enter-numbers [teams]="teams"></app-enter-numbers>
 }
