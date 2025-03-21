@@ -1,16 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-board',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })
 export class BoardComponent {
 
+  public numbers: number[] = Array.from({ length: 20 }, (_, i) => i + 1);
+
   @Input() player: string = '';
 
-  @Input() unavailableNumbers: number[] = [];
+  @Input() unavailableNumbers: number[] = [20];
 
   @Output() hit = new EventEmitter<Hit>();
 
