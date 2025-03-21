@@ -1,126 +1,157 @@
 .darts-board {
-    position: relative;
-    height: 800px;
-    width: 800px;
-    margin: 0 auto;
-  }
-  
-  .inner-bull {
+  position: relative;
+  height: 800px;
+  width: 800px;
+  margin: 0 auto;
+}
+
+.inner-bull {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 5%;
+  width: 5%;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  background: rgb(220, 26, 27);
+  z-index: 7;
+}
+
+.outer-bull {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 10%;
+  width: 10%;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  background: rgb(220, 26, 27);
+  background: rgb(46, 135, 40);
+  z-index: 6;
+}
+
+$points: 20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5;
+
+@each $i in $points {
+  .single-inner-#{$i} {
+    top: 50%;
+    left: 50%;
     position: absolute;
-    top: 50%; left: 50%;
-    height: 5%; width: 5%;
-    transform: translate(-50%, -50%);
-    border-radius: 100%;
-    background: black;
-    z-index: 7;
+    height: 0;
+    width: 0;
+
+    @if (index($points, $i)-1) % 2==0 {
+      border-top: black 140px solid;
+    }
+
+    @else {
+      border-top: white 140px solid;
+    }
+
+    border-right: 22px solid transparent;
+    border-bottom: 0px solid transparent;
+    border-left: 22px solid transparent;
+    transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
+    transform-origin: bottom;
+    z-index: 5;
   }
-  
-  .outer-bull {
+}
+
+@each $i in $points {
+  .triple-#{$i} {
+    top: 50%;
+    left: 50%;
     position: absolute;
-    top: 50%; left: 50%;
-    height: 10%; width: 10%;
-    transform: translate(-50%, -50%);
-    border-radius: 100%;
-    background: red;
-    z-index: 6;
-  }
-  
-  $points: 20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5;
-  
-  @each $i in $points {
-    .single-inner-#{$i} {
-      top: 50%; left: 50%;
-      position: absolute;
-      height: 0; width: 0;
-      @if (index($points, $i)-1) % 2 == 0 {
-        border-top: black 140px solid;
-      } @else {
-        border-top: white 140px solid;
-      }
-      border-right: 22px solid transparent;
-      border-bottom: 0px solid transparent;
-      border-left: 22px solid transparent;
-      transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
-      transform-origin: bottom;
-      z-index: 5;
+    height: 0;
+    width: 0;
+
+    @if (index($points, $i)-1) % 2==0 {
+      border-top: rgb(220, 26, 27) 160px solid;
     }
-  }
-  
-  @each $i in $points {
-    .triple-#{$i} {
-      top: 50%; left: 50%;
-      position: absolute;
-      height: 0; width: 0;
-      @if (index($points, $i)-1) % 2 == 0 {
-        border-top: red 160px solid;
-      } @else {
-        border-top: blue 160px solid;
-      }
-      border-right: 25.14px solid transparent;
-      border-bottom: 0px solid transparent;
-      border-left: 25.14px solid transparent;
-      transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
-      transform-origin: bottom;
-      z-index: 4;
+
+    @else {
+      border-top: rgb(46, 135, 40) 160px solid;
     }
+
+    border-right: 25.14px solid transparent;
+    border-bottom: 0px solid transparent;
+    border-left: 25.14px solid transparent;
+    transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
+    transform-origin: bottom;
+    z-index: 4;
   }
-  
-  @each $i in $points {
-    .single-outer-#{$i} {
-      top: 50%; left: 50%;
-      position: absolute;
-      height: 0; width: 0;
-      @if (index($points, $i)-1) % 2 == 0 {
-        border-top: black 280px solid;
-      } @else {
-        border-top: white 280px solid;
-      }
-      border-right: 44px solid transparent;
-      border-bottom: 0px solid transparent;
-      border-left: 44px solid transparent;
-      transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
-      transform-origin: bottom;
-      z-index: 3;
-    }
-  }
-  
-  @each $i in $points {
-    .double-#{$i} {
-      top: 50%; left: 50%;
-      position: absolute;
-      height: 0; width: 0;
-      @if (index($points, $i)-1) % 2 == 0 {
-        border-top: red 300px solid;
-      } @else {
-        border-top: blue 300px solid;
-      }
-      border-right: 47.14px solid transparent;
-      border-bottom: 0px solid transparent;
-      border-left: 47.14px solid transparent;
-      transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
-      transform-origin: bottom;
-      z-index: 2;
-    }
-  }
-  .out {
+}
+
+@each $i in $points {
+  .single-outer-#{$i} {
+    top: 50%;
+    left: 50%;
     position: absolute;
-    top: 50%; left: 50%;
-    height: 670px; width: 670px;
-    transform: translate(-50%, -50%);
-    border-radius: 100%;
-    background: black;
-    z-index: 1;
-  }
-  
-  @each $i in $points {
-    .num-#{$i} {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform-origin: left top;
-      text-align: center;
-      transform: rotate(#{18*(index($points, $i)-1)}deg) translate(0, -350px) rotate(-#{18*(index($points, $i)-1)}deg) translate(-50%, -50%);
-      z-index: 99;
+    height: 0;
+    width: 0;
+
+    @if (index($points, $i)-1) % 2==0 {
+      border-top: black 280px solid;
     }
+
+    @else {
+      border-top: white 280px solid;
+    }
+
+    border-right: 44px solid transparent;
+    border-bottom: 0px solid transparent;
+    border-left: 44px solid transparent;
+    transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
+    transform-origin: bottom;
+    z-index: 3;
   }
-      
-  
+}
+
+@each $i in $points {
+  .double-#{$i} {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    height: 0;
+    width: 0;
+
+    @if (index($points, $i)-1) % 2==0 {
+      border-top: rgb(220, 26, 27) 300px solid;
+    }
+
+    @else {
+      border-top: rgb(46, 135, 40) 300px solid;
+    }
+
+    border-right: 47.14px solid transparent;
+    border-bottom: 0px solid transparent;
+    border-left: 47.14px solid transparent;
+    transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
+    transform-origin: bottom;
+    z-index: 2;
+  }
+}
+
+.out {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 670px;
+  width: 670px;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  background: black;
+  z-index: 1;
+}
+
+@each $i in $points {
+  .num-#{$i} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: left top;
+    text-align: center;
+    transform: rotate(#{18*(index($points, $i)-1)}deg) translate(0, -350px) rotate(-#{18*(index($points, $i)-1)}deg) translate(-50%, -50%);
+    z-index: 99;
+  }
+}

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EnterNumbersComponent } from './enter-numbers.component';
+import { EnterTargetsComponent } from './enter-targets.component';
 
-describe('EnterNumbersComponent', () => {
-  let component: EnterNumbersComponent;
-  let fixture: ComponentFixture<EnterNumbersComponent>;
+describe('EnterTargetsComponent', () => {
+  let component: EnterTargetsComponent;
+  let fixture: ComponentFixture<EnterTargetsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EnterNumbersComponent]
+      imports: [EnterTargetsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EnterNumbersComponent);
+    fixture = TestBed.createComponent(EnterTargetsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,7 +1,9 @@
 <h1>Killer</h1>
 
-@if (step == 'enter-teams') {
-    <app-enter-teams (teamsChanged)="handleTeamsChanged($event)"></app-enter-teams>
-} @else if (step == 'enter-numbers') {
-    <app-enter-numbers [teams]="teams"></app-enter-numbers>
+@if (game.phase == 'enter-teams') {
+<app-enter-teams (teamsChanged)="setTeams($event)"></app-enter-teams>
+} @else if (game.phase == 'enter-targets') {
+<app-enter-targets [team]="game.nameOfCurrentTeam" (markTarget)="setTarget($event)"></app-enter-targets>
 }
+
+<pre>{{game | json}}</pre>

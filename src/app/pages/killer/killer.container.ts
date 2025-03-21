@@ -1,37 +1,32 @@
 import { Component } from '@angular/core';
 import { EnterTeamsComponent } from "./enter-teams/enter-teams.component";
-import { EnterNumbersComponent } from './enter-numbers/enter-numbers.component';
+import { KillerGame, KillerGameService } from '../../services/killer-game.service';
+import { EnterTargetsComponent } from "./enter-targets/enter-targets.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-killer',
-  imports: [EnterTeamsComponent, EnterNumbersComponent],
+  imports: [CommonModule, EnterTeamsComponent, EnterTargetsComponent],
+  providers: [KillerGameService],
   templateUrl: './killer.container.html',
   styleUrl: './killer.container.scss'
 })
 export class KillerContainer {
-  // public step: KillerStep = 'enter-teams';
-  // public teams: string[] = [];
-  public step: KillerStep = 'enter-numbers';
-  public teams: string[] = ['aaa', 'bbb'];
+  public game!: KillerGame;
 
-  public handleTeamsChanged(teams: string[]) {
-    this.teams = teams;
-    this.step = 'enter-numbers';
-  } 
-}
+  constructor(private killerGameService: KillerGameService) { }
 
-type KillerStep = 'enter-teams' | 'enter-numbers' | 'play';
+  public ngOnInit() {
+    this.game = this.killerGameService.createGame();
+    this.game.setTeams(["Team 1", "Team 2"]);
+  }
 
-export interface KillerGame {
-  teams: KillerTeam[];
-}
 
-export interface KillerTeam {
-  name: string;
-  targets: KillerTarget[];
-}
+  public setTeams(teams: string[]) {
+    this.game.setTeams(teams);
+  }
 
-export interface KillerTarget {
-  number: number;
-  health: number;
+  public setTarget(target: number) {
+    this.game.setTarget(target);
+  }
 }
