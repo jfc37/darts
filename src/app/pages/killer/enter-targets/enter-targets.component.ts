@@ -14,9 +14,17 @@ export class EnterTargetsComponent {
   @Input() public team!: string;
 
   /**
+   * Targets for each team
+   */
+  @Input() public teamTargets!: number[][];
+  /**
    * Event emitted when a target is marked
    */
   @Output() public markTarget = new EventEmitter<number>();
+
+  public get takenTargets(): number[] {
+    return this.teamTargets.flat();
+  }
 
   public recordTarget(hit: Hit) {
     this.markTarget.emit(hit.number);

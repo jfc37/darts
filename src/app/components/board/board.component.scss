@@ -1,3 +1,10 @@
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  filter: brightness(10);
+  cursor: not-allowed;
+}
+
 .darts-board {
   position: relative;
   height: 800px;
@@ -54,6 +61,18 @@ $points: 20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5;
     transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
     transform-origin: bottom;
     z-index: 5;
+
+    &.team1 {
+      border-top-color: blue;
+      filter: none;
+      opacity: unset;
+    }
+
+    &.team2 {
+      border-top-color: pink;
+      filter: none;
+      opacity: unset;
+    }
   }
 }
 
@@ -79,6 +98,18 @@ $points: 20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5;
     transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
     transform-origin: bottom;
     z-index: 4;
+
+    &.team1 {
+      border-top-color: blue;
+      filter: none;
+      opacity: unset;
+    }
+
+    &.team2 {
+      border-top-color: pink;
+      filter: none;
+      opacity: unset;
+    }
   }
 }
 
@@ -104,6 +135,18 @@ $points: 20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5;
     transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
     transform-origin: bottom;
     z-index: 3;
+
+    &.team1 {
+      border-top-color: blue;
+      filter: none;
+      opacity: unset;
+    }
+
+    &.team2 {
+      border-top-color: pink;
+      filter: none;
+      opacity: unset;
+    }
   }
 }
 
@@ -129,6 +172,18 @@ $points: 20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5;
     transform: translate(-50%, -100%) rotate(#{18*(index($points, $i)-1)}deg);
     transform-origin: bottom;
     z-index: 2;
+
+    &.team1 {
+      border-top-color: blue;
+      filter: none;
+      opacity: unset;
+    }
+
+    &.team2 {
+      border-top-color: pink;
+      filter: none;
+      opacity: unset;
+    }
   }
 }
 
@@ -153,5 +208,17 @@ $points: 20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5;
     text-align: center;
     transform: rotate(#{18*(index($points, $i)-1)}deg) translate(0, -350px) rotate(-#{18*(index($points, $i)-1)}deg) translate(-50%, -50%);
     z-index: 99;
+
+    &.team1 {
+      border-top-color: blue;
+      filter: none;
+      opacity: unset;
+    }
+
+    &.team2 {
+      border-top-color: pink;
+      filter: none;
+      opacity: unset;
+    }
   }
 }

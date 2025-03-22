@@ -13,7 +13,11 @@ export class BoardComponent {
 
   @Input() player: string = '';
 
-  @Input() unavailableNumbers: number[] = [20];
+  @Input() unavailableNumbers: number[] = [];
+
+  @Input() coloredNumbersSetOne: number[] = [];
+
+  @Input() coloredNumbersSetTwo: number[] = [];
 
   @Output() hit = new EventEmitter<Hit>();
 

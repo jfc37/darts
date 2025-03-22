@@ -5,23 +5,27 @@
   <div class="outer-bull" (click)="handleHit('outer-bull')"></div>
 
   @for (number of numbers; track $index) {
-  <div [ngClass]="{'disabled': unavailableNumbers.includes(number)}" [class]="'single-inner-' + number"
-    (click)="handleHit('single-inner-' + number)"></div>
+  <div
+    [ngClass]="{'disabled': unavailableNumbers.includes(number), 'team1': coloredNumbersSetOne.includes(number), 'team2': coloredNumbersSetTwo.includes(number)}"
+    [class]="'single-inner-' + number" (click)="handleHit('single-inner-' + number)"></div>
   }
 
   @for (number of numbers; track $index) {
-  <div [ngClass]="{'disabled': unavailableNumbers.includes(number)}" [class]="'triple-' + number"
-    (click)="handleHit('triple-' + number)"></div>
+  <div
+    [ngClass]="{'disabled': unavailableNumbers.includes(number), 'team1': coloredNumbersSetOne.includes(number), 'team2': coloredNumbersSetTwo.includes(number)}"
+    [class]="'triple-' + number" (click)="handleHit('triple-' + number)"></div>
   }
 
   @for (number of numbers; track $index) {
-  <div [ngClass]="{'disabled': unavailableNumbers.includes(number)}" [class]="'single-outer-' + number"
-    (click)="handleHit('single-outer-' + number)"></div>
+  <div
+    [ngClass]="{'disabled': unavailableNumbers.includes(number), 'team1': coloredNumbersSetOne.includes(number), 'team2': coloredNumbersSetTwo.includes(number)}"
+    [class]="'single-outer-' + number" (click)="handleHit('single-outer-' + number)"></div>
   }
 
   @for (number of numbers; track $index) {
-  <div [ngClass]="{'disabled': unavailableNumbers.includes(number)}" [class]="'double-' + number"
-    (click)="handleHit('double-' + number)"></div>
+  <div
+    [ngClass]="{'disabled': unavailableNumbers.includes(number), 'team1': coloredNumbersSetOne.includes(number), 'team2': coloredNumbersSetTwo.includes(number)}"
+    [class]="'double-' + number" (click)="handleHit('double-' + number)"></div>
   }
 
   <div class="out" (click)="handleHit('out')"></div>

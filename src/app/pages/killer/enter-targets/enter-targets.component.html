@@ -1,2 +1,3 @@
 <h2>Setting Targets</h2>
-<app-board [player]="team" (hit)="recordTarget($event)"></app-board>
+<app-board [player]="team" [unavailableNumbers]="takenTargets" [coloredNumbersSetOne]="teamTargets[0]"
+    [coloredNumbersSetTwo]="teamTargets[1]" (hit)="recordTarget($event)"></app-board>

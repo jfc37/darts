@@ -31,6 +31,10 @@ export class KillerGame {
     return this.teams[this._currentTeamIndex].name;
   }
 
+  public get allTargets(): number[][] {
+    return this.teams.map(t => t.targetNumbers);
+  }
+
   /**
    * Creates a new game of killer
    * @returns 

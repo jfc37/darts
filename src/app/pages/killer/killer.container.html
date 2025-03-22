@@ -3,7 +3,8 @@
 @if (game.phase == 'enter-teams') {
 <app-enter-teams (teamsChanged)="setTeams($event)"></app-enter-teams>
 } @else if (game.phase == 'enter-targets') {
-<app-enter-targets [team]="game.nameOfCurrentTeam" (markTarget)="setTarget($event)"></app-enter-targets>
+<app-enter-targets [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargets"
+    (markTarget)="setTarget($event)"></app-enter-targets>
 }
 
-<pre>{{game | json}}</pre>
+<pre>{{game.allTargets | json}}</pre>
