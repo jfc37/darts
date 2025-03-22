@@ -105,6 +105,11 @@ export class KillerGame {
         target.Heal(multiplier)
       } else {
         target.Hit(multiplier);
+
+        if (this.teams.some(t => t.targets.every(t => t.health === ZERO_HEALTH))) {
+          this.phase = KillerGamePhase.GameOver;
+          return;
+        }
       }
     }
 

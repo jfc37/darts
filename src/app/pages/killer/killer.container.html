@@ -8,6 +8,8 @@
 } @else if (game.phase == 'play') {
 <app-play-killer [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargets"
     (hit)="handleHit($event)"></app-play-killer>
+} @else if (game.phase == 'game-over') {
+<app-killer-game-over [winningTeam]="game.nameOfCurrentTeam" (startNewGame)="handleNewGame()"></app-killer-game-over>
 }
 
 <pre>{{game | json}}</pre>
