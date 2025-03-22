@@ -12,7 +12,7 @@
 
   @for (number of numbers; track $index) {
   <div
-    [ngClass]="{'disabled': unavailableNumbers.includes(number), 'team1': coloredNumbersSetOne.includes(number), 'team2': coloredNumbersSetTwo.includes(number)}"
+    [ngClass]="{'disabled': unavailableNumbers.includes(number), 'colour-multiple-1': coloredNumberMultipliersSetOne.includes(number), 'colour-multiple-2': coloredNumberMultipliersSetTwo.includes(number), 'colour-multiple-3': coloredNumberMultipliersSetThree.includes(number), 'colour-multiple-4': coloredNumberMultipliersSetFour.includes(number)}"
     [class]="'triple-' + number" (click)="handleHit('triple-' + number)"></div>
   }
 
@@ -24,7 +24,7 @@
 
   @for (number of numbers; track $index) {
   <div
-    [ngClass]="{'disabled': unavailableNumbers.includes(number), 'team1': coloredNumbersSetOne.includes(number), 'team2': coloredNumbersSetTwo.includes(number)}"
+    [ngClass]="{'disabled': unavailableNumbers.includes(number), 'colour-multiple-1': coloredNumberMultipliersSetOne.includes(number), 'colour-multiple-2': coloredNumberMultipliersSetTwo.includes(number), 'colour-multiple-3': coloredNumberMultipliersSetThree.includes(number), 'colour-multiple-4': coloredNumberMultipliersSetFour.includes(number)}"
     [class]="'double-' + number" (click)="handleHit('double-' + number)"></div>
   }
 

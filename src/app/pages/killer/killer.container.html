@@ -3,8 +3,11 @@
 @if (game.phase == 'enter-teams') {
 <app-enter-teams (teamsChanged)="setTeams($event)"></app-enter-teams>
 } @else if (game.phase == 'enter-targets') {
-<app-enter-targets [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargets"
+<app-enter-targets [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargetNumbers"
     (markTarget)="setTarget($event)"></app-enter-targets>
+} @else if (game.phase == 'play') {
+<app-play-killer [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargets"
+    (hit)="handleHit($event)"></app-play-killer>
 }
 
-<pre>{{game.allTargets | json}}</pre>
+<pre>{{game | json}}</pre>

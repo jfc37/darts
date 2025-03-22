@@ -17,6 +17,7 @@ export class EnterTargetsComponent {
    * Targets for each team
    */
   @Input() public teamTargets!: number[][];
+
   /**
    * Event emitted when a target is marked
    */

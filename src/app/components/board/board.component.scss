@@ -99,17 +99,41 @@ $points: 20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5;
     transform-origin: bottom;
     z-index: 4;
 
-    &.team1 {
-      border-top-color: blue;
+    &.colour-multiple-1 {
+      border-top-color: greenyellow;
       filter: none;
       opacity: unset;
     }
 
-    &.team2 {
-      border-top-color: pink;
+    &.colour-multiple-2 {
+      border-top-color: orange;
       filter: none;
       opacity: unset;
     }
+
+    &.colour-multiple-3 {
+      border-top-color: red;
+      filter: none;
+      opacity: unset;
+    }
+
+    &.colour-multiple-4 {
+      border-top-color: black;
+      filter: none;
+      opacity: unset;
+    }
+
+    // &.team1 {
+    //   border-top-color: blue;
+    //   filter: none;
+    //   opacity: unset;
+    // }
+
+    // &.team2 {
+    //   border-top-color: pink;
+    //   filter: none;
+    //   opacity: unset;
+    // }
   }
 }
 
@@ -173,17 +197,41 @@ $points: 20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5;
     transform-origin: bottom;
     z-index: 2;
 
-    &.team1 {
-      border-top-color: blue;
+    &.colour-multiple-1 {
+      border-top-color: greenyellow;
       filter: none;
       opacity: unset;
     }
 
-    &.team2 {
-      border-top-color: pink;
+    &.colour-multiple-2 {
+      border-top-color: orange;
       filter: none;
       opacity: unset;
     }
+
+    &.colour-multiple-3 {
+      border-top-color: red;
+      filter: none;
+      opacity: unset;
+    }
+
+    &.colour-multiple-4 {
+      border-top-color: black;
+      filter: none;
+      opacity: unset;
+    }
+
+    // &.team1 {
+    //   border-top-color: blue;
+    //   filter: none;
+    //   opacity: unset;
+    // }
+
+    // &.team2 {
+    //   // border-top-color: pink;
+    //   filter: none;
+    //   opacity: unset;
+    // }
   }
 }
 

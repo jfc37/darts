@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DartCell, Hit } from '../components/board/board.component';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class KillerGame {
   public teams: KillerTeam[] = [];
   public phase: KillerGamePhase = KillerGamePhase.EnterTeams;
 
+  private _turn = 1;
   private _currentTeamIndex = 0;
   private get _currentTeam(): KillerTeam {
     return this.teams[this._currentTeamIndex];
@@ -31,8 +33,12 @@ export class KillerGame {
     return this.teams[this._currentTeamIndex].name;
   }
 
-  public get allTargets(): number[][] {
+  public get allTargetNumbers(): number[][] {
     return this.teams.map(t => t.targetNumbers);
+  }
+
+  public get allTargets(): KillerTarget[][] {
+    return this.teams.map(t => t.targets);
   }
 
   /**
@@ -73,6 +79,7 @@ export class KillerGame {
 
     const allTeamsReady = this.teams.every(t => t.status === KillerTeamStatus.ReadyToPlay);
     if (allTeamsReady) {
+      this._currentTeamIndex = 0;
       this.phase = KillerGamePhase.Play;
       return;
     }
@@ -83,13 +90,37 @@ export class KillerGame {
       return;
     }
 
-    const currentTeamHasThrown = this._currentTeam.targets.length == TARGET_SWAPS;
+    const currentTeamHasThrown = this._currentTeam.targets.length == THROWS_PER_TURN;
     if (currentTeamHasThrown) {
-      if (this._currentTeamIndex === this.teams.length - 1) {
-        this._currentTeamIndex = 0;
+      this.changeCurrentTeam();
+    }
+  }
+
+  public hit(hit: Hit) {
+    const target = this.allTargets.flat().find(t => t.target === hit.number);
+    if (target != null) {
+      const multiplier = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
+
+      if (this._currentTeam.targetNumbers.includes(hit.number)) {
+        target.Heal(multiplier)
       } else {
-        this._currentTeamIndex++;
+        target.Hit(multiplier);
       }
+    }
+
+    if (this._turn == 3) {
+      this.changeCurrentTeam();
+      this._turn = 1;
+    } else {
+      this._turn++;
+    }
+  }
+
+  private changeCurrentTeam() {
+    if (this._currentTeamIndex === this.teams.length - 1) {
+      this._currentTeamIndex = 0;
+    } else {
+      this._currentTeamIndex++;
     }
   }
 
@@ -258,10 +289,7 @@ export enum HitMultiplier {
 export const MAX_HEALTH = 3;
 export const ZERO_HEALTH = 0;
 export const TOTAL_TARGETS_PER_TEAM = 6;
-/**
- * Number of targets marked by a team before the next team takes their turn
- */
-export const TARGET_SWAPS = 3;
+export const THROWS_PER_TURN = 3;
 
 /**
  * Represents the current phase of the game

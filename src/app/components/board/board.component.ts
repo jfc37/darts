@@ -19,6 +19,11 @@ export class BoardComponent {
 
   @Input() coloredNumbersSetTwo: number[] = [];
 
+  @Input() coloredNumberMultipliersSetOne: number[] = [];
+  @Input() coloredNumberMultipliersSetTwo: number[] = [];
+  @Input() coloredNumberMultipliersSetThree: number[] = [];
+  @Input() coloredNumberMultipliersSetFour: number[] = [];
+
   @Output() hit = new EventEmitter<Hit>();
 
   public handleHit(className: string) {
