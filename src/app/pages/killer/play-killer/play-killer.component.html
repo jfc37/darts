@@ -1,5 +1,3 @@
 <h2>Seek and Destroy</h2>
-<app-board [player]="team" [coloredNumbersSetOne]="teamOneTargetNumbers" [coloredNumbersSetTwo]="teamTwoTargetNumbers"
-    [coloredNumberMultipliersSetOne]="targetsWithThreeHeath" [coloredNumberMultipliersSetTwo]="targetsWithTwoHeath"
-    [coloredNumberMultipliersSetThree]="targetsWithOneHeath" [coloredNumberMultipliersSetFour]="deadTargets"
+<app-board [player]="team" [colouredSections]="colouredNumbers" [colouredTriples]="healthColours"
     (hit)="recordHit($event)"></app-board>

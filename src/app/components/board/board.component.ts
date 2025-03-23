@@ -1,74 +1,81 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Input, Output } from '@angular/core';
+import '../dart-board/dartbot-dartboard';
+import { Dartboard, DartboardPointerEvent } from '../dart-board/Dartboard';
+import { getSectorValue } from '../dart-board/draw-board/board';
 
 @Component({
   selector: 'app-board',
   imports: [CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })
-export class BoardComponent {
-
-  public numbers: number[] = Array.from({ length: 20 }, (_, i) => i + 1);
+export class BoardComponent implements AfterViewInit {
+  private dartboard!: Dartboard | null;
 
   @Input() player: string = '';
 
-  @Input() unavailableNumbers: number[] = [];
+  @Input() set colouredSections(value: { [key: string]: string }) {
+    this._colouredSections = value;
 
-  @Input() coloredNumbersSetOne: number[] = [];
+    if (!this.dartboard) {
+      return;
+    }
 
-  @Input() coloredNumbersSetTwo: number[] = [];
+    this.dartboard.board.sectorColours = value;
+    this.dartboard.render();
+  }
+  private _colouredSections!: { [key: string]: string };
 
-  @Input() coloredNumberMultipliersSetOne: number[] = [];
-  @Input() coloredNumberMultipliersSetTwo: number[] = [];
-  @Input() coloredNumberMultipliersSetThree: number[] = [];
-  @Input() coloredNumberMultipliersSetFour: number[] = [];
+  @Input() set colouredTriples(value: { [key: string]: string }) {
+    this._colouredTriples = value;
+
+    if (!this.dartboard) {
+      return;
+    }
+
+    this.dartboard.board.tripleColours = value;
+    this.dartboard.render();
+  }
+  private _colouredTriples!: { [key: string]: string };
 
   @Output() hit = new EventEmitter<Hit>();
 
-  public handleHit(className: string) {
-    const hit = getHitFromClassName(className);
+  ngAfterViewInit(): void {
+    this.dartboard = document.querySelector('dartbot-dartboard');
+    if (this.dartboard == null) {
+      throw new Error('Could not find dartboard element');
+    }
+
+    if (this._colouredSections) {
+      this.dartboard.board.sectorColours = this._colouredSections;
+      this.dartboard.render();
+    }
+
+    if (this._colouredTriples) {
+      this.dartboard.board.tripleColours = this._colouredTriples;
+      this.dartboard.render();
+    }
+
+    this.dartboard.addEventListener('dartboard-click', (event: any) => {
+      this.handleHit(event);
+    });
+
+  }
+
+  private handleHit(event: DartboardPointerEvent): void {
+    const { detail, target } = event;
+    const { polar, sector, ring } = detail;
+
+    (target as any).hits = [...(target as any).hits, polar];
+
+    const hit = new Hit(getSectorValue((target as any).board as any, sector), ring);
+    console.error(hit, detail);
     this.hit.emit(hit);
   }
-
 }
 
-function getHitFromClassName(className: string): Hit {
-  if (className === 'out') {
-    return Hit.Missed();
-  }
-
-  if (className === 'inner-bull') {
-    return Hit.InnerBull();
-  }
-
-  if (className === 'outer-bull') {
-    return Hit.OuterBull();
-  }
-
-  if (className.startsWith('triple')) {
-    const number = parseInt(className.replace('triple-', ''));
-    return Hit.Triple(number);
-  }
-
-  if (className.startsWith('double')) {
-    const number = parseInt(className.replace('double-', ''));
-    return Hit.Double(number);
-  }
-
-  if (className.startsWith('single-inner')) {
-    const number = parseInt(className.replace('single-inner-', ''));
-    return Hit.SingleInner(number);
-  }
-
-  if (className.startsWith('single-outer')) {
-    const number = parseInt(className.replace('single-outer-', ''));
-    return Hit.SingleOuter(number);
-  }
-
-  alert(`Don't know how to handle hit with dart cell: ${className}`);
-  throw new Error(`Don't know how to handle hit with dart cell: ${className}`);;
-}
 
 export class Hit {
   /**
@@ -91,47 +98,29 @@ export class Hit {
    */
   public missed: boolean;
 
-  private constructor(number: number, value: number, multiplier: DartCell, missed: boolean) {
+  constructor(number: number, ring: number) {
     this.number = number;
-    this.value = value;
-    this.multiplier = multiplier;
-    this.missed = missed;
-  }
+    this.multiplier = ring;
 
-  static Missed(): Hit {
-    return new Hit(0, 0, DartCell.SingleInner, true);
-  }
+    if (this.multiplier == DartCell.Triple) {
+      this.value = number * 3;
+    }
+    else if (this.multiplier == DartCell.Double) {
+      this.value = number * 2;
+    }
+    else {
+      this.value = number;
+    }
 
-  static InnerBull(): Hit {
-    return new Hit(50, 50, DartCell.InnererBullsEye, false);
-  }
-
-  static OuterBull(): Hit {
-    return new Hit(25, 25, DartCell.OuterBullsEye, false);
-  }
-
-  static Triple(number: number): Hit {
-    return new Hit(number, number * 3, DartCell.Triple, false);
-  }
-
-  static Double(number: number): Hit {
-    return new Hit(number, number * 2, DartCell.Double, false);
-  }
-
-  static SingleInner(number: number): Hit {
-    return new Hit(number, number, DartCell.SingleInner, false);
-  }
-
-  static SingleOuter(number: number): Hit {
-    return new Hit(number, number, DartCell.SingleOuter, false);
+    this.missed = ring == undefined;
   }
 }
 
 export enum DartCell {
-  SingleInner = 1,
-  SingleOuter = 2,
-  Double = 3,
-  Triple = 4,
-  OuterBullsEye = 5,
-  InnererBullsEye = 6,
+  SingleInner = 2,
+  SingleOuter = 4,
+  Double = 5,
+  Triple = 3,
+  OuterBullsEye = 1,
+  InnererBullsEye = 0,
 }

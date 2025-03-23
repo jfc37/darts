@@ -21,32 +21,20 @@ export class PlayKillerComponent {
 
   @Output() public hit = new EventEmitter<Hit>();
 
-  public get teamOneTargetNumbers() {
-    return this.teamTargets[0].map(t => t.target);
+  public get colouredNumbers() {
+    return {
+      ...this.teamTargets[0].reduce((accum, target) => ({ ...accum, [target.target]: 'limegreen' }), {}),
+      ...this.teamTargets[1].reduce((accum, target) => ({ ...accum, [target.target]: 'pink' }), {})
+    }
   }
 
-  public get teamTwoTargetNumbers() {
-    return this.teamTargets[1].map(t => t.target);
-  }
-
-  public get targetsWithThreeHeath() {
-    return this.teamTargets.flat().filter(t => t.health === 3)
-      .map(t => t.target);
-  }
-
-  public get targetsWithTwoHeath() {
-    return this.teamTargets.flat().filter(t => t.health === 2)
-      .map(t => t.target);
-  }
-
-  public get targetsWithOneHeath() {
-    return this.teamTargets.flat().filter(t => t.health === 1)
-      .map(t => t.target);
-  }
-
-  public get deadTargets() {
-    return this.teamTargets.flat().filter(t => t.health === 0)
-      .map(t => t.target);
+  public get healthColours() {
+    return {
+      ...this.teamTargets.flat().filter(t => t.health === 3).reduce((accum, target) => ({ ...accum, [target.target]: 'green' }), {}),
+      ...this.teamTargets.flat().filter(t => t.health === 2).reduce((accum, target) => ({ ...accum, [target.target]: 'orange' }), {}),
+      ...this.teamTargets.flat().filter(t => t.health === 1).reduce((accum, target) => ({ ...accum, [target.target]: 'red' }), {}),
+      ...this.teamTargets.flat().filter(t => t.health === 0).reduce((accum, target) => ({ ...accum, [target.target]: 'black' }), {}),
+    }
   }
 
   public recordHit(hit: Hit) {

@@ -27,6 +27,13 @@ export class EnterTargetsComponent {
     return this.teamTargets.flat();
   }
 
+  public get colouredNumbers() {
+    return {
+      ...this.teamTargets[0].reduce((accum, target) => ({ ...accum, [target]: 'limegreen' }), {}),
+      ...this.teamTargets[1].reduce((accum, target) => ({ ...accum, [target]: 'pink' }), {})
+    }
+  }
+
   public recordTarget(hit: Hit) {
     this.markTarget.emit(hit.number);
   }
