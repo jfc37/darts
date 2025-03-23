@@ -21,23 +21,23 @@ export class KillerContainer {
 
   public ngOnInit() {
     this.game = this.killerGameService.createGame();
-    this.game.setTeams(["Team 1", "Team 2"]);
+    // this.game.setTeams(["Team 1", "Team 2"]);
 
-    this.game.setTarget(20);
-    this.game.setTarget(5);
-    this.game.setTarget(12);
+    // this.game.setTarget(20);
+    // this.game.setTarget(5);
+    // this.game.setTarget(12);
 
-    this.game.setTarget(1);
-    this.game.setTarget(18);
-    this.game.setTarget(4);
+    // this.game.setTarget(1);
+    // this.game.setTarget(18);
+    // this.game.setTarget(4);
 
-    this.game.setTarget(9);
-    this.game.setTarget(14);
-    this.game.setTarget(11);
+    // this.game.setTarget(9);
+    // this.game.setTarget(14);
+    // this.game.setTarget(11);
 
-    this.game.setTarget(13);
-    this.game.setTarget(6);
-    this.game.setTarget(10);
+    // this.game.setTarget(13);
+    // this.game.setTarget(6);
+    // this.game.setTarget(10);
 
     // this.game.hit(Hit.Triple(1));
     // this.game.hit(Hit.Triple(1));
