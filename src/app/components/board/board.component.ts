@@ -102,7 +102,12 @@ export class Hit {
     this.number = number;
     this.multiplier = ring;
 
-    if (this.multiplier == DartCell.Triple) {
+    this.missed = ring == undefined;
+
+    if (this.missed) {
+      this.value = 0;
+      this.number = 0;
+    } else if (this.multiplier == DartCell.Triple) {
       this.value = number * 3;
     }
     else if (this.multiplier == DartCell.Double) {
@@ -112,7 +117,6 @@ export class Hit {
       this.value = number;
     }
 
-    this.missed = ring == undefined;
   }
 }
 
