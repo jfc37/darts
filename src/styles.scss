@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    display: block;
+    height: 100vh;
+    background: url('/dartboard-background.jpg') no-repeat center center;
+    background-blend-mode: lighten;
+    background-size: cover;
+    // filter: brightness(70%) blur(5px);
+    margin: 0;
+    padding: 0;
+
+    color: rgb(236, 236, 236);
+}
