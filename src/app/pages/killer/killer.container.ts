@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
 import { PlayKillerComponent } from "./play-killer/play-killer.component";
 import { Hit } from '../../components/board/board.component';
 import { KillerGameOverComponent } from "./killer-game-over/killer-game-over.component";
+import { TeamSelectionComponent } from "./team-selection/team-selection.component";
 
 @Component({
   selector: 'app-killer',
-  imports: [CommonModule, EnterTeamsComponent, EnterTargetsComponent, PlayKillerComponent, KillerGameOverComponent],
+  imports: [CommonModule, EnterTeamsComponent, TeamSelectionComponent, EnterTargetsComponent, PlayKillerComponent, KillerGameOverComponent, TeamSelectionComponent],
   providers: [KillerGameService],
   templateUrl: './killer.container.html',
   styleUrl: './killer.container.scss'

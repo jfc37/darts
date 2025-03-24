@@ -1,15 +1,18 @@
-<h1>Killer</h1>
-
-@if (game.phase == 'enter-teams') {
-<app-enter-teams (teamsChanged)="setTeams($event)"></app-enter-teams>
-} @else if (game.phase == 'enter-targets') {
-<app-enter-targets [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargetNumbers"
-    (markTarget)="setTarget($event)"></app-enter-targets>
-} @else if (game.phase == 'play') {
-<app-play-killer [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargets"
-    (hit)="handleHit($event)"></app-play-killer>
-} @else if (game.phase == 'game-over') {
-<app-killer-game-over [winningTeam]="game.nameOfCurrentTeam" (startNewGame)="handleNewGame()"></app-killer-game-over>
-}
+<section class="nes-container is-rounded with-title">
+    <p class="title">Killer</p>
+    @if (game.phase == 'enter-teams') {
+    <app-team-selection></app-team-selection>
+    <!-- <app-enter-teams (teamsChanged)="setTeams($event)"></app-enter-teams> -->
+    } @else if (game.phase == 'enter-targets') {
+    <app-enter-targets [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargetNumbers"
+        (markTarget)="setTarget($event)"></app-enter-targets>
+    } @else if (game.phase == 'play') {
+    <app-play-killer [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargets"
+        (hit)="handleHit($event)"></app-play-killer>
+    } @else if (game.phase == 'game-over') {
+    <app-killer-game-over [winningTeam]="game.nameOfCurrentTeam"
+        (startNewGame)="handleNewGame()"></app-killer-game-over>
+    }
+</section>
 
 <!-- <pre>{{game | json}}</pre> -->

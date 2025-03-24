@@ -9,6 +9,11 @@ h3 {
     font-size: 2rem;
 }
 
-.nes-container {
+.bottom-spacing {
     margin-bottom: 3rem !important;
+}
+
+.dialog-menu {
+    display: flex;
+    justify-content: space-between;
 }

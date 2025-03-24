@@ -1,0 +1,55 @@
+<section class="match-up bottom-spacing">
+    <div class="nes-container with-title">
+        <p class="title">Team 1</p>
+        <div class="team-group">
+            <div class="player" [ngClass]="{'pulse': selectingPlayer == 1}">
+                <i [class]="avatars[0]"></i>
+                <span>P1</span>
+
+            </div>
+            <div class="player" [ngClass]="{'pulse': selectingPlayer == 2}">
+                <i [class]="avatars[1]"></i>
+                <span>P2</span>
+            </div>
+        </div>
+    </div>
+
+    <div>vs</div>
+
+    <div class="nes-container with-title">
+        <p class="title">Team 2</p>
+        <div class="team-group">
+            <div class="player" [ngClass]="{'pulse': selectingPlayer == 3}">
+                <i [class]="avatars[2]"></i>
+                <span>P3</span>
+
+            </div>
+            <div class="player" [ngClass]="{'pulse': selectingPlayer == 4}">
+                <i [class]="avatars[3]"></i>
+                <span>P4</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="character-selection">
+    <div class="nes-container with-title">
+        <p class="title">Select your characters</p>
+        <section class="characters">
+            @for (character of allCharacters; track $index) {
+            <i (click)="handlePlayerSelection(character)" [class]="character"></i>
+            }
+        </section>
+    </div>
+</section>
+
+<dialog #confirmDialog class="nes-dialog" id="dialog-default">
+    <form method="dialog">
+        <p>Happy with these teams?</p>
+        <div class="dialog-menu">
+            <button (click)="resetPlayers()" class="nes-btn">No</button>
+            <button (click)="confirmPlayers()" class="nes-btn is-primary">Yes</button>
+        </div>
+    </form>
+</dialog>
