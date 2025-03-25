@@ -11,7 +11,7 @@
         [teamTargets]="game.currentTeam.targets" [opponentTargets]="game.opponentTeam.targets"
         (hits)="handleHits($event)"></app-play-killer>
     } @else if (game.phase == 'game-over') {
-    <app-killer-game-over [winningTeam]="game.nameOfCurrentTeam"
+    <app-killer-game-over [winningTeam]="game.opponentTeam" [losingTeam]="game.currentTeam"
         (startNewGame)="handleNewGame()"></app-killer-game-over>
     }
 </section>

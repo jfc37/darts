@@ -23,7 +23,6 @@ export class KillerGame {
 
   private _teamTurn = 1;
 
-  private _turn = 1;
   public get currentTeam(): KillerTeam {
     return this._teamTurn == 1 ? this.team1 : this.team2;
   }
@@ -95,6 +94,8 @@ export class KillerGame {
   }
 
   public hit(hits: Hit[]) {
+    this.currentTeam.currentThrowerStats.adjustStats(hits, this.currentTeam.targets, this.opponentTeam.targets);
+
     hits.forEach(hit => {
       const target = this.allTargets.flat().find(t => t.target === hit.number);
       if (target != null) {
@@ -116,9 +117,61 @@ export class KillerGame {
   }
 
   private changeCurrentTeam() {
+    this.currentTeam.changeTurn();
     this._teamTurn = this._teamTurn == 1 ? 0 : 1;
   }
 
+}
+
+export class PlayerStats {
+  public player: string;
+  public attackingPoints = 0;
+  public defendingPoints = 0;
+  public omOmOms = 0;
+  public pointlessTurns = 0;
+
+  constructor(player: string) {
+    this.player = player;
+  }
+
+  public adjustStats(hits: Hit[], ownTargets: KillerTarget[], opponentTargets: KillerTarget[]) {
+    const attackPoints = opponentTargets.reduce((total, target) => {
+      return hits.filter(x => x.number == target.target).reduce((innerTotal, hit) => {
+        const multipler = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
+        return innerTotal + target.getHitPoints(multipler);
+      }, total);
+    }, 0);
+    this.attackingPoints += attackPoints;
+
+    const defendPoints = ownTargets.reduce((total, target) => {
+      return hits.filter(x => x.number == target.target).reduce((innerTotal, hit) => {
+        const multipler = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
+        return innerTotal + target.getHealPoints(multipler);
+      }, total);
+    }, 0)
+    this.defendingPoints += defendPoints;
+
+    if (attackPoints + defendPoints == 0) {
+      this.pointlessTurns++;
+    }
+
+    const omOmOms = opponentTargets.reduce((total, target) => {
+      if (target.health < 3) {
+        return total;
+      }
+
+      const damage = hits.filter(x => x.number == target.target).reduce((innerTotal, hit) => {
+        const multipler = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
+        return innerTotal + target.getHitPoints(multipler);
+      }, 0);
+      if (damage >= 3) {
+        return total + 1;
+      } else {
+        return total;
+      }
+    }, 0);
+    this.omOmOms += omOmOms;
+  }
 }
 
 /**
@@ -134,7 +187,16 @@ export class KillerTeam {
 
   public firstThrower!: string;
   public secondThrower!: string;
-  public currentThrower!: string;
+  private _turn = 1;
+  public get currentThrower() {
+    return this._turn == 1 ? this.firstThrower : this.secondThrower;
+  }
+
+  public firstThrowerStats!: PlayerStats;
+  public secondThrowerStats!: PlayerStats;
+  public get currentThrowerStats() {
+    return this._turn == 1 ? this.firstThrowerStats : this.secondThrowerStats;
+  }
 
   public readonly colour: string;
 
@@ -189,13 +251,23 @@ export class KillerTeam {
     }
 
     newTargets.forEach(target => this.targets.push(KillerTarget.Create(target, this.colour)));
+
+    this.changeTurn();
   }
 
   public addPlayers(firstThrower: string, secondThrower: string) {
     this.firstThrower = firstThrower;
     this.secondThrower = secondThrower;
+    this.firstThrowerStats = new PlayerStats(firstThrower);
+    this.secondThrowerStats = new PlayerStats(secondThrower);
+  }
 
-    this.currentThrower = this.firstThrower;
+  public changeTurn() {
+    if (this._turn == 1) {
+      this._turn = 2;
+    } else {
+      this._turn = 1;
+    }
   }
 
   /**
@@ -238,20 +310,41 @@ export class KillerTarget {
     this.colour = colour;
   }
 
+  public getHitPoints(type: HitMultiplier): number {
+    if (this.health === ZERO_HEALTH) {
+      return 0;
+    }
+
+    if (type === HitMultiplier.Double && this.health === MAX_HEALTH) {
+      return 2;
+    } else {
+      return 1;
+    }
+  }
+
   /**
    * Deals damage to the target
    * Double hits only deal 1 damage if the target is not on full health (3)
    * @param type
    */
   public Hit(type: HitMultiplier): void {
+    const points = this.getHitPoints(type);
+    this.health -= points;
+  }
+
+  public getHealPoints(type: HitMultiplier): number {
     if (this.health === ZERO_HEALTH) {
-      return;
+      return 0;
     }
 
-    if (type === HitMultiplier.Double && this.health === MAX_HEALTH) {
-      this.health = 1;
+    if (this.health === MAX_HEALTH) {
+      return 0;
+    }
+
+    if (type === HitMultiplier.Double && this.health == 1) {
+      return 2;
     } else {
-      this.health--;
+      return 1;
     }
   }
 
