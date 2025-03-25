@@ -2,7 +2,7 @@
     <p class="title">Setting targets - {{team}}</p>
     <div class="throwing-wrapper">
         <div class="player">
-            <i [class]="player"></i>
+            <img class="nes-avatar is-rounded is-large" alt="Player" [src]="player" style="image-rendering: pixelated;">
         </div>
         <div class="throws">
             <div [ngClass]="{'pulse': recordedNumbers.length == 0}">

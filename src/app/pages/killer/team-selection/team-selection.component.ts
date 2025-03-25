@@ -17,13 +17,19 @@ export class TeamSelectionComponent {
   public selectingPlayer = 1;
   public avatars: string[] = [DEFAULT_EMPTY_AVATAR, DEFAULT_EMPTY_AVATAR, DEFAULT_EMPTY_AVATAR, DEFAULT_EMPTY_AVATAR];
   public allCharacters = [
-    "nes-mario",
-    "nes-ash",
-    "nes-pokeball",
-    "nes-bulbasaur",
-    "nes-charmander",
-    "nes-squirtle",
-    "nes-kirby"]
+    "img/andy.jpg",
+    "img/chris.jpg",
+    "img/rich.jpg",
+    "img/joe.jpg",
+  ];
+  // public allCharacters = [
+  //   "nes-mario",
+  //   "nes-ash",
+  //   "nes-pokeball",
+  //   "nes-bulbasaur",
+  //   "nes-charmander",
+  //   "nes-squirtle",
+  //   "nes-kirby"];
 
   public handlePlayerSelection(name: string): void {
     this.avatars[this.selectingPlayer - 1] = name;
@@ -48,4 +54,4 @@ export class TeamSelectionComponent {
   }
 }
 
-const DEFAULT_EMPTY_AVATAR = 'nes-icon is-rounded is-large close';
+const DEFAULT_EMPTY_AVATAR = 'https://www.gravatar.com/avatar?s=15"';

@@ -3,12 +3,14 @@
         <p class="title">Team 1</p>
         <div class="team-group">
             <div class="player" [ngClass]="{'pulse': selectingPlayer == 1}">
-                <i [class]="avatars[0]"></i>
+                <img class="nes-avatar is-rounded is-large" alt="P1" [src]="avatars[0]"
+                    style="image-rendering: pixelated;">
                 <span>P1</span>
 
             </div>
             <div class="player" [ngClass]="{'pulse': selectingPlayer == 2}">
-                <i [class]="avatars[1]"></i>
+                <img class="nes-avatar is-rounded is-large" alt="P2" [src]="avatars[1]"
+                    style="image-rendering: pixelated;">
                 <span>P2</span>
             </div>
         </div>
@@ -20,12 +22,14 @@
         <p class="title">Team 2</p>
         <div class="team-group">
             <div class="player" [ngClass]="{'pulse': selectingPlayer == 3}">
-                <i [class]="avatars[2]"></i>
+                <img class="nes-avatar is-rounded is-large" alt="P3" [src]="avatars[2]"
+                    style="image-rendering: pixelated;">
                 <span>P3</span>
 
             </div>
             <div class="player" [ngClass]="{'pulse': selectingPlayer == 4}">
-                <i [class]="avatars[3]"></i>
+                <img class="nes-avatar is-rounded is-large" alt="P4" [src]="avatars[3]"
+                    style="image-rendering: pixelated;">
                 <span>P4</span>
             </div>
         </div>
@@ -38,7 +42,8 @@
         <p class="title">Select your characters</p>
         <section class="characters">
             @for (character of allCharacters; track $index) {
-            <i (click)="handlePlayerSelection(character)" [class]="character"></i>
+            <img (click)="handlePlayerSelection(character)" class="nes-avatar is-rounded is-large" alt="Joe"
+                [src]="character" style="image-rendering: pixelated;">
             }
         </section>
     </div>
