@@ -1,3 +1,36 @@
-<h2>Seek and Destroy</h2>
-<app-board [player]="team" [colouredSections]="colouredNumbers" [colouredTriples]="healthColours"
-    (hit)="recordHit($event)"></app-board>
+<div class="nes-container with-title bottom-spacing">
+    <p class="title">Throwing - {{team}}</p>
+    <div class="throwing-wrapper">
+        <div class="player">
+            <i [class]="player"></i>
+        </div>
+        <div class="throws">
+            <div [ngClass]="{'pulse': recordedHits.length == 0}">
+                <i [ngClass]="{'is-transparent': recordedHits.length > 0}"
+                    class="nes-icon is-large is-transparent heart"></i>
+            </div>
+            <div [ngClass]="{'pulse': recordedHits.length == 1}">
+                <i [ngClass]="{'is-transparent': recordedHits.length > 1}"
+                    class="nes-icon is-large is-transparent heart"></i>
+            </div>
+            <div [ngClass]="{'pulse': recordedHits.length == 2}">
+                <i [ngClass]="{'is-transparent': recordedHits.length > 2}"
+                    class="nes-icon is-large is-transparent heart"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-board [colouredSections]="colouredNumbers" [colouredTriples]="healthColours" (hit)="recordHit($event)"></app-board>
+
+
+<dialog #confirmDialog class="nes-dialog" id="dialog-default">
+    <form method="dialog">
+        <p>Numbers hit: {{numbersHitThisTurn}}</p>
+        <p>Happy with these numbers?</p>
+        <div class="dialog-menu">
+            <button (click)="resetTargets()" class="nes-btn">No</button>
+            <button (click)="confirmTargets()" class="nes-btn is-primary">Yes</button>
+        </div>
+    </form>
+</dialog>

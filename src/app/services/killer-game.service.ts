@@ -24,24 +24,27 @@ export class KillerGame {
   private _teamTurn = 1;
 
   private _turn = 1;
-  private _currentTeamIndex = 0;
-  private get _currentTeam(): KillerTeam {
+  public get currentTeam(): KillerTeam {
     return this._teamTurn == 1 ? this.team1 : this.team2;
+  }
+
+  public get opponentTeam(): KillerTeam {
+    return this._teamTurn == 1 ? this.team2 : this.team1;
   }
 
   /**
    * Name of the team who's turn it is
    */
   public get nameOfCurrentTeam(): string {
-    return this._currentTeam.name;
+    return this.currentTeam.name;
   }
 
   public get currentTeamColour(): string {
-    return this._currentTeam.colour;
+    return this.currentTeam.colour;
   }
 
   public get nameOfCurrentPlayer(): string {
-    return this._currentTeam.currentThrower;
+    return this.currentTeam.currentThrower;
   }
 
   public get allTargetNumbers(): number[][] {
@@ -82,48 +85,33 @@ export class KillerGame {
       throw new Error('Target already taken');
     }
 
-    this._currentTeam.addTargets(targets);
+    this.currentTeam.addTargets(targets);
 
-    const allTeamsReady = this.team1.status === KillerTeamStatus.ReadyToPlay && this.team2.status === KillerTeamStatus.ReadyToPlay;
-    if (allTeamsReady) {
-      this._turn = 1;
+    this.changeCurrentTeam();
+
+    if (this.currentTeam.status == KillerTeamStatus.ReadyToPlay) {
       this.phase = KillerGamePhase.Play;
-      return;
-    }
-
-    const currentTeamReady = this._currentTeam.status === KillerTeamStatus.ReadyToPlay;
-    if (currentTeamReady) {
-      this.changeCurrentTeam();
-      return;
-    }
-
-    const currentTeamHasThrown = this._currentTeam.targets.length == THROWS_PER_TURN;
-    if (currentTeamHasThrown) {
-      this.changeCurrentTeam();
     }
   }
 
-  public hit(hit: Hit) {
-    const target = this.allTargets.flat().find(t => t.target === hit.number);
-    if (target != null) {
-      const multiplier = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
+  public hit(hits: Hit[]) {
+    hits.forEach(hit => {
+      const target = this.allTargets.flat().find(t => t.target === hit.number);
+      if (target != null) {
+        const multiplier = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
 
-      if (this._currentTeam.targetNumbers.includes(hit.number)) {
-        target.Heal(multiplier)
-      } else {
-        target.Hit(multiplier);
-
-        if ([this.team1.status, this.team2.status].includes(KillerTeamStatus.Dead))
-          this.phase = KillerGamePhase.GameOver;
-        return;
+        if (this.currentTeam.targetNumbers.includes(hit.number)) {
+          target.Heal(multiplier)
+        } else {
+          target.Hit(multiplier);
+        }
       }
-    }
+    });
 
-    if (this._turn == 3) {
-      this.changeCurrentTeam();
-      this._turn = 1;
-    } else {
-      this._turn++;
+    this.changeCurrentTeam();
+
+    if (this.currentTeam.status == KillerTeamStatus.Dead) {
+      this.phase = KillerGamePhase.GameOver;
     }
   }
 
@@ -170,6 +158,10 @@ export class KillerTeam {
       return KillerTeamStatus.AwaitingTargets;
     }
 
+    if (this.targets.every(target => target.health === 0)) {
+      return KillerTeamStatus.Dead;
+    }
+
     return KillerTeamStatus.ReadyToPlay;
   }
 
@@ -196,7 +188,7 @@ export class KillerTeam {
       throw new Error('Target already exists');
     }
 
-    newTargets.forEach(target => this.targets.push(KillerTarget.Create(target)));
+    newTargets.forEach(target => this.targets.push(KillerTarget.Create(target, this.colour)));
   }
 
   public addPlayers(firstThrower: string, secondThrower: string) {
@@ -217,8 +209,8 @@ export class KillerTeam {
 }
 
 export const TEAM_COLOURS = [
-  'limegreen',
-  'pink'
+  '#720e9e',
+  '#FFC72C'
 ]
 
 /**
@@ -231,13 +223,19 @@ export class KillerTarget {
   public readonly target: number;
 
   /**
+   * Colour to paint on the board with
+   */
+  public readonly colour: string;
+
+  /**
    * The health remaining on the target
    * Targets start with 3 health
    */
   public health: 0 | 1 | 2 | 3 = MAX_HEALTH;
 
-  private constructor(target: number) {
+  private constructor(target: number, colour: string) {
     this.target = target;
+    this.colour = colour;
   }
 
   /**
@@ -284,7 +282,7 @@ export class KillerTarget {
    * @param target 
    * @returns 
    */
-  static Create(target: number): KillerTarget {
+  static Create(target: number, colour: string): KillerTarget {
     if (target < 1) {
       throw new Error('Number must be 1 or higher');
     }
@@ -293,7 +291,7 @@ export class KillerTarget {
       throw new Error('Number must be 20 or lower');
     }
 
-    return new KillerTarget(target);
+    return new KillerTarget(target, colour);
   }
 }
 

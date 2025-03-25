@@ -118,6 +118,9 @@ export class Hit {
     }
 
   }
+  public static Triple(number: number) {
+    return new Hit(number, 3);
+  }
 }
 
 export enum DartCell {
