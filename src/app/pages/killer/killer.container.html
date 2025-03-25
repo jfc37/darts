@@ -3,8 +3,9 @@
     @if (game.phase == 'enter-teams') {
     <app-team-selection (playersSelected)="setPlayers($event)"></app-team-selection>
     } @else if (game.phase == 'enter-targets') {
-    <app-enter-targets [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargetNumbers"
-        (markTarget)="setTarget($event)"></app-enter-targets>
+    <app-enter-targets [team]="game.nameOfCurrentTeam" [teamColour]="game.currentTeamColour"
+        [player]="game.nameOfCurrentPlayer" [teamTargets]="game.allTargetNumbers"
+        (markTargets)="setTargets($event)"></app-enter-targets>
     } @else if (game.phase == 'play') {
     <app-play-killer [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargets"
         (hit)="handleHit($event)"></app-play-killer>

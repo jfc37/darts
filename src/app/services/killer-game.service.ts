@@ -36,6 +36,14 @@ export class KillerGame {
     return this._currentTeam.name;
   }
 
+  public get currentTeamColour(): string {
+    return this._currentTeam.colour;
+  }
+
+  public get nameOfCurrentPlayer(): string {
+    return this._currentTeam.currentThrower;
+  }
+
   public get allTargetNumbers(): number[][] {
     return [this.team1.targetNumbers, this.team2.targetNumbers];
   }
@@ -66,15 +74,15 @@ export class KillerGame {
    * - if current team has set all their targets, the next team takes their turn
    * - if current team has thrown 3 darts, the next team takes their turn
    * 
-   * @param target 
+   * @param targets 
    */
-  public setTarget(target: number) {
+  public setTargets(targets: number[]) {
     const unavailableTargets = [...this.team1.targetNumbers, ...this.team2.targetNumbers]
-    if (unavailableTargets.includes(target)) {
+    if (targets.some(target => unavailableTargets.includes(target))) {
       throw new Error('Target already taken');
     }
 
-    this._currentTeam.addTarget(target);
+    this._currentTeam.addTargets(targets);
 
     const allTeamsReady = this.team1.status === KillerTeamStatus.ReadyToPlay && this.team2.status === KillerTeamStatus.ReadyToPlay;
     if (allTeamsReady) {
@@ -140,6 +148,8 @@ export class KillerTeam {
   public secondThrower!: string;
   public currentThrower!: string;
 
+  public readonly colour: string;
+
   /**
    * The targets the team has to protect
    */
@@ -165,6 +175,7 @@ export class KillerTeam {
 
   private constructor(name: string) {
     this.name = name;
+    this.colour = TEAM_COLOURS[KillerTeam.nextId];
     this.id = KillerTeam.nextId++;
   }
 
@@ -172,20 +183,20 @@ export class KillerTeam {
 
   /**
    * Adds a target to the team
-   * @param target
+   * @param newTargets
    * @throws Error if the team already has the maximum number of targets
    * @throws Error if the target already exists
    */
-  public addTarget(target: number): void {
+  public addTargets(newTargets: number[]): void {
     if (this.targets.length === TOTAL_TARGETS_PER_TEAM) {
       throw new Error('Team already has the maximum number of targets');
     }
 
-    if (this.targets.some(t => t.target === target)) {
+    if (newTargets.some(target => this.targets.some(t => t.target === target))) {
       throw new Error('Target already exists');
     }
 
-    this.targets.push(KillerTarget.Create(target));
+    newTargets.forEach(target => this.targets.push(KillerTarget.Create(target)));
   }
 
   public addPlayers(firstThrower: string, secondThrower: string) {
@@ -204,6 +215,11 @@ export class KillerTeam {
     return new KillerTeam(name);
   }
 }
+
+export const TEAM_COLOURS = [
+  'limegreen',
+  'pink'
+]
 
 /**
  * Represents a number in the game of killer
