@@ -23,7 +23,7 @@ export class KillerGameOverComponent {
   }
 
   public get attackingOrder() {
-    return [...this.unorderedPlayerStats].sort((a, b) => a.attackingPoints + b.attackingPoints)
+    return [...this.unorderedPlayerStats].sort((a, b) => a.attackingPoints - b.attackingPoints > 0 ? -1 : 1)
       .map(player => ({
         player: player.player,
         text: `${player.attackingPoints}`
@@ -31,7 +31,7 @@ export class KillerGameOverComponent {
   }
 
   public get defendingOrder() {
-    return [...this.unorderedPlayerStats].sort((a, b) => a.defendingPoints + b.defendingPoints)
+    return [...this.unorderedPlayerStats].sort((a, b) => a.defendingPoints - b.defendingPoints > 0 ? -1 : 1)
       .map(player => ({
         player: player.player,
         text: `${player.defendingPoints}`
@@ -39,7 +39,7 @@ export class KillerGameOverComponent {
   }
 
   public get omOmOmOrder() {
-    return [...this.unorderedPlayerStats].sort((a, b) => a.omOmOms + b.omOmOms)
+    return [...this.unorderedPlayerStats].sort((a, b) => a.omOmOms - b.omOmOms > 0 ? -1 : 1)
       .map(player => ({
         player: player.player,
         text: `${player.omOmOms}`
@@ -47,7 +47,7 @@ export class KillerGameOverComponent {
   }
 
   public get pointlessOrder() {
-    return [...this.unorderedPlayerStats].sort((a, b) => a.pointlessTurns + b.pointlessTurns)
+    return [...this.unorderedPlayerStats].sort((a, b) => a.pointlessTurns - b.pointlessTurns > 0 ? -1 : 1)
       .map(player => ({
         player: player.player,
         text: `${player.pointlessTurns}`

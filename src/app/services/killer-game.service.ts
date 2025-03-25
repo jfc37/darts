@@ -251,8 +251,6 @@ export class KillerTeam {
     }
 
     newTargets.forEach(target => this.targets.push(KillerTarget.Create(target, this.colour)));
-
-    this.changeTurn();
   }
 
   public addPlayers(firstThrower: string, secondThrower: string) {
@@ -268,6 +266,8 @@ export class KillerTeam {
     } else {
       this._turn = 1;
     }
+
+    console.error('changing turn on team')
   }
 
   /**
