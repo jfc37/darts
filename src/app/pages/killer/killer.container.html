@@ -1,8 +1,7 @@
 <section class="nes-container is-rounded with-title">
     <p class="title">Killer</p>
     @if (game.phase == 'enter-teams') {
-    <app-team-selection></app-team-selection>
-    <!-- <app-enter-teams (teamsChanged)="setTeams($event)"></app-enter-teams> -->
+    <app-team-selection (playersSelected)="setPlayers($event)"></app-team-selection>
     } @else if (game.phase == 'enter-targets') {
     <app-enter-targets [team]="game.nameOfCurrentTeam" [teamTargets]="game.allTargetNumbers"
         (markTarget)="setTarget($event)"></app-enter-targets>

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { EnterTeamsComponent } from "./enter-teams/enter-teams.component";
 import { KillerGame, KillerGameService } from '../../services/killer-game.service';
 import { EnterTargetsComponent } from "./enter-targets/enter-targets.component";
 import { CommonModule } from '@angular/common';
@@ -10,7 +9,7 @@ import { TeamSelectionComponent } from "./team-selection/team-selection.componen
 
 @Component({
   selector: 'app-killer',
-  imports: [CommonModule, EnterTeamsComponent, TeamSelectionComponent, EnterTargetsComponent, PlayKillerComponent, KillerGameOverComponent, TeamSelectionComponent],
+  imports: [CommonModule, TeamSelectionComponent, EnterTargetsComponent, PlayKillerComponent, KillerGameOverComponent, TeamSelectionComponent],
   providers: [KillerGameService],
   templateUrl: './killer.container.html',
   styleUrl: './killer.container.scss'
@@ -75,9 +74,8 @@ export class KillerContainer {
     // this.game.hit(Hit.Triple(10));
   }
 
-
-  public setTeams(teams: string[]) {
-    this.game.setTeams(teams);
+  public setPlayers(players: string[]) {
+    this.game.setPlayers(players);
   }
 
   public setTarget(target: number) {

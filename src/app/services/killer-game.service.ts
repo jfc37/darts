@@ -17,28 +17,31 @@ export class KillerGameService {
  * Represents the game state of killer
  */
 export class KillerGame {
-  public teams: KillerTeam[] = [];
+  public team1: KillerTeam = KillerTeam.Create('Team 1');
+  public team2: KillerTeam = KillerTeam.Create('Team 2');
   public phase: KillerGamePhase = KillerGamePhase.EnterTeams;
+
+  private _teamTurn = 1;
 
   private _turn = 1;
   private _currentTeamIndex = 0;
   private get _currentTeam(): KillerTeam {
-    return this.teams[this._currentTeamIndex];
+    return this._teamTurn == 1 ? this.team1 : this.team2;
   }
 
   /**
    * Name of the team who's turn it is
    */
   public get nameOfCurrentTeam(): string {
-    return this.teams[this._currentTeamIndex].name;
+    return this._currentTeam.name;
   }
 
   public get allTargetNumbers(): number[][] {
-    return this.teams.map(t => t.targetNumbers);
+    return [this.team1.targetNumbers, this.team2.targetNumbers];
   }
 
   public get allTargets(): KillerTarget[][] {
-    return this.teams.map(t => t.targets);
+    return [this.team1.targets, this.team2.targets];
   }
 
   /**
@@ -49,14 +52,10 @@ export class KillerGame {
     return new KillerGame();
   }
 
-  /**
-   * Sets up the teams for the game
-   * Moves the game to the next phase of entering targets
-   * @param teamNames 
-   * @returns 
-   */
-  public setTeams(teamNames: string[]) {
-    this.teams = teamNames.map(name => KillerTeam.Create(name));
+  public setPlayers(players: string[]) {
+    this.team1.addPlayers(players[0], players[1]);
+    this.team2.addPlayers(players[2], players[3]);
+
     this.phase = KillerGamePhase.EnterTargets;
   }
 
@@ -70,23 +69,23 @@ export class KillerGame {
    * @param target 
    */
   public setTarget(target: number) {
-    const unavailableTargets = this.teams.flatMap(t => t.targetNumbers);
+    const unavailableTargets = [...this.team1.targetNumbers, ...this.team2.targetNumbers]
     if (unavailableTargets.includes(target)) {
       throw new Error('Target already taken');
     }
 
     this._currentTeam.addTarget(target);
 
-    const allTeamsReady = this.teams.every(t => t.status === KillerTeamStatus.ReadyToPlay);
+    const allTeamsReady = this.team1.status === KillerTeamStatus.ReadyToPlay && this.team2.status === KillerTeamStatus.ReadyToPlay;
     if (allTeamsReady) {
-      this._currentTeamIndex = 0;
+      this._turn = 1;
       this.phase = KillerGamePhase.Play;
       return;
     }
 
     const currentTeamReady = this._currentTeam.status === KillerTeamStatus.ReadyToPlay;
     if (currentTeamReady) {
-      this._currentTeamIndex++;
+      this.changeCurrentTeam();
       return;
     }
 
@@ -106,10 +105,9 @@ export class KillerGame {
       } else {
         target.Hit(multiplier);
 
-        if (this.teams.some(t => t.targets.every(t => t.health === ZERO_HEALTH))) {
+        if ([this.team1.status, this.team2.status].includes(KillerTeamStatus.Dead))
           this.phase = KillerGamePhase.GameOver;
-          return;
-        }
+        return;
       }
     }
 
@@ -122,11 +120,7 @@ export class KillerGame {
   }
 
   private changeCurrentTeam() {
-    if (this._currentTeamIndex === this.teams.length - 1) {
-      this._currentTeamIndex = 0;
-    } else {
-      this._currentTeamIndex++;
-    }
+    this._teamTurn = this._teamTurn == 1 ? 0 : 1;
   }
 
 }
@@ -141,6 +135,10 @@ export class KillerTeam {
    * Name of the team
    */
   public readonly name: string;
+
+  public firstThrower!: string;
+  public secondThrower!: string;
+  public currentThrower!: string;
 
   /**
    * The targets the team has to protect
@@ -188,6 +186,13 @@ export class KillerTeam {
     }
 
     this.targets.push(KillerTarget.Create(target));
+  }
+
+  public addPlayers(firstThrower: string, secondThrower: string) {
+    this.firstThrower = firstThrower;
+    this.secondThrower = secondThrower;
+
+    this.currentThrower = this.firstThrower;
   }
 
   /**
@@ -323,5 +328,6 @@ export enum KillerGamePhase {
 
 export enum KillerTeamStatus {
   AwaitingTargets = 'awaiting-targets',
-  ReadyToPlay = 'ready-to-play'
+  ReadyToPlay = 'ready-to-play',
+  Dead = 'dead'
 }
