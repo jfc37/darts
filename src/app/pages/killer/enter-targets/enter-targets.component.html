@@ -6,15 +6,15 @@
         </div>
         <div class="throws">
             <div [ngClass]="{'pulse': recordedNumbers.length == 0}">
-                <i [ngClass]="{'is-transparent': recordedNumbers.length < 1}"
+                <i [ngClass]="{'is-transparent': recordedNumbers.length > 0}"
                     class="nes-icon is-large is-transparent heart"></i>
             </div>
             <div [ngClass]="{'pulse': recordedNumbers.length == 1}">
-                <i [ngClass]="{'is-transparent': recordedNumbers.length < 2}"
+                <i [ngClass]="{'is-transparent': recordedNumbers.length > 1}"
                     class="nes-icon is-large is-transparent heart"></i>
             </div>
             <div [ngClass]="{'pulse': recordedNumbers.length == 2}">
-                <i [ngClass]="{'is-transparent': recordedNumbers.length < 3}"
+                <i [ngClass]="{'is-transparent': recordedNumbers.length > 2}"
                     class="nes-icon is-large is-transparent heart"></i>
             </div>
         </div>
