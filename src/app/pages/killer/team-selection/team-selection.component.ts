@@ -21,10 +21,6 @@ export class TeamSelectionComponent {
     "nes-ash",
     "nes-pokeball",
     "nes-bulbasaur",
-    "nes-mario",
-    "nes-ash",
-    "nes-pokeball",
-    "nes-bulbasaur",
     "nes-charmander",
     "nes-squirtle",
     "nes-kirby"]
