@@ -65,7 +65,7 @@ export class PlayKillerComponent {
 
 export const TARGET_HEALTH_COLOURS = [
   'black',
-  'red',
-  'orange',
-  'green'
+  '#F72F35',
+  '#FF991C',
+  '#1BFC06'
 ]

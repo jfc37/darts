@@ -281,8 +281,8 @@ export class KillerTeam {
 }
 
 export const TEAM_COLOURS = [
-  '#720e9e',
-  '#FFC72C'
+  '#0094C6',
+  '#A14A76'
 ]
 
 /**

@@ -118,8 +118,17 @@ export class Hit {
     }
 
   }
+
   public static Triple(number: number) {
     return new Hit(number, 3);
+  }
+
+  public static Double(number: number) {
+    return new Hit(number, 5);
+  }
+
+  public static Single(number: number) {
+    return new Hit(number, 4);
   }
 }
 
