@@ -22,15 +22,6 @@ export class TeamSelectionComponent {
     "img/rich.jpg",
     "img/joe.jpg",
   ];
-  // public allCharacters = [
-  //   "nes-mario",
-  //   "nes-ash",
-  //   "nes-pokeball",
-  //   "nes-bulbasaur",
-  //   "nes-charmander",
-  //   "nes-squirtle",
-  //   "nes-kirby"];
-
   public handlePlayerSelection(name: string): void {
     this.avatars[this.selectingPlayer - 1] = name;
     this.selectingPlayer++;
@@ -54,4 +45,4 @@ export class TeamSelectionComponent {
   }
 }
 
-const DEFAULT_EMPTY_AVATAR = 'https://www.gravatar.com/avatar?s=15"';
+const DEFAULT_EMPTY_AVATAR = 'img/question-mark.jpg';
