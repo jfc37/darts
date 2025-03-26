@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-game-selection',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './game-selection.container.html',
   styleUrl: './game-selection.container.scss'
 })
