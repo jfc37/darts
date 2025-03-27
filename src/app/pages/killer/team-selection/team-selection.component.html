@@ -2,17 +2,8 @@
     <div class="nes-container with-title">
         <p class="title">Team 1</p>
         <div class="team-group">
-            <div class="player" [ngClass]="{'pulse': selectingPlayer == 1}">
-                <img class="nes-avatar is-rounded is-large" alt="P1" [src]="avatars[0]"
-                    style="image-rendering: pixelated;">
-                <span>P1</span>
-
-            </div>
-            <div class="player" [ngClass]="{'pulse': selectingPlayer == 2}">
-                <img class="nes-avatar is-rounded is-large" alt="P2" [src]="avatars[1]"
-                    style="image-rendering: pixelated;">
-                <span>P2</span>
-            </div>
+            <app-player [player]="avatars[0]" displayName="P1" [pulse]="selectingPlayer == 1"></app-player>
+            <app-player [player]="avatars[1]" displayName="P2" [pulse]="selectingPlayer == 2"></app-player>
         </div>
     </div>
 
@@ -21,33 +12,14 @@
     <div class="nes-container with-title">
         <p class="title">Team 2</p>
         <div class="team-group">
-            <div class="player" [ngClass]="{'pulse': selectingPlayer == 3}">
-                <img class="nes-avatar is-rounded is-large" alt="P3" [src]="avatars[2]"
-                    style="image-rendering: pixelated;">
-                <span>P3</span>
-
-            </div>
-            <div class="player" [ngClass]="{'pulse': selectingPlayer == 4}">
-                <img class="nes-avatar is-rounded is-large" alt="P4" [src]="avatars[3]"
-                    style="image-rendering: pixelated;">
-                <span>P4</span>
-            </div>
+            <app-player [player]="avatars[2]" displayName="P3" [pulse]="selectingPlayer == 3"></app-player>
+            <app-player [player]="avatars[3]" displayName="P4" [pulse]="selectingPlayer == 4"></app-player>
         </div>
 
     </div>
 </section>
 
-<section class="character-selection">
-    <div class="nes-container with-title">
-        <p class="title">Select your characters</p>
-        <section class="characters">
-            @for (character of allCharacters; track $index) {
-            <img (click)="handlePlayerSelection(character)" class="nes-avatar is-rounded is-large" alt="Joe"
-                [src]="character" style="image-rendering: pixelated;">
-            }
-        </section>
-    </div>
-</section>
+<app-character-selection (characterSelected)="handleCharacterSelected($event)"></app-character-selection>
 
 <dialog #confirmDialog class="nes-dialog" id="dialog-default">
     <form method="dialog">

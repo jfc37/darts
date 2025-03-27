@@ -71,7 +71,6 @@ export class BoardComponent implements AfterViewInit {
     (target as any).hits = [...(target as any).hits, polar];
 
     const hit = new Hit(getSectorValue((target as any).board as any, sector), ring);
-    console.error(hit, detail);
     this.hit.emit(hit);
   }
 }
@@ -119,6 +118,30 @@ export class Hit {
 
   }
 
+  public toDisplayText() {
+    if (this.missed) {
+      return 'miss';
+    }
+
+    if ([DartCell.InnererBullsEye, DartCell.OuterBullsEye].includes(this.multiplier)) {
+      return DART_CELL_TEXT[this.multiplier];
+    }
+
+    return `${DART_CELL_TEXT[this.multiplier]} ${this.number}`;
+  }
+
+  public toVerboseDisplayText() {
+    if (this.missed) {
+      return 'miss';
+    }
+
+    if ([DartCell.InnererBullsEye, DartCell.OuterBullsEye].includes(this.multiplier)) {
+      return VERBOSE_DART_CELL_TEXT[this.multiplier];
+    }
+
+    return `${VERBOSE_DART_CELL_TEXT[this.multiplier]} ${this.number}`;
+  }
+
   public static Triple(number: number) {
     return new Hit(number, 3);
   }
@@ -139,4 +162,22 @@ export enum DartCell {
   Triple = 3,
   OuterBullsEye = 1,
   InnererBullsEye = 0,
+}
+
+export const DART_CELL_TEXT = {
+  [DartCell.SingleInner]: 'single',
+  [DartCell.SingleOuter]: 'single',
+  [DartCell.Double]: 'double',
+  [DartCell.Triple]: 'triple',
+  [DartCell.OuterBullsEye]: 'outer bulls eye',
+  [DartCell.InnererBullsEye]: 'inner bulls eye',
+}
+
+export const VERBOSE_DART_CELL_TEXT = {
+  [DartCell.SingleInner]: 'single inner',
+  [DartCell.SingleOuter]: 'single outer',
+  [DartCell.Double]: 'double',
+  [DartCell.Triple]: 'triple',
+  [DartCell.OuterBullsEye]: 'outer bulls eye',
+  [DartCell.InnererBullsEye]: 'inner bulls eye',
 }

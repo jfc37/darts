@@ -1,0 +1,11 @@
+<section class="character-selection">
+    <div class="nes-container with-title">
+        <p class="title">Select your characters</p>
+        <section class="characters">
+            @for (character of allCharacters; track $index) {
+            <img (click)="handlePlayerSelection(character)" class="nes-avatar is-rounded is-large" alt="Joe"
+                [src]="character" style="image-rendering: pixelated;">
+            }
+        </section>
+    </div>
+</section>

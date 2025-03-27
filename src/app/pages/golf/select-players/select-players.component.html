@@ -1,0 +1,28 @@
+<section class="nes-container with-title bottom-spacing">
+    <p class="title">Players</p>
+    <div class="team-group">
+        <app-player [player]="players[0]" displayName="P1" [pulse]="selectingPlayer == 1"></app-player>
+        <app-player [player]="players[1]" displayName="P2" [pulse]="selectingPlayer == 2"></app-player>
+        <app-player [player]="players[2]" displayName="P3" [pulse]="selectingPlayer == 3"></app-player>
+        <app-player [player]="players[3]" displayName="P4" [pulse]="selectingPlayer == 4"></app-player>
+
+    </div>
+
+    @if (selectingPlayer > 1) {
+    <div class="top-spacing center">
+        <button class="nes-btn is-primary" (click)="finishedSelecting()">Continue</button>
+    </div>
+    }
+</section>
+
+<app-character-selection (characterSelected)="handleCharacterSelected($event)"></app-character-selection>
+
+<dialog #confirmDialog class="nes-dialog" id="dialog-default">
+    <form method="dialog">
+        <p>Happy with these players?</p>
+        <div class="dialog-menu">
+            <button (click)="resetPlayers()" class="nes-btn">No</button>
+            <button (click)="confirmPlayers()" class="nes-btn is-primary">Yes</button>
+        </div>
+    </form>
+</dialog>

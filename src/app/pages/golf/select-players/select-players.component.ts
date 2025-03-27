@@ -1,26 +1,27 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CharacterSelectionComponent } from '../../../components/character-selection/character-selection.component';
+import { CommonModule } from '@angular/common';
 import { PlayerComponent } from '../../../components/player/player.component';
 
 @Component({
-  selector: 'app-team-selection',
+  selector: 'app-select-players',
   imports: [CommonModule, CharacterSelectionComponent, PlayerComponent],
-  templateUrl: './team-selection.component.html',
-  styleUrl: './team-selection.component.scss'
+  templateUrl: './select-players.component.html',
+  styleUrl: './select-players.component.scss'
 })
-export class TeamSelectionComponent {
+export class SelectPlayersComponent {
+
   @Output()
   public playersSelected = new EventEmitter<string[]>;
 
   @ViewChild('confirmDialog', { static: true })
   public dialog!: ElementRef<HTMLDialogElement>;
 
+  public players: string[] = [];
   public selectingPlayer = 1;
-  public avatars: string[] = [];
 
   public handleCharacterSelected(name: string): void {
-    this.avatars.push(name);
+    this.players.push(name);
     this.selectingPlayer++;
 
     if (this.selectingPlayer == 5) {
@@ -28,12 +29,16 @@ export class TeamSelectionComponent {
     }
   }
 
+  public finishedSelecting() {
+    this.dialog.nativeElement.showModal();
+  }
+
   resetPlayers() {
-    this.avatars = [];
+    this.players = [];
     this.selectingPlayer = 1;
   }
 
   public confirmPlayers() {
-    this.playersSelected.emit(this.avatars);
+    this.playersSelected.emit(this.players);
   }
 }

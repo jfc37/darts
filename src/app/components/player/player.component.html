@@ -1,0 +1,7 @@
+<div class="player" [ngClass]="{'pulse': pulse}">
+    <img class="nes-avatar is-rounded is-large" [alt]="displayName" [src]="avatar" style="image-rendering: pixelated;">
+    @if (displayName) {
+    <span>{{displayName}}</span>
+    }
+
+</div>
