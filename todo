@@ -1,0 +1,3 @@
+- add nes.css and fonts to project rather than grabbing from cdn
+- replace favicon with something darty
+- try and fit dart board and HUD in single screen
