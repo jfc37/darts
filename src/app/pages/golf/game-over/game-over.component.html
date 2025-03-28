@@ -1,43 +1,32 @@
 <section class="match-up bottom-spacing">
     <div class="nes-container with-title">
-        <p class="title">Winners </p>
+        <p class="title">Winner</p>
         <div class="team-group">
             <div class="player">
-                <app-player [player]="winningTeam.firstThrower"></app-player>
+                <app-player [player]="winner.player" [displayName]="winner.text"></app-player>
                 <i class="nes-icon trophy is-large"></i>
-
-
-            </div>
-            <div class="player">
-                <app-player [player]="winningTeam.secondThrower"></app-player>
-                <i class="nes-icon trophy is-large"></i>
-
             </div>
         </div>
     </div>
 
-    <div>vs</div>
-
+    @if (losers.length > 0) {
     <div class="nes-container with-title">
         <p class="title">Losers</p>
         <div class="team-group">
+            @for (loser of losers; track $index) {
             <div class="player">
-                <app-player [player]="losingTeam.firstThrower"></app-player>
+                <app-player [player]="loser.player" [displayName]="loser.text"></app-player>
                 <i class="nes-icon close is-large"></i>
             </div>
-            <div class="player">
-                <app-player [player]="losingTeam.secondThrower"></app-player>
-                <i class="nes-icon close is-large"></i>
-            </div>
+            }
         </div>
-
     </div>
+    }
 </section>
 
 <button (click)="playAgainClicked()" type="button" class="nes-btn is-primary bottom-spacing">Rematch</button>
 
-
-<div class="nes-container with-title">
+<div class="nes-container with-title bottom-spacing">
     <p class="title">Leaderboard</p>
 
     <div class="nes-table-responsive">
@@ -47,15 +36,21 @@
                     <th></th>
                     <th>1st <i class="nes-icon trophy"></i>
                     </th>
+                    @if (players.length > 1) {
                     <th>2nd</th>
+                    }
+                    @if (players.length > 2) {
                     <th>3rd</th>
+                    }
+                    @if (players.length > 3) {
                     <th>4th</th>
+                    }
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Attack Points</td>
-                    @for (award of attackingOrder; track $index)
+                    <td>Overall Score</td>
+                    @for (award of scoreOrder; track $index)
                     {
                     <td>
                         <div class="award">
@@ -65,11 +60,10 @@
                     }
                 </tr>
                 <tr>
-                    <td>Defence Points</td>
-                    @for (award of defendingOrder; track $index)
+                    <td>Total Eagles</td>
+                    @for (award of totalEaglesOrder; track $index)
                     {
                     <td>
-
                         <div class="award">
                             <app-player [player]="award.player" [displayName]="award.text"></app-player>
                         </div>
@@ -77,11 +71,10 @@
                     }
                 </tr>
                 <tr>
-                    <td>Om Om Oms</td>
-                    @for (award of omOmOmOrder; track $index)
+                    <td>Total Birdies</td>
+                    @for (award of totalBirdiesOrder; track $index)
                     {
                     <td>
-
                         <div class="award">
                             <app-player [player]="award.player" [displayName]="award.text"></app-player>
                         </div>
@@ -89,11 +82,21 @@
                     }
                 </tr>
                 <tr>
-                    <td>Pointless Turns</td>
-                    @for (award of pointlessOrder; track $index)
+                    <td>Total Pars</td>
+                    @for (award of totalParsOrder; track $index)
                     {
                     <td>
-
+                        <div class="award">
+                            <app-player [player]="award.player" [displayName]="award.text"></app-player>
+                        </div>
+                    </td>
+                    }
+                </tr>
+                <tr>
+                    <td>Total Boogies</td>
+                    @for (award of totalBoogiesOrder; track $index)
+                    {
+                    <td>
                         <div class="award">
                             <app-player [player]="award.player" [displayName]="award.text"></app-player>
                         </div>
@@ -104,3 +107,5 @@
         </table>
     </div>
 </div>
+
+<app-score-card [players]="players"></app-score-card>

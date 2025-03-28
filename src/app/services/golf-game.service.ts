@@ -68,7 +68,23 @@ export class GolfPlayer {
   public rounds: GolfRound[] = [];
 
   public get score(): number {
-    return this.rounds.reduce((totalScore, round) => round.score + totalScore, 0)
+    return this.rounds.reduce((totalScore, round) => round.score + totalScore, 0);
+  }
+
+  public get totalEagleHoles(): number {
+    return this.rounds.filter(x => x.score == -2).length;
+  }
+
+  public get totalBirdieHoles(): number {
+    return this.rounds.filter(x => x.score == -1).length;
+  }
+
+  public get totalParHoles(): number {
+    return this.rounds.filter(x => x.score == 0).length;
+  }
+
+  public get totalBoogieHoles(): number {
+    return this.rounds.filter(x => x.score == 1).length;
   }
 
   private constructor(name: string) {
@@ -77,6 +93,10 @@ export class GolfPlayer {
 
   public recordRound(hits: Hit[]) {
     this.rounds.push(new GolfRound(this.rounds.length + 1, hits));
+  }
+
+  public scoreAtHole(hole: number): number {
+    return this.rounds.slice(0, hole).reduce((totalScore, round) => round.score + totalScore, 0);
   }
 
   static NewPlayer(name: string): GolfPlayer {

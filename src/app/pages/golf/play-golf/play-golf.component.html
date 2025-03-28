@@ -1,8 +1,8 @@
 <section class="nes-container with-title bottom-spacing">
-    <p class="title">Players</p>
+    <p class="title">Hole {{round}} </p>
     <div class="team-group">
         @for (player of players; track $index) {
-        <app-player [player]="player.name" [displayName]="player.score.toString()"
+        <app-player [player]="player.name" [displayName]="player.score | golfScore"
             [pulse]="player.isActive"></app-player>
 
         }
@@ -10,6 +10,8 @@
 </section>
 
 <app-board [colouredSections]="colouredNumbers" (hit)="recordHit($event)"></app-board>
+<div class="top-spacing"></div>
+<app-score-card [players]="players"></app-score-card>
 
 <dialog #confirmDialog class="nes-dialog" id="dialog-default">
     <form method="dialog">

@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { SelectPlayersComponent } from './select-players/select-players.component';
 import { PlayGolfComponent } from './play-golf/play-golf.component';
 import { Hit } from '../../components/board/board.component';
+import { GameOverComponent } from "./game-over/game-over.component";
 
 @Component({
   selector: 'app-golf',
-  imports: [CommonModule, SelectPlayersComponent, PlayGolfComponent],
+  imports: [CommonModule, SelectPlayersComponent, PlayGolfComponent, GameOverComponent],
   providers: [GolfGameService],
   templateUrl: './golf.container.html',
   styleUrl: './golf.container.scss'
@@ -23,7 +24,7 @@ export class GolfContainer {
     // this.game.setPlayers(['img/joe.jpg', 'img/andy.jpg']);
 
     // this.game.recordRound([Hit.Double(1), Hit.Double(1), Hit.Double(1)]);
-    // this.game.recordRound([Hit.Double(20), Hit.Double(20), Hit.Double(20)]);
+    // this.game.recordRound([Hit.Single(1), Hit.Double(20), Hit.Double(20)]);
 
     // this.game.recordRound([Hit.Double(2), Hit.Double(2), Hit.Double(2)]);
     // this.game.recordRound([Hit.Double(20), Hit.Double(20), Hit.Double(20)]);
@@ -84,5 +85,9 @@ export class GolfContainer {
 
   public handleHits(hits: Hit[]) {
     this.game.recordRound(hits);
+  }
+
+  public handleNewGame() {
+    this.game = this.golfGameService.createGame();
   }
 }

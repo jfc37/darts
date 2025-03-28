@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { KillerTeam, PlayerStats } from '../../../services/killer-game.service';
+import { PlayerComponent } from '../../../components/player/player.component';
 
 @Component({
   selector: 'app-killer-game-over',
-  imports: [],
+  imports: [PlayerComponent],
   templateUrl: './killer-game-over.component.html',
   styleUrl: './killer-game-over.component.scss'
 })

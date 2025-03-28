@@ -2,10 +2,12 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { GolfPlayer } from '../../../services/golf-game.service';
 import { BoardComponent, Hit } from '../../../components/board/board.component';
 import { PlayerComponent } from '../../../components/player/player.component';
+import { ScoreCardComponent } from '../score-card/score-card.component';
+import { GolfScorePipe } from '../../../pipes/golf-score.pipe';
 
 @Component({
   selector: 'app-play-golf',
-  imports: [PlayerComponent, BoardComponent],
+  imports: [PlayerComponent, BoardComponent, ScoreCardComponent, GolfScorePipe],
   templateUrl: './play-golf.component.html',
   styleUrl: './play-golf.component.scss'
 })

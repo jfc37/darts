@@ -4,13 +4,12 @@
     <app-select-players (playersSelected)="setPlayers($event)"></app-select-players>
     } @else if (game.phase == 'play') {
     <app-play-golf [round]="game.round" [players]="game.players" (hits)="handleHits($event)"></app-play-golf>
-    <!-- } @else if (game.phase == 'game-over') {
-    <app-killer-game-over [winningTeam]="game.opponentTeam" [losingTeam]="game.currentTeam"
-        (startNewGame)="handleNewGame()"></app-killer-game-over> -->
+    } @else if (game.phase == 'game-over') {
+    <app-game-over [players]="game.players" (startNewGame)="handleNewGame()"></app-game-over>
     }
 </section>
 
-<details style="margin-top: 3rem;">
+<details class="top-spacing">
     <summary>Debugging</summary>
     <pre>{{game | json}}</pre>
 </details>
