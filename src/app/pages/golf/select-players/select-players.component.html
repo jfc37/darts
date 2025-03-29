@@ -1,4 +1,4 @@
-<section class="nes-container with-title bottom-spacing">
+<section class="nes-container with-title large-bottom-spacing">
     <p class="title">Players</p>
     <div class="team-group">
         <app-player [player]="players[0]" displayName="P1" [pulse]="selectingPlayer == 1"></app-player>
@@ -9,7 +9,7 @@
     </div>
 
     @if (selectingPlayer > 1) {
-    <div class="top-spacing center">
+    <div class="large-top-spacing center">
         <button class="nes-btn is-primary" (click)="finishedSelecting()">Continue</button>
     </div>
     }
