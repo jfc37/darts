@@ -23,7 +23,7 @@ export class PlayKillerComponent {
   public recordedHits: Hit[] = [];
 
   public get numbersHitThisTurn() {
-    return this.recordedHits.map(x => x.number == 0 ? 'miss' : x.number).join(', ')
+    return this.recordedHits.map(x => x.toDisplayText()).join(', ');
   }
 
   @Output() public hits = new EventEmitter<Hit[]>();
