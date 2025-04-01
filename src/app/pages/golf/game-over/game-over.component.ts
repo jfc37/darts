@@ -3,6 +3,7 @@ import { GolfPlayer } from '../../../services/golf-game.service';
 import { PlayerComponent } from '../../../components/player/player.component';
 import { GolfScorePipe } from "../../../pipes/golf-score.pipe";
 import { ScoreCardComponent } from '../score-card/score-card.component';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-game-over',
@@ -63,6 +64,16 @@ export class GameOverComponent {
         player: player.name,
         text: `${player.totalBoogieHoles}`
       }))
+  }
+
+  constructor(private analytics: AnalyticsService) { }
+
+  public ngOnInit() {
+    const winnerInfo = `Winner: ${this.winner.player} (${this.winner.text})`;
+    const loserInfo = this.losers.map(loser => `Loser: ${loser.player} (${loser.text})`);
+    const gameInfo = [winnerInfo, ...loserInfo].join(', ');
+
+    this.analytics.trackEvent('GAME_COMPLETED', gameInfo, 'GOLF')
   }
 
   public playAgainClicked() {

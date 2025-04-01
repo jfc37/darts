@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { KillerTeam, PlayerStats } from '../../../services/killer-game.service';
 import { PlayerComponent } from '../../../components/player/player.component';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-killer-game-over',
@@ -53,6 +54,16 @@ export class KillerGameOverComponent {
         player: player.player,
         text: `${player.pointlessTurns}`
       }))
+  }
+
+  constructor(private analytics: AnalyticsService) { }
+
+  public ngOnInit() {
+    const winnerInfo = `Winners: ${this.winningTeam.firstThrower}/${this.winningTeam.secondThrower}`;
+    const loserInfo = `Losers: ${this.losingTeam.firstThrower}/${this.losingTeam.secondThrower}`;
+    const gameInfo = [winnerInfo, loserInfo].join(', ');
+
+    this.analytics.trackEvent('GAME_COMPLETED', gameInfo, 'KILLER')
   }
 
   public playAgainClicked() {

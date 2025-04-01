@@ -1,3 +1,6 @@
 - add nes.css and fonts to project rather than grabbing from cdn
-- replace favicon with something darty
-- try and fit dart board and HUD in single screen
+- new golf stats
+    - total missed shots
+    - holes with 2 misses
+    - holes with 1 misses
+    - holes with 0 misses
