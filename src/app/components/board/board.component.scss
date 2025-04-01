@@ -1,3 +1,8 @@
-dartbot-dartboard {
-    height: 800px;
+@media (max-width: 800px) {
+    dartbot-dartboard {
+        position: relative;
+        width: 96vw;
+        display: block;
+        left: -1.5rem;
+    }
 }
