@@ -37,70 +37,66 @@
 <button (click)="playAgainClicked()" type="button" class="nes-btn is-primary large-bottom-spacing">Rematch</button>
 
 
-<div class="nes-container with-title">
-    <p class="title">Leaderboard</p>
+<div class="nes-table-responsive">
+    <table class="nes-table is-bordered is-centered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>1st <i class="nes-icon trophy"></i>
+                </th>
+                <th>2nd</th>
+                <th>3rd</th>
+                <th>4th</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Attack Points</td>
+                @for (award of attackingOrder; track $index)
+                {
+                <td>
+                    <div class="award">
+                        <app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Defence Points</td>
+                @for (award of defendingOrder; track $index)
+                {
+                <td>
 
-    <div class="nes-table-responsive">
-        <table class="nes-table is-bordered is-centered">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>1st <i class="nes-icon trophy"></i>
-                    </th>
-                    <th>2nd</th>
-                    <th>3rd</th>
-                    <th>4th</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Attack Points</td>
-                    @for (award of attackingOrder; track $index)
-                    {
-                    <td>
-                        <div class="award">
-                            <app-player [player]="award.player" [displayName]="award.text"></app-player>
-                        </div>
-                    </td>
-                    }
-                </tr>
-                <tr>
-                    <td>Defence Points</td>
-                    @for (award of defendingOrder; track $index)
-                    {
-                    <td>
+                    <div class="award">
+                        <app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Om Om Oms</td>
+                @for (award of omOmOmOrder; track $index)
+                {
+                <td>
 
-                        <div class="award">
-                            <app-player [player]="award.player" [displayName]="award.text"></app-player>
-                        </div>
-                    </td>
-                    }
-                </tr>
-                <tr>
-                    <td>Om Om Oms</td>
-                    @for (award of omOmOmOrder; track $index)
-                    {
-                    <td>
+                    <div class="award">
+                        <app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Pointless Turns</td>
+                @for (award of pointlessOrder; track $index)
+                {
+                <td>
 
-                        <div class="award">
-                            <app-player [player]="award.player" [displayName]="award.text"></app-player>
-                        </div>
-                    </td>
-                    }
-                </tr>
-                <tr>
-                    <td>Pointless Turns</td>
-                    @for (award of pointlessOrder; track $index)
-                    {
-                    <td>
-
-                        <div class="award">
-                            <app-player [player]="award.player" [displayName]="award.text"></app-player>
-                        </div>
-                    </td>
-                    }
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                    <div class="award">
+                        <app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+        </tbody>
+    </table>
 </div>

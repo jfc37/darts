@@ -2,6 +2,8 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .team-group {
@@ -9,6 +11,12 @@
     justify-content: space-evenly;
     align-items: center;
     gap: 3rem;
+}
+
+@media (max-width: 766px) {
+    .team-group {
+        gap: 1rem;
+    }
 }
 
 .player {

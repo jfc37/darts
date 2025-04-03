@@ -1,36 +1,34 @@
+@if (hasCompletedAHole) {
+<div class="nes-table-responsive large-bottom-spacing">
+    <table class="nes-table is-bordered is-centered">
+        <thead>
+            <tr>
+                <th>Hole</th>
+                @for (player of players; track $index) {
+                <th>
+                    <app-player [player]="player.name"></app-player>
+                </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (hole of holes; track $index) {
+            <tr>
+                <td>{{hole}}</td>
+                @for (player of players; track $index) {
+                <td>
+                    {{player.scoreAtHole(hole) | golfScore}}
+                </td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
+@else {
 <section class="nes-container with-title large-bottom-spacing">
     <p class="title">Score Card </p>
-
-    @if (hasCompletedAHole) {
-    <div class="nes-table-responsive">
-        <table class="nes-table is-bordered is-centered">
-            <thead>
-                <tr>
-                    <th>Hole</th>
-                    @for (player of players; track $index) {
-                    <th>
-                        <app-player [player]="player.name"></app-player>
-                    </th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @for (hole of holes; track $index) {
-                <tr>
-                    <td>{{hole}}</td>
-                    @for (player of players; track $index) {
-                    <td>
-                        {{player.scoreAtHole(hole) | golfScore}}
-                    </td>
-                    }
-                </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    }
-    @else {
     Complete first hole to see score card
-    }
-
 </section>
+}
