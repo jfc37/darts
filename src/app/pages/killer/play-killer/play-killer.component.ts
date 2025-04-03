@@ -15,6 +15,8 @@ export class PlayKillerComponent {
    */
   @Input() public team!: string;
 
+  @Input() public teamColour!: string;
+
   @Input() public player!: string;
 
   @Input() public teamTargets!: KillerTarget[];
@@ -34,8 +36,8 @@ export class PlayKillerComponent {
   public get colouredNumbers() {
     return {
       ...GREY_ENTIRE_BOARD,
-      ...this.teamTargets.reduce((accum, target) => ({ ...accum, [target.target]: target.colour }), {}),
-      ...this.opponentTargets.reduce((accum, target) => ({ ...accum, [target.target]: target.colour }), {}),
+      ...this.teamTargets.filter(x => x.health > 0).reduce((accum, target) => ({ ...accum, [target.target]: target.colour }), {}),
+      ...this.opponentTargets.filter(x => x.health > 0).reduce((accum, target) => ({ ...accum, [target.target]: target.colour }), {}),
     }
   }
 
@@ -43,7 +45,7 @@ export class PlayKillerComponent {
     const allTargets = [...this.teamTargets, ...this.opponentTargets];
     return {
       ...GREY_ENTIRE_BOARD,
-      ...allTargets.reduce((accum, target) => ({ ...accum, [target.target]: TARGET_HEALTH_COLOURS[target.health] }), {}),
+      ...allTargets.filter(x => x.health > 0).reduce((accum, target) => ({ ...accum, [target.target]: TARGET_HEALTH_COLOURS[target.health] }), {}),
     }
   }
 

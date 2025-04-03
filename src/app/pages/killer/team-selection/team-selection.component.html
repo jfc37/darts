@@ -1,5 +1,5 @@
 <section class="match-up large-bottom-spacing">
-    <div class="nes-container with-title">
+    <div class="nes-container with-title" [style.background-color]="team1Colour">
         <p class="title">Team 1</p>
         <div class="team-group">
             <app-player [player]="avatars[0]" displayName="P1" [pulse]="selectingPlayer == 1"></app-player>
@@ -9,7 +9,7 @@
 
     <div>vs</div>
 
-    <div class="nes-container with-title">
+    <div class="nes-container with-title" [style.background-color]="team2Colour">
         <p class="title">Team 2</p>
         <div class="team-group">
             <app-player [player]="avatars[2]" displayName="P3" [pulse]="selectingPlayer == 3"></app-player>

@@ -1,5 +1,5 @@
 <section class="match-up large-bottom-spacing">
-    <div class="nes-container with-title">
+    <div class="nes-container with-title" [style.background-color]="winningTeam.colour">
         <p class="title">Winners </p>
         <div class="team-group">
             <div class="player">
@@ -18,7 +18,7 @@
 
     <div>vs</div>
 
-    <div class="nes-container with-title">
+    <div class="nes-container with-title" [style.background-color]="losingTeam.colour">
         <p class="title">Losers</p>
         <div class="team-group">
             <div class="player">

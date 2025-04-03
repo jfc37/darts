@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { CharacterSelectionComponent } from '../../../components/character-selection/character-selection.component';
 import { PlayerComponent } from '../../../components/player/player.component';
+import { TEAM_COLOURS } from '../../../services/killer-game.service';
 
 @Component({
   selector: 'app-team-selection',
@@ -18,6 +19,9 @@ export class TeamSelectionComponent {
 
   public selectingPlayer = 1;
   public avatars: string[] = [];
+
+  public team1Colour = TEAM_COLOURS[0];
+  public team2Colour = TEAM_COLOURS[1];
 
   public handleCharacterSelected(name: string): void {
     this.avatars.push(name);
