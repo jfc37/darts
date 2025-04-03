@@ -1,3 +1,19 @@
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('assets/PressStart2P-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,
+body,
+pre,
+code,
+kbd,
+samp {
+    font-family: "Press Start 2P";
+}
+
 h1 {
     text-align: center;
     font-size: 4rem;
