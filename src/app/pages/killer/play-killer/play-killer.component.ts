@@ -33,6 +33,7 @@ export class PlayKillerComponent {
 
   public get colouredNumbers() {
     return {
+      ...GREY_ENTIRE_BOARD,
       ...this.teamTargets.reduce((accum, target) => ({ ...accum, [target.target]: target.colour }), {}),
       ...this.opponentTargets.reduce((accum, target) => ({ ...accum, [target.target]: target.colour }), {}),
     }
@@ -41,6 +42,7 @@ export class PlayKillerComponent {
   public get healthColours() {
     const allTargets = [...this.teamTargets, ...this.opponentTargets];
     return {
+      ...GREY_ENTIRE_BOARD,
       ...allTargets.reduce((accum, target) => ({ ...accum, [target.target]: TARGET_HEALTH_COLOURS[target.health] }), {}),
     }
   }
@@ -69,3 +71,26 @@ export const TARGET_HEALTH_COLOURS = [
   '#FF991C',
   '#1BFC06'
 ]
+
+const GREY_ENTIRE_BOARD = {
+  '1': '#d3d3d3',
+  '2': '#d3d3d3',
+  '3': '#d3d3d3',
+  '4': '#d3d3d3',
+  '5': '#d3d3d3',
+  '6': '#d3d3d3',
+  '7': '#d3d3d3',
+  '8': '#d3d3d3',
+  '9': '#d3d3d3',
+  '10': '#d3d3d3',
+  '11': '#d3d3d3',
+  '12': '#d3d3d3',
+  '13': '#d3d3d3',
+  '14': '#d3d3d3',
+  '15': '#d3d3d3',
+  '16': '#d3d3d3',
+  '17': '#d3d3d3',
+  '18': '#d3d3d3',
+  '19': '#d3d3d3',
+  '20': '#d3d3d3',
+}
