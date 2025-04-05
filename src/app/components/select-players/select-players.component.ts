@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-import { CharacterSelectionComponent } from '../../../components/character-selection/character-selection.component';
+import { CharacterSelectionComponent } from '../character-selection/character-selection.component';
 import { CommonModule } from '@angular/common';
-import { PlayerComponent } from '../../../components/player/player.component';
+import { PlayerComponent } from '../player/player.component';
 
 @Component({
   selector: 'app-select-players',

@@ -1,25 +1,24 @@
 import { Component } from '@angular/core';
-import { GolfGame, GolfGameService } from '../../services/golf-game.service';
+import { TargetPracticeGame, TargetPracticeGameService } from '../../services/target-practice-game.service';
 import { CommonModule } from '@angular/common';
 import { SelectPlayersComponent } from '../../components/select-players/select-players.component';
-import { PlayGolfComponent } from './play-golf/play-golf.component';
+import { PlayTargetPracticeComponent } from "./play-target-practice/play-target-practice.component";
 import { Hit } from '../../components/board/board.component';
 import { GameOverComponent } from "./game-over/game-over.component";
 
 @Component({
-  selector: 'app-golf',
-  imports: [CommonModule, SelectPlayersComponent, PlayGolfComponent, GameOverComponent],
-  providers: [GolfGameService],
-  templateUrl: './golf.container.html',
-  styleUrl: './golf.container.scss'
+  selector: 'app-target-practice',
+  imports: [CommonModule, SelectPlayersComponent, PlayTargetPracticeComponent, GameOverComponent],
+  templateUrl: './target-practice.container.html',
+  styleUrl: './target-practice.container.scss'
 })
-export class GolfContainer {
-  public game!: GolfGame;
+export class TargetPracticeContainer {
+  public game!: TargetPracticeGame;
 
-  constructor(private golfGameService: GolfGameService) { }
+  constructor(private gameService: TargetPracticeGameService) { }
 
-  public ngOnInit() {
-    this.game = this.golfGameService.createGame();
+  ngOnInit() {
+    this.game = this.gameService.createGame();
 
     // this.game.setPlayers(['img/joe.jpg', 'img/andy.jpg']);
 
@@ -77,6 +76,11 @@ export class GolfContainer {
     // this.game.recordRound([Hit.Double(18), Hit.Double(18), Hit.Double(18)]);
     // this.game.recordRound([Hit.Double(20), Hit.Double(20), Hit.Double(20)]);
 
+    // this.game.recordRound([Hit.Double(18), Hit.Double(18), Hit.Double(18)]);
+    // this.game.recordRound([Hit.Double(20), Hit.Double(20), Hit.Double(20)]);
+
+    // this.game.recordRound([Hit.Double(18), Hit.Double(18), Hit.Double(18)]);
+    // this.game.recordRound([Hit.Double(20), Hit.Double(20), Hit.Double(20)]);
   }
 
   public setPlayers(players: string[]) {
@@ -88,6 +92,6 @@ export class GolfContainer {
   }
 
   public handleNewGame() {
-    this.game = this.golfGameService.createGame();
+    this.game = this.gameService.createGame();
   }
 }

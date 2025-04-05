@@ -1,0 +1,16 @@
+<section class="nes-container is-rounded with-title">
+    <p class="title">Target Practice</p>
+    @if (game.phase == 'select-players') {
+    <app-select-players (playersSelected)="setPlayers($event)"></app-select-players>
+    } @else if (game.phase == 'play') {
+    <app-play-target-practice [round]="game.round" [players]="game.players"
+        (hits)="handleHits($event)"></app-play-target-practice>
+    } @else if (game.phase == 'game-over') {
+    <app-game-over [players]="game.players" (startNewGame)="handleNewGame()"></app-game-over>
+    }
+</section>
+
+<details class="large-top-spacing">
+    <summary>Debugging</summary>
+    <pre>{{game | json}}</pre>
+</details>
