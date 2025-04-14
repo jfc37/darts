@@ -17,7 +17,13 @@ export class PlayerComponent {
     }
   }
 
+  @Input()
+  public set secondaryPlayer(value: string) {
+    this.secondaryAvatar = value;
+  }
+
   public avatar!: string;
+  public secondaryAvatar!: string;
 
   @Input()
   public displayName!: string;

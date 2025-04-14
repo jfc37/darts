@@ -1,5 +1,16 @@
-<div class="player" [ngClass]="{'pulse': pulse}">
+<div class="player-wrapper" [ngClass]="{'pulse': pulse}">
+    @if (secondaryAvatar) {
+    <div class="avatar-wrapper">
+        <img class="nes-avatar is-rounded is-large secondary" [alt]="displayName" [src]="secondaryAvatar"
+            style="image-rendering: pixelated;">
+        <img class="nes-avatar is-rounded is-large primary" [alt]="displayName" [src]="avatar"
+            style="image-rendering: pixelated;">
+    </div>
+    }
+    @else {
     <img class="nes-avatar is-rounded is-large" [alt]="displayName" [src]="avatar" style="image-rendering: pixelated;">
+    }
+
     @if (displayName) {
     <span>{{displayName}}</span>
     }

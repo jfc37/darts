@@ -266,8 +266,6 @@ export class KillerTeam {
     } else {
       this._turn = 1;
     }
-
-    console.error('changing turn on team')
   }
 
   /**
