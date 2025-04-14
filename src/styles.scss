@@ -50,3 +50,14 @@ h3 {
     display: flex;
     justify-content: center;
 }
+
+.hidden-link {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+        text-decoration: none;
+        color: inherit;
+        cursor: inherit;
+    }
+}
