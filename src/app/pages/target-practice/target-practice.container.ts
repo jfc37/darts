@@ -5,10 +5,11 @@ import { SelectPlayersComponent } from '../../components/select-players/select-p
 import { PlayTargetPracticeComponent } from "./play-target-practice/play-target-practice.component";
 import { Hit } from '../../components/board/board.component';
 import { GameOverComponent } from "./game-over/game-over.component";
+import { StatsComponent } from "./stats/stats.component";
 
 @Component({
   selector: 'app-target-practice',
-  imports: [CommonModule, SelectPlayersComponent, PlayTargetPracticeComponent, GameOverComponent],
+  imports: [CommonModule, SelectPlayersComponent, PlayTargetPracticeComponent, GameOverComponent, StatsComponent],
   templateUrl: './target-practice.container.html',
   styleUrl: './target-practice.container.scss'
 })

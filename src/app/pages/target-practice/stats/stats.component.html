@@ -1,0 +1,31 @@
+<details class="large-top-spacing">
+    <summary>Stats</summary>
+
+    <p>Most Recent Games: {{stats | mostRecentScores}}</p>
+    <div class="nes-table-responsive large-bottom-spacing">
+        <table class="nes-table is-bordered is-centered">
+            <thead>
+                <tr>
+                    <th>Hole</th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (number of stats.rounds; track $index) {
+                <tr>
+                    <td>{{number.round}}</td>
+                    <td>{{number.hits| numberHits: 0}}</td>
+                    <td>{{number.hits | numberHits: 1}}</td>
+                    <td>{{number.hits | numberHits: 2}}</td>
+                    <td>{{number.hits | numberHits: 3}}</td>
+                    <td>{{number.hits | numberTotal}}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</details>

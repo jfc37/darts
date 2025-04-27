@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DartCell, Hit } from '../components/board/board.component';
+import { Hit } from '../components/board/board.component';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +49,7 @@ export class TargetPracticeGame {
     if (isLastPlayer) {
       if (this.round == TOTAL_ROUNDS) {
         this.phase = TargetPracticeGamePhase.GameOver;
+        updateGameStats(this.players);
         return;
       } else {
         this.round++;
@@ -135,3 +136,32 @@ export enum TargetPracticeGamePhase {
 
 
 const TOTAL_ROUNDS = 20;
+
+export interface GameStat {
+  totalHits: number[];
+  rounds: RoundStat[];
+}
+
+export interface RoundStat {
+  round: number;
+  hits: number[];
+}
+
+function updateGameStats(players: Player[]) {
+  const existingGameStat = localStorage.getItem('game');
+  const gameStats: GameStat = existingGameStat ? JSON.parse(existingGameStat) : { totalHits: [], rounds: [] };
+
+  gameStats.totalHits = [...gameStats.totalHits, ...players.map(player => player.totalMakes)];
+  players.forEach(player => {
+    player.rounds.forEach(round => {
+      const existingRoundStat = gameStats.rounds.find(x => x.round == round.hole);
+      if (existingRoundStat) {
+        existingRoundStat.hits = [...existingRoundStat.hits, round.makes];
+      } else {
+        gameStats.rounds.push({ round: round.hole, hits: [round.makes] });
+      }
+    })
+  })
+
+  localStorage.setItem('game', JSON.stringify(gameStats));
+}
