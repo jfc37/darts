@@ -81,7 +81,9 @@ export class Player {
     const totalThrows = this.rounds.length * 3;
     const totalMakes = this.rounds.reduce((acc, round) => acc + round.makes, 0);
 
-    return `${totalMakes} / ${totalThrows}`;
+    const percentage = (totalMakes / totalThrows).toFixed(3);
+
+    return `${totalMakes} / ${totalThrows} (${percentage})`;
   }
 
   public get totalMakes(): number {
@@ -151,12 +153,12 @@ function updateGameStats(players: Player[]) {
   const existingGameStat = localStorage.getItem('game');
   const gameStats: GameStat = existingGameStat ? JSON.parse(existingGameStat) : { totalHits: [], rounds: [] };
 
-  gameStats.totalHits = [...gameStats.totalHits, ...players.map(player => player.totalMakes)];
+  gameStats.totalHits = [...players.map(player => player.totalMakes), ...gameStats.totalHits];
   players.forEach(player => {
     player.rounds.forEach(round => {
       const existingRoundStat = gameStats.rounds.find(x => x.round == round.hole);
       if (existingRoundStat) {
-        existingRoundStat.hits = [...existingRoundStat.hits, round.makes];
+        existingRoundStat.hits = [round.makes, ...existingRoundStat.hits];
       } else {
         gameStats.rounds.push({ round: round.hole, hits: [round.makes] });
       }

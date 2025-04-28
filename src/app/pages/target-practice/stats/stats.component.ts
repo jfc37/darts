@@ -35,8 +35,9 @@ export class NumberTotalPipe implements PipeTransform {
   transform(value: number[]): string {
     const totalThrows = value.length * 3;
     const totalHits = value.reduce((acc, curr) => acc + curr, 0);
+    const percentage = (totalHits / totalThrows).toFixed(3);
 
-    return `${totalHits} / ${totalThrows}`;
+    return `${totalHits} / ${totalThrows} (${percentage})`;
   }
 }
 
@@ -46,8 +47,15 @@ export class NumberTotalPipe implements PipeTransform {
 export class MostRecentScoresPipe implements PipeTransform {
 
   transform(value: GameStat): string {
-    // return the three most recent scores
-    const recentScores = value.rounds.slice(-3).map(round => round.hits.reduce((acc, curr) => acc + curr, 0));
-    return recentScores.join(', ');
+    const lastestGame = value.totalHits[0] != null ? value.rounds.reduce((accu, curr) => accu + curr.hits[0], 0) : null;
+    const secondLastestGame = value.totalHits[1] != null ? value.rounds.reduce((accu, curr) => accu + curr.hits[1], 0) : null;
+    const thirdLastestGame = value.totalHits[2] != null ? value.rounds.reduce((accu, curr) => accu + curr.hits[2], 0) : null;
+
+    return [lastestGame, secondLastestGame, thirdLastestGame].filter(x => x != null).map(fullGameHitsToDisplayableScore).join(', ');
   }
+}
+
+function fullGameHitsToDisplayableScore(totalHits: number): string {
+  const percentage = (totalHits / 60).toFixed(3);
+  return `${totalHits} / 60 (${percentage})`;
 }
