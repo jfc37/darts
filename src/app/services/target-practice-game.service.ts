@@ -81,8 +81,11 @@ export class Player {
     const totalThrows = this.rounds.length * 3;
     const totalMakes = this.rounds.reduce((acc, round) => acc + round.makes, 0);
 
-    const percentage = (totalMakes / totalThrows).toFixed(3);
+    if (totalThrows === 0) {
+      return `${totalMakes} / ${totalThrows}`;
+    }
 
+    const percentage = (totalMakes / totalThrows).toFixed(3);
     return `${totalMakes} / ${totalThrows} (${percentage})`;
   }
 
