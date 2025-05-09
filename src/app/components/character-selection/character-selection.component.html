@@ -2,7 +2,7 @@
     <div class="nes-container with-title">
         <p class="title">Select your characters</p>
         <section class="characters">
-            @for (character of allCharacters; track $index) {
+            @for (character of allCharacterImages$ | async; track $index) {
             <img (click)="handlePlayerSelection(character)" class="nes-avatar is-rounded is-large" alt="Player"
                 [src]="character" style="image-rendering: pixelated;">
             }
