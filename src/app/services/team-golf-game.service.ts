@@ -14,8 +14,8 @@ export class TeamGolfGameService {
 }
 
 export class TeamGolfGame {
-  public team1: GolfTeam = GolfTeam.Create('Team 1');
-  public team2: GolfTeam = GolfTeam.Create('Team 2');
+  public team1: GolfTeam = GolfTeam.Create('Team 1', 0);
+  public team2: GolfTeam = GolfTeam.Create('Team 2', 1);
   public teams = [this.team1, this.team2];
   public hole = 1;
   public phase: TeamGolfGamePhase = TeamGolfGamePhase.EnterTeams;
@@ -84,13 +84,13 @@ export class GolfTeam {
 
   public readonly colour: string;
 
-  private constructor(name: string) {
+  private constructor(name: string, teamNumber: 0 | 1) {
     this.name = name;
-    this.colour = TEAM_COLOURS[GolfTeam.nextId];
-    if (GolfTeam.nextId == 0) {
+    this.colour = TEAM_COLOURS[teamNumber];
+    if (teamNumber == 0) {
       this.isActive = true;
     }
-    this.id = GolfTeam.nextId++;
+    this.id = teamNumber;
 
   }
 
@@ -139,10 +139,8 @@ export class GolfTeam {
     }
   }
 
-  private static nextId = 0;
-
-  static Create(name: string): GolfTeam {
-    return new GolfTeam(name);
+  static Create(name: string, teamNumber: 0 | 1): GolfTeam {
+    return new GolfTeam(name, teamNumber);
   }
 
 }
