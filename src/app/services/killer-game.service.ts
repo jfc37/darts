@@ -17,8 +17,8 @@ export class KillerGameService {
  * Represents the game state of killer
  */
 export class KillerGame {
-  public team1: KillerTeam = KillerTeam.Create('Team 1');
-  public team2: KillerTeam = KillerTeam.Create('Team 2');
+  public team1: KillerTeam = KillerTeam.Create('Team 1', 0);
+  public team2: KillerTeam = KillerTeam.Create('Team 2', 1);
   public phase: KillerGamePhase = KillerGamePhase.EnterTeams;
 
   private _teamTurn = 1;
@@ -227,13 +227,11 @@ export class KillerTeam {
     return KillerTeamStatus.ReadyToPlay;
   }
 
-  private constructor(name: string) {
+  private constructor(name: string, id: number) {
     this.name = name;
-    this.colour = TEAM_COLOURS[KillerTeam.nextId];
-    this.id = KillerTeam.nextId++;
+    this.colour = TEAM_COLOURS[id];
+    this.id = id;
   }
-
-  private static nextId = 0;
 
   /**
    * Adds a target to the team
@@ -273,8 +271,8 @@ export class KillerTeam {
    * @param name 
    * @returns 
    */
-  static Create(name: string): KillerTeam {
-    return new KillerTeam(name);
+  static Create(name: string, teamNumber: number): KillerTeam {
+    return new KillerTeam(name, teamNumber);
   }
 }
 
