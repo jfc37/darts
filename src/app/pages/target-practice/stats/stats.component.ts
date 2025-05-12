@@ -1,6 +1,6 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { forwardRef } from "@angular/core";
-import { GameStat } from '../../../services/target-practice-game.service';
+import { GameStat, RoundStat } from '../../../services/target-practice-game.service';
 
 @Component({
   selector: 'app-stats',
@@ -10,10 +10,24 @@ import { GameStat } from '../../../services/target-practice-game.service';
 })
 export class StatsComponent {
   stats!: GameStat;
+  recentStats!: GameStat;
+  worstRecentRounds!: RoundStat[];
+  bestRecentRounds!: RoundStat[];
 
   constructor() {
     const existingGameStat = localStorage.getItem('game');
     this.stats = existingGameStat ? JSON.parse(existingGameStat) : { totalHits: [], rounds: [] };
+
+    this.recentStats = {
+      totalHits: this.stats.totalHits.slice(0, 5),
+      rounds: this.stats.rounds.map(round => ({ ...round, hits: round.hits.slice(0, 5) }))
+    }
+
+    this.worstRecentRounds = this.recentStats.rounds.sort((a, b) => sumRoundTotal(a) - sumRoundTotal(b) > 0 ? 1 : -1)
+      .slice(0, 5);
+
+    this.bestRecentRounds = this.recentStats.rounds.sort((a, b) => sumRoundTotal(a) - sumRoundTotal(b) > 0 ? -1 : 1)
+      .slice(0, 5);
   }
 }
 
@@ -62,4 +76,8 @@ export class MostRecentScoresPipe implements PipeTransform {
 function fullGameHitsToDisplayableScore(totalHits: number): string {
   const percentage = (totalHits / 60).toFixed(3);
   return `${totalHits} / 60 (${percentage})`;
+}
+
+function sumRoundTotal(round: RoundStat): number {
+  return round.hits.reduce((accu, curr) => accu + curr, 0);
 }
