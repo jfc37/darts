@@ -13,9 +13,8 @@ export class TargetPracticeScoreCardComponent {
   public players!: Player[];
 
   public get holes(): number[] {
-    const totalHoles = this.players[this.players.length - 1].rounds.length;
-    const array = Array.from({ length: totalHoles }, (_, i) => i + 1);
-    return array;
+    return this.players[this.players.length - 1].rounds.map(x => x.hole)
+      .sort((a, b) => a < b ? -1 : 1);
   }
 
   public get hasCompletedAHole(): boolean {

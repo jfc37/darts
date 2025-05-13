@@ -16,10 +16,15 @@ export class TargetPracticeGameService {
 export class TargetPracticeGame {
   public phase: TargetPracticeGamePhase = TargetPracticeGamePhase.SelectPlayers;
   public players!: Player[];
-  public round: number = 1;
+  public roundIndex: number = 0;
+  public roundOrder: number[] = getRandomRounds();
 
   public get activePlayer() {
     return this.players.find(x => x.isActive)!;
+  }
+
+  public get round() {
+    return this.roundOrder[this.roundIndex];
   }
 
   private constructor() {
@@ -37,7 +42,7 @@ export class TargetPracticeGame {
   }
 
   public recordRound(hits: Hit[]) {
-    this.activePlayer.recordRound(hits);
+    this.activePlayer.recordRound(hits, this.roundOrder[this.roundIndex]);
     this.changeToNextPlayer();
   }
 
@@ -47,12 +52,12 @@ export class TargetPracticeGame {
     const isLastPlayer = currentPlayerIndex == this.players.length - 1;
 
     if (isLastPlayer) {
-      if (this.round == TOTAL_ROUNDS) {
+      if (this.roundIndex == TOTAL_ROUNDS - 1) {
         this.phase = TargetPracticeGamePhase.GameOver;
         updateGameStats(this.players);
         return;
       } else {
-        this.round++;
+        this.roundIndex++;
         this.activePlayer.isActive = false;
         this.players[0].isActive = true;
         return;
@@ -73,8 +78,8 @@ export class Player {
     this.name = name;
   }
 
-  public recordRound(hits: Hit[]) {
-    this.rounds.push(new Round(this.rounds.length + 1, hits));
+  public recordRound(hits: Hit[], round: number) {
+    this.rounds.push(new Round(round, hits));
   }
 
   public get score(): string {
@@ -94,7 +99,8 @@ export class Player {
   }
 
   public scoreForRound(round: number): string {
-    const roundHits = this.rounds[round - 1];
+    const roundIndex = this.rounds.findIndex(x => x.hole == round);
+    const roundHits = this.rounds[roundIndex];
     return `${roundHits.makes} / 3`;
 
   }
@@ -158,7 +164,7 @@ function updateGameStats(players: Player[]) {
 
   gameStats.totalHits = [...players.map(player => player.totalMakes), ...gameStats.totalHits];
   players.forEach(player => {
-    player.rounds.forEach(round => {
+    player.rounds.sort((a, b) => a.hole < b.hole ? -1 : 1).forEach(round => {
       const existingRoundStat = gameStats.rounds.find(x => x.round == round.hole);
       if (existingRoundStat) {
         existingRoundStat.hits = [round.makes, ...existingRoundStat.hits];
@@ -169,4 +175,16 @@ function updateGameStats(players: Player[]) {
   })
 
   localStorage.setItem('game', JSON.stringify(gameStats));
+}
+
+/**
+ * Returns an array with number 1 to 20 in a random order
+ */
+function getRandomRounds() {
+  const rounds = Array.from({ length: TOTAL_ROUNDS }, (_, i) => i + 1);
+  for (let i = rounds.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rounds[i], rounds[j]] = [rounds[j], rounds[i]];
+  }
+  return rounds;
 }

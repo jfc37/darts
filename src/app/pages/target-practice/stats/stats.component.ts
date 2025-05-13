@@ -23,10 +23,10 @@ export class StatsComponent {
       rounds: this.stats.rounds.map(round => ({ ...round, hits: round.hits.slice(0, 5) }))
     }
 
-    this.worstRecentRounds = this.recentStats.rounds.sort((a, b) => sumRoundTotal(a) - sumRoundTotal(b) > 0 ? 1 : -1)
+    this.worstRecentRounds = [...this.recentStats.rounds].sort((a, b) => sumRoundTotal(a) - sumRoundTotal(b) > 0 ? 1 : -1)
       .slice(0, 5);
 
-    this.bestRecentRounds = this.recentStats.rounds.sort((a, b) => sumRoundTotal(a) - sumRoundTotal(b) > 0 ? -1 : 1)
+    this.bestRecentRounds = [...this.recentStats.rounds].sort((a, b) => sumRoundTotal(a) - sumRoundTotal(b) > 0 ? -1 : 1)
       .slice(0, 5);
   }
 }
