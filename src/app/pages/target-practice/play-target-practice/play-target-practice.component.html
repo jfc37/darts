@@ -4,6 +4,13 @@
         @for (player of players; track $index) {
         <app-player [player]="player.name" [displayName]="player.score" [pulse]="player.isActive"></app-player>
         }
+        <div>
+            <div>{{recentRoundStats[round].lastGame| numberTotal}}</div>
+            <div>{{recentRoundStats[round].lastFiveGames| numberTotal}}</div>
+            <div>{{recentRoundStats[round].lastTenGames| numberTotal}}</div>
+            <div>{{recentRoundStats[round].lastTwentyGames| numberTotal}}</div>
+            <div>{{recentRoundStats[round].totalGames| numberTotal}}</div>
+        </div>
     </div>
 </section>
 

@@ -1,12 +1,13 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { Player } from '../../../services/target-practice-game.service';
+import { GameStat, Player } from '../../../services/target-practice-game.service';
 import { Hit, BoardComponent } from '../../../components/board/board.component';
 import { PlayerComponent } from "../../../components/player/player.component";
 import { TargetPracticeScoreCardComponent } from "../target-practice-score-card/target-practice-score-card.component";
+import { NumberTotalPipe } from "../stats/stats.component";
 
 @Component({
   selector: 'app-play-target-practice',
-  imports: [PlayerComponent, BoardComponent, TargetPracticeScoreCardComponent],
+  imports: [PlayerComponent, BoardComponent, TargetPracticeScoreCardComponent, NumberTotalPipe],
   templateUrl: './play-target-practice.component.html',
   styleUrl: './play-target-practice.component.scss'
 })
@@ -21,6 +22,8 @@ export class PlayTargetPracticeComponent {
   @ViewChild('confirmDialog', { static: true })
   public dialog!: ElementRef<HTMLDialogElement>;
 
+  public recentRoundStats: { [key: number]: RecentScores };
+
   public get colouredNumbers() {
     return {
       [this.round]: ACTIVE_NUMBER_COLOUR
@@ -30,6 +33,22 @@ export class PlayTargetPracticeComponent {
   public recordedHits: Hit[] = [];
   public get numbersHitThisTurn() {
     return this.recordedHits.map(x => x.number).join(', ')
+  }
+
+  constructor() {
+    const existingGameStat = localStorage.getItem('game');
+    const stats: GameStat = existingGameStat ? JSON.parse(existingGameStat) : { totalHits: [], rounds: [] };
+
+    this.recentRoundStats = stats.rounds.reduce((allRounds, round) => ({
+      ...allRounds,
+      [round.round]: {
+        lastGame: round.hits.slice(0, 1),
+        lastFiveGames: round.hits.slice(0, 5),
+        lastTenGames: round.hits.slice(0, 10),
+        lastTwentyGames: round.hits.slice(0, 20),
+        totalGames: round.hits
+      }
+    }), {});
   }
 
   public recordHit(hit: Hit) {
@@ -51,3 +70,11 @@ export class PlayTargetPracticeComponent {
 }
 
 export const ACTIVE_NUMBER_COLOUR = 'blue';
+
+interface RecentScores {
+  lastGame: number[],
+  lastFiveGames: number[],
+  lastTenGames: number[],
+  lastTwentyGames: number[],
+  totalGames: number[],
+}
