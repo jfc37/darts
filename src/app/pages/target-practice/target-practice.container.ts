@@ -21,7 +21,7 @@ export class TargetPracticeContainer {
   ngOnInit() {
     this.game = this.gameService.createGame();
 
-    // this.game.setPlayers(['img/joe.jpg', 'img/andy.jpg']);
+    // this.game.setPlayers(['img/joe.jpg']);
 
     // this.game.recordRound([Hit.Double(1), Hit.Double(1), Hit.Double(1)]);
     // this.game.recordRound([Hit.Single(1), Hit.Double(20), Hit.Double(20)]);

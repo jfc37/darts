@@ -4,6 +4,7 @@
         @for (player of players; track $index) {
         <app-player [player]="player.name" [displayName]="player.score" [pulse]="player.isActive"></app-player>
         }
+        @if (recentRoundStats[round]) {
         <div>
             <div>{{recentRoundStats[round].lastGame| numberTotal}}</div>
             <div>{{recentRoundStats[round].lastFiveGames| numberTotal}}</div>
@@ -11,10 +12,11 @@
             <div>{{recentRoundStats[round].lastTwentyGames| numberTotal}}</div>
             <div>{{recentRoundStats[round].totalGames| numberTotal}}</div>
         </div>
+        }
     </div>
 </section>
 
-<app-board [colouredSections]="colouredNumbers" (hit)="recordHit($event)"></app-board>
+<app-board [points]="heatMap[round]" [colouredSections]="colouredNumbers" (hit)="recordHit($event)"></app-board>
 <div class="large-top-spacing"></div>
 <app-target-practice-score-card [players]="players"></app-target-practice-score-card>
 

@@ -40,6 +40,18 @@ export class BoardComponent implements AfterViewInit {
   }
   private _colouredTriples!: { [key: string]: string };
 
+  @Input() set points(points: HitPoint[]) {
+    this._points = points;
+
+    if (!this.dartboard) {
+      return;
+    }
+
+    this.dartboard.hits = [...points];
+    this.dartboard.render();
+  }
+  private _points: HitPoint[] = [];
+
   @Output() hit = new EventEmitter<Hit>();
 
   ngAfterViewInit(): void {
@@ -58,6 +70,11 @@ export class BoardComponent implements AfterViewInit {
       this.dartboard.render();
     }
 
+    if (this._points) {
+      this.dartboard.hits = [...this._points];
+      this.dartboard.render();
+    };
+
     this.dartboard.addEventListener('dartboard-click', (event: any) => {
       this.handleHit(event);
     });
@@ -70,11 +87,15 @@ export class BoardComponent implements AfterViewInit {
 
     (target as any).hits = [...(target as any).hits, polar];
 
-    const hit = new Hit(getSectorValue((target as any).board as any, sector), ring);
+    const hit = new Hit(getSectorValue((target as any).board as any, sector), ring, polar);
     this.hit.emit(hit);
   }
 }
 
+export interface HitPoint {
+  radius: number;
+  angle: number;
+}
 
 export class Hit {
   /**
@@ -97,7 +118,10 @@ export class Hit {
    */
   public missed: boolean;
 
-  constructor(number: number, ring: number) {
+  public point: HitPoint | undefined;
+
+  constructor(number: number, ring: number, point?: HitPoint) {
+    this.point = point;
     this.number = number;
     this.multiplier = ring;
 

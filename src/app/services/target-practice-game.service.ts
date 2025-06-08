@@ -126,6 +126,10 @@ export class Round {
   public get makes(): number {
     return this._hits.filter(x => x.number == this.hole).length;
   }
+
+  public get points(): HitPoint[] {
+    return this._hits.map(hit => hit.point!);
+  }
 }
 
 /**
@@ -156,6 +160,12 @@ export interface GameStat {
 export interface RoundStat {
   round: number;
   hits: number[];
+  points: HitPoint[];
+}
+
+export interface HitPoint {
+  radius: number;
+  angle: number;
 }
 
 function updateGameStats(players: Player[]) {
@@ -168,8 +178,9 @@ function updateGameStats(players: Player[]) {
       const existingRoundStat = gameStats.rounds.find(x => x.round == round.hole);
       if (existingRoundStat) {
         existingRoundStat.hits = [round.makes, ...existingRoundStat.hits];
+        existingRoundStat.points = [...round.points, ...existingRoundStat.points];
       } else {
-        gameStats.rounds.push({ round: round.hole, hits: [round.makes] });
+        gameStats.rounds.push({ round: round.hole, hits: [round.makes], points: round.points });
       }
     })
   })

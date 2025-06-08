@@ -1,6 +1,2 @@
-- new golf stats
-    - total missed shots
-    - holes with 2 misses
-    - holes with 1 misses
-    - holes with 0 misses
-- new game mode of Golf 2v2
+- multiplier practice
+    - same as target practice, but only score points for doubles or triples

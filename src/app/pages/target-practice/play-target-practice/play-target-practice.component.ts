@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { GameStat, Player } from '../../../services/target-practice-game.service';
+import { GameStat, HitPoint, Player } from '../../../services/target-practice-game.service';
 import { Hit, BoardComponent } from '../../../components/board/board.component';
 import { PlayerComponent } from "../../../components/player/player.component";
 import { TargetPracticeScoreCardComponent } from "../target-practice-score-card/target-practice-score-card.component";
@@ -23,6 +23,7 @@ export class PlayTargetPracticeComponent {
   public dialog!: ElementRef<HTMLDialogElement>;
 
   public recentRoundStats: { [key: number]: RecentScores };
+  public heatMap: { [key: number]: HitPoint[] } = {};
 
   public get colouredNumbers() {
     return {
@@ -48,6 +49,11 @@ export class PlayTargetPracticeComponent {
         lastTwentyGames: round.hits.slice(0, 20),
         totalGames: round.hits
       }
+    }), {});
+
+    this.heatMap = stats.rounds.reduce((map, round) => ({
+      ...map,
+      [round.round]: (round.points || []).slice(0, 15)
     }), {});
   }
 
