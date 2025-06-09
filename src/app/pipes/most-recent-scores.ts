@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { GameStat } from "../services/target-practice-game.service";
+import { GameStat } from "../domain-objects/game-stat";
 
 @Pipe({
     name: 'mostRecentScores'

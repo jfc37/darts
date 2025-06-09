@@ -1,9 +1,9 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { forwardRef } from "@angular/core";
-import { GameStat, RoundStat } from '../../services/target-practice-game.service';
 import { MostRecentScoresPipe } from '../../pipes/most-recent-scores';
 import { NumberTotalPipe } from '../../pipes/number-total.pipe';
 import { NumberHitsPipe } from '../../pipes/number-hits.pipe';
+import { GameStat, RoundStat } from '../../domain-objects/game-stat';
 
 @Component({
   selector: 'app-stats',

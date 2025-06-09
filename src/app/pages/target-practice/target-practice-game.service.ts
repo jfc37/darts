@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Player } from '../../domain-objects/player';
 import { Hit } from '../../domain-objects/hit';
-import { DartCell } from '../../domain-objects/dart-cell';
-import { GameStat, updateGameStats } from '../../domain-objects/game-stat';
+import { updateGameStats } from '../../domain-objects/game-stat';
 import { getRandomRounds, TOTAL_ROUNDS } from '../../domain-objects/round';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MultiplierPracticeGameService {
+export class TargetPracticeGameService {
 
   constructor() { }
 
-  public createGame(): MultiplierPracticeGame {
-    return MultiplierPracticeGame.InitialseNewGame();
+  public createGame(): TargetPracticeGame {
+    return TargetPracticeGame.InitialseNewGame();
   }
 }
 
-export class MultiplierPracticeGame {
-  public phase: MultiplierPracticeGamePhase = MultiplierPracticeGamePhase.SelectPlayers;
+export class TargetPracticeGame {
+  public phase: TargetPracticeGamePhase = TargetPracticeGamePhase.SelectPlayers;
   public players!: Player[];
   public roundIndex: number = 0;
   public roundOrder: number[] = getRandomRounds();
@@ -35,14 +34,14 @@ export class MultiplierPracticeGame {
 
   }
 
-  public static InitialseNewGame(): MultiplierPracticeGame {
-    return new MultiplierPracticeGame();
+  public static InitialseNewGame(): TargetPracticeGame {
+    return new TargetPracticeGame();
   }
 
   public setPlayers(players: string[]) {
-    this.players = players.map(player => Player.NewPlayer(player, multiplierPracticeHit));
+    this.players = players.map(player => Player.NewPlayer(player, targetPracticeHit));
     this.players[0].isActive = true;
-    this.phase = MultiplierPracticeGamePhase.Play;
+    this.phase = TargetPracticeGamePhase.Play;
   }
 
   public recordRound(hits: Hit[]) {
@@ -57,8 +56,8 @@ export class MultiplierPracticeGame {
 
     if (isLastPlayer) {
       if (this.roundIndex == TOTAL_ROUNDS - 1) {
-        this.phase = MultiplierPracticeGamePhase.GameOver;
-        updateGameStats('multiplierGame', this.players);
+        this.phase = TargetPracticeGamePhase.GameOver;
+        updateGameStats('game', this.players);
         return;
       } else {
         this.roundIndex++;
@@ -73,10 +72,14 @@ export class MultiplierPracticeGame {
   }
 }
 
+export function targetPracticeHit(hit: Hit, hole: number): boolean {
+  return hit.number === hole;
+}
+
 /**
  * Represents the current phase of the game
  */
-export enum MultiplierPracticeGamePhase {
+export enum TargetPracticeGamePhase {
   SelectPlayers = 'select-players',
 
   /**
@@ -88,11 +91,4 @@ export enum MultiplierPracticeGamePhase {
    * The game has ended
    */
   GameOver = 'game-over'
-}
-
-export function multiplierPracticeHit(hit: Hit, hole: number): boolean {
-  const hitRightNumber = hit.number === hole;
-  const hitMultiplier = [DartCell.Double, DartCell.Triple].includes(hit.multiplier);
-
-  return hitRightNumber && hitMultiplier;
 }

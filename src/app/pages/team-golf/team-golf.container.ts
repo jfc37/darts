@@ -3,8 +3,8 @@ import { TeamGolfGame, TeamGolfGameService } from '../../services/team-golf-game
 import { CommonModule } from '@angular/common';
 import { TeamSelectionComponent } from '../killer/team-selection/team-selection.component';
 import { PlayTeamGolfComponent } from "./play-team-golf/play-team-golf.component";
-import { Hit } from '../../components/board/board.component';
 import { GameOverComponent } from "./game-over/game-over.component";
+import { Hit } from '../../domain-objects/hit';
 
 @Component({
   selector: 'app-team-golf',

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PlayerComponent } from "../player/player.component";
-import { Player } from '../../services/target-practice-game.service';
 import { AnalyticsService } from '../../services/analytics.service';
 import { StandardScoreCardComponent } from "../standard-score-card/standard-score-card.component";
+import { Player } from '../../domain-objects/player';
 
 @Component({
   selector: 'app-game-over',

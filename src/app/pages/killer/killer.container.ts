@@ -3,9 +3,9 @@ import { KillerGame, KillerGameService } from '../../services/killer-game.servic
 import { EnterTargetsComponent } from "./enter-targets/enter-targets.component";
 import { CommonModule } from '@angular/common';
 import { PlayKillerComponent } from "./play-killer/play-killer.component";
-import { Hit } from '../../components/board/board.component';
 import { KillerGameOverComponent } from "./killer-game-over/killer-game-over.component";
 import { TeamSelectionComponent } from "./team-selection/team-selection.component";
+import { Hit } from '../../domain-objects/hit';
 
 @Component({
   selector: 'app-killer',

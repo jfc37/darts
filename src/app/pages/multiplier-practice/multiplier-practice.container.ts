@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelectPlayersComponent } from '../../components/select-players/select-players.component';
-import { Hit } from '../../components/board/board.component';
 import { MultiplierPracticeGame, MultiplierPracticeGameService } from './multiplier-practice-game.service';
 import { StatsComponent } from '../../components/stats/stats.component';
 import { PlayRoundComponent } from '../../components/play-round/play-round.component';
 import { GameOverComponent } from '../../components/game-over/game-over.component';
+import { Hit } from '../../domain-objects/hit';
 
 @Component({
   selector: 'app-multiplier-practice',

@@ -1,9 +1,11 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { GameStat, HitPoint, Player } from '../../services/target-practice-game.service';
-import { Hit, BoardComponent } from '../board/board.component';
+import { BoardComponent } from '../board/board.component';
 import { PlayerComponent } from "../player/player.component";
 import { StandardScoreCardComponent } from "../standard-score-card/standard-score-card.component";
 import { NumberTotalPipe } from '../../pipes/number-total.pipe';
+import { Player } from '../../domain-objects/player';
+import { GameStat } from '../../domain-objects/game-stat';
+import { Hit, HitPoint } from '../../domain-objects/hit';
 
 @Component({
   selector: 'app-play-round',

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { TargetPracticeGame, TargetPracticeGameService } from '../../services/target-practice-game.service';
+import { TargetPracticeGame, TargetPracticeGameService } from './target-practice-game.service';
 import { CommonModule } from '@angular/common';
 import { SelectPlayersComponent } from '../../components/select-players/select-players.component';
 import { PlayRoundComponent } from "../../components/play-round/play-round.component";
-import { Hit } from '../../components/board/board.component';
 import { GameOverComponent } from "../../components/game-over/game-over.component";
 import { StatsComponent } from "../../components/stats/stats.component";
+import { Hit } from '../../domain-objects/hit';
 
 @Component({
   selector: 'app-target-practice',

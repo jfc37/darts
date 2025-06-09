@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { DartCell, Hit } from '../components/board/board.component';
+import { Hit } from '../domain-objects/hit';
+import { DartCell } from '../domain-objects/dart-cell';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Player } from '../../services/target-practice-game.service';
 import { PlayerComponent } from '../player/player.component';
+import { Player } from '../../domain-objects/player';
 
 @Component({
   selector: 'app-standard-score-card',

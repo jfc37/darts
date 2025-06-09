@@ -3,6 +3,7 @@ import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Input, 
 import '../dart-board/dartbot-dartboard';
 import { Dartboard, DartboardPointerEvent } from '../dart-board/Dartboard';
 import { getSectorValue } from '../dart-board/draw-board/board';
+import { Hit, HitPoint } from '../../domain-objects/hit';
 
 @Component({
   selector: 'app-board',
@@ -41,6 +42,10 @@ export class BoardComponent implements AfterViewInit {
   private _colouredTriples!: { [key: string]: string };
 
   @Input() set points(points: HitPoint[]) {
+    if (!points) {
+      points = [];
+    }
+
     this._points = points;
 
     if (!this.dartboard) {
@@ -90,118 +95,4 @@ export class BoardComponent implements AfterViewInit {
     const hit = new Hit(getSectorValue((target as any).board as any, sector), ring, polar);
     this.hit.emit(hit);
   }
-}
-
-export interface HitPoint {
-  radius: number;
-  angle: number;
-}
-
-export class Hit {
-  /**
-   * Number on the board that was hit
-   */
-  public number: number;
-
-  /**
-   * Score value of the hit
-   */
-  public value: number;
-
-  /**
-   * Multiplier of the hit
-   */
-  public multiplier: DartCell;
-
-  /**
-   * True if board was missed entirely
-   */
-  public missed: boolean;
-
-  public point: HitPoint | undefined;
-
-  constructor(number: number, ring: number, point?: HitPoint) {
-    this.point = point;
-    this.number = number;
-    this.multiplier = ring;
-
-    this.missed = ring == undefined;
-
-    if (this.missed) {
-      this.value = 0;
-      this.number = 0;
-    } else if (this.multiplier == DartCell.Triple) {
-      this.value = number * 3;
-    }
-    else if (this.multiplier == DartCell.Double) {
-      this.value = number * 2;
-    }
-    else {
-      this.value = number;
-    }
-
-  }
-
-  public toDisplayText() {
-    if (this.missed) {
-      return 'miss';
-    }
-
-    if ([DartCell.InnererBullsEye, DartCell.OuterBullsEye].includes(this.multiplier)) {
-      return DART_CELL_TEXT[this.multiplier];
-    }
-
-    return `${DART_CELL_TEXT[this.multiplier]} ${this.number}`;
-  }
-
-  public toVerboseDisplayText() {
-    if (this.missed) {
-      return 'miss';
-    }
-
-    if ([DartCell.InnererBullsEye, DartCell.OuterBullsEye].includes(this.multiplier)) {
-      return VERBOSE_DART_CELL_TEXT[this.multiplier];
-    }
-
-    return `${VERBOSE_DART_CELL_TEXT[this.multiplier]} ${this.number}`;
-  }
-
-  public static Triple(number: number) {
-    return new Hit(number, 3);
-  }
-
-  public static Double(number: number) {
-    return new Hit(number, 5);
-  }
-
-  public static Single(number: number) {
-    return new Hit(number, 4);
-  }
-}
-
-export enum DartCell {
-  SingleInner = 2,
-  SingleOuter = 4,
-  Double = 5,
-  Triple = 3,
-  OuterBullsEye = 1,
-  InnererBullsEye = 0,
-}
-
-export const DART_CELL_TEXT = {
-  [DartCell.SingleInner]: 'single',
-  [DartCell.SingleOuter]: 'single',
-  [DartCell.Double]: 'double',
-  [DartCell.Triple]: 'triple',
-  [DartCell.OuterBullsEye]: 'outer bulls eye',
-  [DartCell.InnererBullsEye]: 'inner bulls eye',
-}
-
-export const VERBOSE_DART_CELL_TEXT = {
-  [DartCell.SingleInner]: 'single inner',
-  [DartCell.SingleOuter]: 'single outer',
-  [DartCell.Double]: 'double',
-  [DartCell.Triple]: 'triple',
-  [DartCell.OuterBullsEye]: 'outer bulls eye',
-  [DartCell.InnererBullsEye]: 'inner bulls eye',
 }

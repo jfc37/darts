@@ -1,7 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { BoardComponent, Hit } from "../../../components/board/board.component";
+import { BoardComponent } from "../../../components/board/board.component";
 import { KillerTarget } from '../../../services/killer-game.service';
 import { CommonModule } from '@angular/common';
+import { Hit } from '../../../domain-objects/hit';
 
 @Component({
   selector: 'app-play-killer',
