@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { PlayerComponent } from "../../../components/player/player.component";
-import { Player } from '../../../services/target-practice-game.service';
-import { AnalyticsService } from '../../../services/analytics.service';
-import { TargetPracticeScoreCardComponent } from "../target-practice-score-card/target-practice-score-card.component";
+import { PlayerComponent } from "../player/player.component";
+import { Player } from '../../services/target-practice-game.service';
+import { AnalyticsService } from '../../services/analytics.service';
+import { StandardScoreCardComponent } from "../standard-score-card/standard-score-card.component";
 
 @Component({
   selector: 'app-game-over',
-  imports: [PlayerComponent, TargetPracticeScoreCardComponent],
+  imports: [PlayerComponent, StandardScoreCardComponent],
   templateUrl: './game-over.component.html',
   styleUrl: './game-over.component.scss'
 })

@@ -1,43 +1,29 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { GameStat, HitPoint, Player } from '../../../services/target-practice-game.service';
-import { Hit, BoardComponent } from '../../../components/board/board.component';
-import { PlayerComponent } from "../../../components/player/player.component";
-import { TargetPracticeScoreCardComponent } from "../target-practice-score-card/target-practice-score-card.component";
-import { NumberTotalPipe } from "../stats/stats.component";
+import { GameStat, HitPoint, Player } from '../../services/target-practice-game.service';
+import { Hit, BoardComponent } from '../board/board.component';
+import { PlayerComponent } from "../player/player.component";
+import { StandardScoreCardComponent } from "../standard-score-card/standard-score-card.component";
+import { NumberTotalPipe } from '../../pipes/number-total.pipe';
 
 @Component({
-  selector: 'app-play-target-practice',
-  imports: [PlayerComponent, BoardComponent, TargetPracticeScoreCardComponent, NumberTotalPipe],
-  templateUrl: './play-target-practice.component.html',
-  styleUrl: './play-target-practice.component.scss'
+  selector: 'app-play-round',
+  imports: [PlayerComponent, BoardComponent, StandardScoreCardComponent, NumberTotalPipe],
+  templateUrl: './play-round.component.html',
+  styleUrl: './play-round.component.scss'
 })
-export class PlayTargetPracticeComponent {
+export class PlayRoundComponent {
   @Input()
   public players!: Player[];
 
   @Input() round!: number;
 
-  @Output() public hits = new EventEmitter<Hit[]>();
-
-  @ViewChild('confirmDialog', { static: true })
-  public dialog!: ElementRef<HTMLDialogElement>;
-
-  public recentRoundStats: { [key: number]: RecentScores };
-  public heatMap: { [key: number]: HitPoint[] } = {};
-
-  public get colouredNumbers() {
-    return {
-      [this.round]: ACTIVE_NUMBER_COLOUR
+  @Input()
+  public set localStorageName(name: string) {
+    if (!name) {
+      return;
     }
-  }
 
-  public recordedHits: Hit[] = [];
-  public get numbersHitThisTurn() {
-    return this.recordedHits.map(x => x.number).join(', ')
-  }
-
-  constructor() {
-    const existingGameStat = localStorage.getItem('game');
+    const existingGameStat = localStorage.getItem(name);
     const stats: GameStat = existingGameStat ? JSON.parse(existingGameStat) : { totalHits: [], rounds: [] };
 
     this.recentRoundStats = stats.rounds.reduce((allRounds, round) => ({
@@ -55,6 +41,25 @@ export class PlayTargetPracticeComponent {
       ...map,
       [round.round]: (round.points || []).slice(0, 15)
     }), {});
+  }
+
+  @Output() public hits = new EventEmitter<Hit[]>();
+
+  @ViewChild('confirmDialog', { static: true })
+  public dialog!: ElementRef<HTMLDialogElement>;
+
+  public recentRoundStats: { [key: number]: RecentScores } = {};
+  public heatMap: { [key: number]: HitPoint[] } = {};
+
+  public get colouredNumbers() {
+    return {
+      [this.round]: ACTIVE_NUMBER_COLOUR
+    }
+  }
+
+  public recordedHits: Hit[] = [];
+  public get numbersHitThisTurn() {
+    return this.recordedHits.map(x => x.toVerboseDisplayText()).join(', ')
   }
 
   public recordHit(hit: Hit) {

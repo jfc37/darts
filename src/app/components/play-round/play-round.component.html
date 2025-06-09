@@ -18,7 +18,7 @@
 
 <app-board [points]="heatMap[round]" [colouredSections]="colouredNumbers" (hit)="recordHit($event)"></app-board>
 <div class="large-top-spacing"></div>
-<app-target-practice-score-card [players]="players"></app-target-practice-score-card>
+<app-standard-score-card [players]="players"></app-standard-score-card>
 
 <dialog #confirmDialog class="nes-dialog" id="dialog-default">
     <form method="dialog">

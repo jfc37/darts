@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { Player } from '../../../services/target-practice-game.service';
-import { PlayerComponent } from '../../../components/player/player.component';
+import { Player } from '../../services/target-practice-game.service';
+import { PlayerComponent } from '../player/player.component';
 
 @Component({
-  selector: 'app-target-practice-score-card',
+  selector: 'app-standard-score-card',
   imports: [PlayerComponent],
-  templateUrl: './target-practice-score-card.component.html',
-  styleUrl: './target-practice-score-card.component.scss'
+  templateUrl: './standard-score-card.component.html',
+  styleUrl: './standard-score-card.component.scss'
 })
-export class TargetPracticeScoreCardComponent {
+export class StandardScoreCardComponent {
   @Input()
   public players!: Player[];
 

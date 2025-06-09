@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Hit } from '../components/board/board.component';
+import { DartCell, Hit } from '../components/board/board.component';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,7 @@ export class TargetPracticeGame {
   }
 
   public setPlayers(players: string[]) {
-    this.players = players.map(player => Player.NewPlayer(player));
+    this.players = players.map(player => Player.NewPlayer(player, targetPracticeHit));
     this.players[0].isActive = true;
     this.phase = TargetPracticeGamePhase.Play;
   }
@@ -73,13 +73,17 @@ export class Player {
   public name: string;
   public isActive: boolean = false;
   public rounds: Round[] = [];
+  private _didHitFunction: (hit: Hit, hole: number) => boolean;
 
-  private constructor(name: string) {
+  private constructor(
+    name: string,
+    didHitFunction: (hit: Hit, hole: number) => boolean) {
     this.name = name;
+    this._didHitFunction = didHitFunction;
   }
 
   public recordRound(hits: Hit[], round: number) {
-    this.rounds.push(new Round(round, hits));
+    this.rounds.push(new Round(round, hits, this._didHitFunction));
   }
 
   public get score(): string {
@@ -105,8 +109,8 @@ export class Player {
 
   }
 
-  static NewPlayer(name: string): Player {
-    return new Player(name);
+  static NewPlayer(name: string, didHitFunction: (hit: Hit, hole: number) => boolean): Player {
+    return new Player(name, didHitFunction);
   }
 }
 
@@ -114,22 +118,39 @@ export class Round {
   public hole: number;
   private _hits: Hit[];
 
-  constructor(hole: number, hits: Hit[]) {
+  private _didHitFunction: (hit: Hit, hole: number) => boolean;
+
+  constructor(
+    hole: number,
+    hits: Hit[],
+    didHitFunction: (hit: Hit, hole: number) => boolean) {
     this.hole = hole;
     this._hits = hits;
+    this._didHitFunction = didHitFunction;
   }
 
   public get misses(): number {
-    return this._hits.filter(x => x.number != this.hole).length;
+    return this._hits.filter(x => !this._didHitFunction(x, this.hole)).length;
   }
 
   public get makes(): number {
-    return this._hits.filter(x => x.number == this.hole).length;
+    return this._hits.filter(x => this._didHitFunction(x, this.hole)).length;
   }
 
   public get points(): HitPoint[] {
     return this._hits.map(hit => hit.point!);
   }
+}
+
+export function targetPracticeHit(hit: Hit, hole: number): boolean {
+  return hit.number === hole;
+}
+
+export function multiplierPracticeHit(hit: Hit, hole: number): boolean {
+  const hitRightNumber = hit.number === hole;
+  const hitMultiplier = [DartCell.Double, DartCell.Triple].includes(hit.multiplier);
+
+  return hitRightNumber && hitMultiplier;
 }
 
 /**
@@ -150,7 +171,7 @@ export enum TargetPracticeGamePhase {
 }
 
 
-const TOTAL_ROUNDS = 20;
+const TOTAL_ROUNDS = 2;
 
 export interface GameStat {
   totalHits: number[];
@@ -178,7 +199,7 @@ function updateGameStats(players: Player[]) {
       const existingRoundStat = gameStats.rounds.find(x => x.round == round.hole);
       if (existingRoundStat) {
         existingRoundStat.hits = [round.makes, ...existingRoundStat.hits];
-        existingRoundStat.points = [...round.points, ...existingRoundStat.points];
+        existingRoundStat.points = [...round.points, ...(existingRoundStat.points || [])];
       } else {
         gameStats.rounds.push({ round: round.hole, hits: [round.makes], points: round.points });
       }

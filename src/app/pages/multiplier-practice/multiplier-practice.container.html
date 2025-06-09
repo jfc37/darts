@@ -1,9 +1,9 @@
 <section class="nes-container is-rounded with-title">
-    <p class="title">Target Practice</p>
+    <p class="title">Multiplier Practice</p>
     @if (game.phase == 'select-players') {
     <app-select-players (playersSelected)="setPlayers($event)"></app-select-players>
     } @else if (game.phase == 'play') {
-    <app-play-round [round]="game.round" [players]="game.players" localStorageName="game"
+    <app-play-round [round]="game.round" [players]="game.players" localStorageName="multiplierGame"
         (hits)="handleHits($event)"></app-play-round>
     } @else if (game.phase == 'game-over') {
     <app-game-over [players]="game.players" (startNewGame)="handleNewGame()"></app-game-over>
@@ -15,4 +15,4 @@
     <pre>{{game | json}}</pre>
 </details>
 
-<app-stats localStorageName="game"></app-stats>
+<app-stats localStorageName="multiplierGame"></app-stats>

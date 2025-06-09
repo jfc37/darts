@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { TargetPracticeGame, TargetPracticeGameService } from '../../services/target-practice-game.service';
 import { CommonModule } from '@angular/common';
 import { SelectPlayersComponent } from '../../components/select-players/select-players.component';
-import { PlayRoundComponent } from "../../components/play-round/play-round.component";
 import { Hit } from '../../components/board/board.component';
-import { GameOverComponent } from "../../components/game-over/game-over.component";
-import { StatsComponent } from "../../components/stats/stats.component";
+import { MultiplierPracticeGame, MultiplierPracticeGameService } from './multiplier-practice-game.service';
+import { StatsComponent } from '../../components/stats/stats.component';
+import { PlayRoundComponent } from '../../components/play-round/play-round.component';
+import { GameOverComponent } from '../../components/game-over/game-over.component';
 
 @Component({
-  selector: 'app-target-practice',
+  selector: 'app-multiplier-practice',
   imports: [CommonModule, SelectPlayersComponent, PlayRoundComponent, GameOverComponent, StatsComponent],
-  templateUrl: './target-practice.container.html',
-  styleUrl: './target-practice.container.scss'
+  templateUrl: './multiplier-practice.container.html',
+  styleUrl: './multiplier-practice.container.scss'
 })
-export class TargetPracticeContainer {
-  public game!: TargetPracticeGame;
+export class MultiplierPracticeContainer {
+  public game!: MultiplierPracticeGame;
 
-  constructor(private gameService: TargetPracticeGameService) { }
+  constructor(private gameService: MultiplierPracticeGameService) { }
 
   ngOnInit() {
     this.game = this.gameService.createGame();
