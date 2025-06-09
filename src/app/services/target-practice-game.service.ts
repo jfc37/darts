@@ -171,7 +171,7 @@ export enum TargetPracticeGamePhase {
 }
 
 
-const TOTAL_ROUNDS = 2;
+const TOTAL_ROUNDS = 20;
 
 export interface GameStat {
   totalHits: number[];
