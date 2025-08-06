@@ -24,6 +24,7 @@ export class KillerGame {
   public phase: KillerGamePhase = KillerGamePhase.EnterTeams;
 
   private _teamTurn = 1;
+  private _roundOfThrows = 1;
 
   public get currentTeam(): KillerTeam {
     return this._teamTurn == 1 ? this.team1 : this.team2;
@@ -100,7 +101,7 @@ export class KillerGame {
   }
 
   public hit(hits: Hit[]) {
-    this.currentTeam.currentThrowerStats.adjustStats(hits, this.currentTeam.targets, this.opponentTeam.targets);
+    this.currentTeam.currentThrowerStats.adjustStats(hits, this.currentTeam.targets, this.opponentTeam.targets, this._roundOfThrows);
 
     hits.forEach(hit => {
       const target = this.allTargets.flat().find(t => t.target === hit.number);
@@ -125,9 +126,162 @@ export class KillerGame {
   private changeCurrentTeam() {
     this.currentTeam.changeTurn();
     this._teamTurn = this._teamTurn == 1 ? 0 : 1;
+
+    if (this._teamTurn == 0) {
+      this._roundOfThrows++;
+    }
   }
 
 }
+
+/**
+ * Total number of health points removed from the opponent's targets
+ */
+function calculateAttackPoints(delta: TurnDelta): number {
+  return delta.opponent.reduce((total, target) => {
+    const damageDealt = target.before.health - target.after.health;
+    return total + damageDealt;
+  }, 0);
+}
+
+/**
+ * Total number of health points added back to own targets
+ */
+function calculateDefencePoints(delta: TurnDelta): number {
+  return delta.own.reduce((total, target) => {
+    const healthReceived = target.after.health - target.before.health;
+    return total + healthReceived;
+  }, 0);
+}
+
+/**
+ * Total number of attack and defence points combined
+ */
+function calculateTotalPoints(delta: TurnDelta): number {
+  return calculateAttackPoints(delta) + calculateDefencePoints(delta);
+}
+
+/**
+ * 1 if no points were scored in the turn, 0 otherwise
+ */
+function calculatePointlessTurn(delta: TurnDelta): number {
+  const noAttackPoints = calculateAttackPoints(delta) === 0;
+  const noDefencePoints = calculateDefencePoints(delta) === 0;
+  if (noAttackPoints && noDefencePoints) {
+    return 1;
+  }
+  return 0;
+}
+
+/**
+ * 1 if an opponent's target was hit from green to dead, 0 otherwise - 2 or 3 hits
+ */
+function calculateOmOmOms(delta: TurnDelta): number {
+  const greenToDead = delta.opponent.filter(t => t.before.health === 3 && t.after.health === 0);
+  if (greenToDead.length > 0) {
+    return 1
+  }
+  return 0;
+}
+
+/**
+ * 1 if an opponent's target was hit from green to dead, 0 otherwise - MUST BE WITH 3 HITS
+ */
+function calculateClassicOmOmOms(delta: TurnDelta, hits: Hit[]): number {
+  const greenToDead = delta.opponent.filter(t => t.before.health === 3 && t.after.health === 0);
+  if (greenToDead.length == 0) {
+    return 0;
+  }
+
+  const targetNumber = greenToDead[0].before.target;
+  const hitsOnTarget = hits.filter(h => h.number === targetNumber);
+  if (hitsOnTarget.length === 3) {
+    return 1;
+  }
+  return 0;
+}
+
+/**
+ * Number of opponent's targets that were killed in the turn
+ */
+function calculateKills(delta: TurnDelta): number {
+  return delta.opponent.filter(t => t.before.health > 0 && t.after.health === 0).length;
+}
+
+/**
+ * Number of opponent's targets that went from green to dead
+ */
+function calculateGreenToDead(delta: TurnDelta): number {
+  return delta.opponent.filter(t => t.before.health === 3 && t.after.health === 0).length;
+}
+
+/**
+ * Number of opponent's targets that went from orange to dead
+ */
+function calculateOrangeToDead(delta: TurnDelta): number {
+  return delta.opponent.filter(t => t.before.health === 2 && t.after.health === 0).length;
+}
+
+/**
+ * Number of opponent's targets that went from red to dead
+ */
+function calculateRedToDead(delta: TurnDelta): number {
+  return delta.opponent.filter(t => t.before.health === 1 && t.after.health === 0).length;
+}
+
+/**
+ * Number of opponent's targets that went from orange to red
+ */
+function calculateOrangeToRed(delta: TurnDelta): number {
+  return delta.opponent.filter(t => t.before.health === 2 && t.after.health === 1).length;
+}
+
+/**
+ * Number of opponent's targets that went from green to red
+ */
+function calculateGreenToRed(delta: TurnDelta): number {
+  return delta.opponent.filter(t => t.before.health === 3 && t.after.health === 1).length;
+}
+
+/**
+ * Number of opponent's targets that went from green to orange
+ */
+function calculateGreenToOrange(delta: TurnDelta): number {
+  return delta.opponent.filter(t => t.before.health === 3 && t.after.health === 2).length;
+}
+
+/**
+ * Number of own targets that went from red to green
+ */
+function calculateRedToGreen(delta: TurnDelta): number {
+  return delta.own.filter(t => t.before.health === 1 && t.after.health === 3).length;
+}
+
+/**
+ * Number of own targets that went from red to orange
+ */
+function calculateRedToOrange(delta: TurnDelta): number {
+  return delta.own.filter(t => t.before.health === 1 && t.after.health === 2).length;
+}
+
+/**
+ * Number of own targets that went from orange to green
+ */
+function calculateOrangeToGreen(delta: TurnDelta): number {
+  return delta.own.filter(t => t.before.health === 2 && t.after.health === 3).length;
+}
+
+interface TurnDelta {
+  own: {
+    before: KillerTarget;
+    after: KillerTarget;
+  }[];
+  opponent: {
+    before: KillerTarget;
+    after: KillerTarget;
+  }[];
+}
+
 
 export class PlayerStats {
   public player: string;
@@ -136,7 +290,6 @@ export class PlayerStats {
   public omOmOms = 0;
   public pointlessTurns = 0;
 
-  // TODO: implements these stats
   // Classic killer stats
   public totalPoints = 0;
   public classicOmOmOms = 0;
@@ -152,54 +305,63 @@ export class PlayerStats {
 
   // Colour changes - defending
   public redToGreen = 0;
-  public redToOrgane = 0;
+  public redToOrange = 0;
   public orangeToGreen = 0;
 
   // Averages
-  public pointsPerTurn = 0;
-  public pointsPerThrow = 0;
+  public pointsPerTurn = '0';
+  public pointsPerThrow = '0';
 
   constructor(player: string) {
     this.player = player;
   }
 
-  public adjustStats(hits: Hit[], ownTargets: KillerTarget[], opponentTargets: KillerTarget[]) {
-    const attackPoints = opponentTargets.reduce((total, target) => {
-      return hits.filter(x => x.number == target.target).reduce((innerTotal, hit) => {
-        const multipler = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
-        return innerTotal + target.getHitPoints(multipler);
-      }, total);
-    }, 0);
-    this.attackingPoints += attackPoints;
+  public adjustStats(hits: Hit[], ownTargets: KillerTarget[], opponentTargets: KillerTarget[], totalTurns: number) {
+    const clonedOwnTargets = ownTargets.map(t => t.Clone());
+    const clonedOpponentTargets = opponentTargets.map(t => t.Clone());
+    hits.forEach(hit => {
+      const multiplier = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
+      const ownTarget = clonedOwnTargets.find(t => t.target === hit.number);
+      if (ownTarget != null) {
+        ownTarget.Heal(multiplier);
+      }
 
-    const defendPoints = ownTargets.reduce((total, target) => {
-      return hits.filter(x => x.number == target.target).reduce((innerTotal, hit) => {
-        const multipler = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
-        return innerTotal + target.getHealPoints(multipler);
-      }, total);
-    }, 0)
-    this.defendingPoints += defendPoints;
-
-    if (attackPoints + defendPoints == 0) {
-      this.pointlessTurns++;
+      const opponentTarget = clonedOpponentTargets.find(t => t.target === hit.number);
+      if (opponentTarget != null) {
+        opponentTarget.Hit(multiplier);
+      }
+    });
+    const changes = {
+      own: ownTargets.map(t => ({
+        before: t,
+        after: clonedOwnTargets.find(x => x.target === t.target)!
+      })),
+      opponent: opponentTargets.map(t => ({
+        before: t,
+        after: clonedOpponentTargets.find(x => x.target === t.target)!
+      }))
     }
 
-    const omOmOms = opponentTargets.reduce((total, target) => {
-      if (target.health < 3) {
-        return total;
-      }
+    this.attackingPoints += calculateAttackPoints(changes);
+    this.defendingPoints += calculateDefencePoints(changes);
+    this.totalPoints += calculateTotalPoints(changes);
 
-      const damage = hits.filter(x => x.number == target.target).reduce((innerTotal, hit) => {
-        const multipler = [DartCell.Double, DartCell.Triple].includes(hit.multiplier) ? HitMultiplier.Double : HitMultiplier.Single;
-        return innerTotal + target.getHitPoints(multipler);
-      }, 0);
-      if (damage >= 3) {
-        return total + 1;
-      } else {
-        return total;
-      }
-    }, 0);
-    this.omOmOms += omOmOms;
+    this.pointlessTurns += calculatePointlessTurn(changes);
+    this.omOmOms += calculateOmOmOms(changes);
+    this.classicOmOmOms += calculateClassicOmOmOms(changes, hits);
+    this.kills += calculateKills(changes);
+    this.greenToDead += calculateGreenToDead(changes);
+    this.orangeToDead += calculateOrangeToDead(changes);
+    this.redToDead += calculateRedToDead(changes);
+    this.orangeToRed += calculateOrangeToRed(changes);
+    this.greenToRed += calculateGreenToRed(changes);
+    this.greenToOrange += calculateGreenToOrange(changes);
+    this.redToGreen += calculateRedToGreen(changes);
+    this.redToOrange += calculateRedToOrange(changes);
+    this.orangeToGreen += calculateOrangeToGreen(changes);
+
+    this.pointsPerTurn = (this.totalPoints / totalTurns).toFixed(3);
+    this.pointsPerThrow = (this.totalPoints / (totalTurns * THROWS_PER_TURN)).toFixed(3);
   }
 }
 
@@ -208,6 +370,10 @@ export class PlayerStats {
  */
 export class KillerTeam {
   public readonly id: number;
+
+  public get colour(): string {
+    return TeamColours.getForTeam(this.id);
+  }
 
   /**
    * Name of the team
@@ -325,6 +491,12 @@ export class KillerTarget {
   private constructor(target: number, colour: string) {
     this.target = target;
     this.colour = colour;
+  }
+
+  public Clone(): KillerTarget {
+    const clone = new KillerTarget(this.target, this.colour);
+    clone.health = this.health;
+    return clone;
   }
 
   public getHitPoints(type: HitMultiplier): number {

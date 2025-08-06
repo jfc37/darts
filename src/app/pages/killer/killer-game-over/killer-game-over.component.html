@@ -37,13 +37,13 @@
 <button (click)="playAgainClicked()" type="button" class="nes-btn is-primary large-bottom-spacing">Rematch</button>
 
 
+<h2>Points</h2>
 <div class="nes-table-responsive">
     <table class="nes-table is-bordered is-centered">
         <thead>
             <tr>
                 <th></th>
-                <th>1st <i class="nes-icon trophy"></i>
-                </th>
+                <th>1st <i class="nes-icon trophy"></i></th>
                 <th>2nd</th>
                 <th>3rd</th>
                 <th>4th</th>
@@ -55,8 +55,7 @@
                 @for (award of attackingOrder; track $index)
                 {
                 <td>
-                    <div class="award">
-                        <app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
                     </div>
                 </td>
                 }
@@ -66,21 +65,7 @@
                 @for (award of defendingOrder; track $index)
                 {
                 <td>
-
-                    <div class="award">
-                        <app-player [player]="award.player" [displayName]="award.text"></app-player>
-                    </div>
-                </td>
-                }
-            </tr>
-            <tr>
-                <td>Om Om Oms</td>
-                @for (award of omOmOmOrder; track $index)
-                {
-                <td>
-
-                    <div class="award">
-                        <app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
                     </div>
                 </td>
                 }
@@ -90,9 +75,197 @@
                 @for (award of pointlessOrder; track $index)
                 {
                 <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Total Points</td>
+                @for (award of totalPointsOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-                    <div class="award">
-                        <app-player [player]="award.player" [displayName]="award.text"></app-player>
+
+<h2>Cold Blooded Killers</h2>
+<div class="nes-table-responsive">
+    <table class="nes-table is-bordered is-centered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>1st <i class="nes-icon trophy"></i></th>
+                <th>2nd</th>
+                <th>3rd</th>
+                <th>4th</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total Kills</td>
+                @for (award of killsOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Classic Om Om Oms</td>
+                @for (award of classicOmOmOmsOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Green → Dead</td>
+                @for (award of greenToDeadOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Orange → Dead</td>
+                @for (award of orangeToDeadOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Red → Dead</td>
+                @for (award of redToDeadOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Ultimate Defenders</h2>
+<div class="nes-table-responsive">
+    <table class="nes-table is-bordered is-centered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>1st <i class="nes-icon trophy"></i></th>
+                <th>2nd</th>
+                <th>3rd</th>
+                <th>4th</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Red → Green</td>
+                @for (award of redToGreenOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Red → Orange</td>
+                @for (award of redToOrangeOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<h2>On The Offensive</h2>
+<div class="nes-table-responsive">
+    <table class="nes-table is-bordered is-centered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>1st <i class="nes-icon trophy"></i></th>
+                <th>2nd</th>
+                <th>3rd</th>
+                <th>4th</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Orange → Red</td>
+                @for (award of orangeToRedOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Green → Red</td>
+                @for (award of greenToRedOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Numbers To Hurt Your Feelings</h2>
+<div class="nes-table-responsive">
+    <table class="nes-table is-bordered is-centered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>1st <i class="nes-icon trophy"></i></th>
+                <th>2nd</th>
+                <th>3rd</th>
+                <th>4th</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Points Per Turn</td>
+                @for (award of pointsPerTurnOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Points Per Throw</td>
+                @for (award of pointsPerThrowOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
                     </div>
                 </td>
                 }

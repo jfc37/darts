@@ -56,6 +56,119 @@ export class KillerGameOverComponent {
       }))
   }
 
+  public get totalPointsOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.totalPoints - a.totalPoints)
+      .map(player => ({
+        player: player.player,
+        text: `${player.totalPoints}`
+      }));
+  }
+
+  public get classicOmOmOmsOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.classicOmOmOms - a.classicOmOmOms)
+      .map(player => ({
+        player: player.player,
+        text: `${player.classicOmOmOms}`
+      }));
+  }
+
+  public get killsOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.kills - a.kills)
+      .map(player => ({
+        player: player.player,
+        text: `${player.kills}`
+      }));
+  }
+
+  public get greenToDeadOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.greenToDead - a.greenToDead)
+      .map(player => ({
+        player: player.player,
+        text: `${player.greenToDead}`
+      }));
+  }
+
+  public get orangeToDeadOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.orangeToDead - a.orangeToDead)
+      .map(player => ({
+        player: player.player,
+        text: `${player.orangeToDead}`
+      }));
+  }
+
+  public get redToDeadOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.redToDead - a.redToDead)
+      .map(player => ({
+        player: player.player,
+        text: `${player.redToDead}`
+      }));
+  }
+
+  public get orangeToRedOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.orangeToRed - a.orangeToRed)
+      .map(player => ({
+        player: player.player,
+        text: `${player.orangeToRed}`
+      }));
+  }
+
+  public get greenToRedOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.greenToRed - a.greenToRed)
+      .map(player => ({
+        player: player.player,
+        text: `${player.greenToRed}`
+      }));
+  }
+
+  public get greenToOrangeOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.greenToOrange - a.greenToOrange)
+      .map(player => ({
+        player: player.player,
+        text: `${player.greenToOrange}`
+      }));
+  }
+
+  public get redToGreenOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.redToGreen - a.redToGreen)
+      .map(player => ({
+        player: player.player,
+        text: `${player.redToGreen}`
+      }));
+  }
+
+  public get redToOrangeOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.redToOrange - a.redToOrange)
+      .map(player => ({
+        player: player.player,
+        text: `${player.redToOrange}`
+      }));
+  }
+
+  public get orangeToGreenOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => b.orangeToGreen - a.orangeToGreen)
+      .map(player => ({
+        player: player.player,
+        text: `${player.orangeToGreen}`
+      }));
+  }
+
+  public get pointsPerTurnOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => parseFloat(b.pointsPerTurn) - parseFloat(a.pointsPerTurn))
+      .map(player => ({
+        player: player.player,
+        text: `${player.pointsPerTurn}`
+      }));
+  }
+
+  public get pointsPerThrowOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => parseFloat(b.pointsPerThrow) - parseFloat(a.pointsPerThrow))
+      .map(player => ({
+        player: player.player,
+        text: `${player.pointsPerThrow}`
+      }));
+  }
+
+
   constructor(private analytics: AnalyticsService) { }
 
   public ngOnInit() {
