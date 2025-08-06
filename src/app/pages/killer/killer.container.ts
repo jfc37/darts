@@ -58,6 +58,10 @@ export class KillerContainer {
     // this.game.hit([Hit.Triple(4), Hit.Triple(15), Hit.Triple(15)]);
   }
 
+  public switchTeamColours() {
+    this.game.switchTeamColours();
+  }
+
   public setPlayers(players: string[]) {
     this.game.setPlayers(players);
   }

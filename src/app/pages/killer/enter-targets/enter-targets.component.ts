@@ -1,8 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { BoardComponent } from "../../../components/board/board.component";
 import { CommonModule } from '@angular/common';
-import { TEAM_COLOURS } from '../../../services/killer-game.service';
 import { Hit } from '../../../domain-objects/hit';
+import { TeamColours } from '../../../domain-objects/team-colours';
 
 @Component({
   selector: 'app-enter-targets',
@@ -41,8 +41,8 @@ export class EnterTargetsComponent {
 
   public get colouredNumbers() {
     return {
-      ...this.teamTargets[0].reduce((accum, target) => ({ ...accum, [target]: TEAM_COLOURS[0] }), {}),
-      ...this.teamTargets[1].reduce((accum, target) => ({ ...accum, [target]: TEAM_COLOURS[1] }), {}),
+      ...this.teamTargets[0].reduce((accum, target) => ({ ...accum, [target]: TeamColours.getForTeam(0) }), {}),
+      ...this.teamTargets[1].reduce((accum, target) => ({ ...accum, [target]: TeamColours.getForTeam(1) }), {}),
       ...this.recordedNumbers.reduce((accum, target) => ({ ...accum, [target]: this.teamColour }), {}),
     }
   }

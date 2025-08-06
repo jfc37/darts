@@ -18,8 +18,12 @@
 
     </div>
 </section>
+<section class="swap-teams-container large-bottom-spacing">
+    <button class="nes-btn" type="button" (click)="swapColours()">Swap Team Colours</button>
+</section>
 
 <app-character-selection (characterSelected)="handleCharacterSelected($event)"></app-character-selection>
+
 
 <dialog #confirmDialog class="nes-dialog" id="dialog-default">
     <form method="dialog">

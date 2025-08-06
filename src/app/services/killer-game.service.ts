@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Hit } from '../domain-objects/hit';
 import { DartCell } from '../domain-objects/dart-cell';
+import { TeamColours } from '../domain-objects/team-colours';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,7 @@ export class KillerGame {
   }
 
   public get currentTeamColour(): string {
-    return this.currentTeam.colour;
+    return TeamColours.getForTeam(this.currentTeam.id);
   }
 
   public get nameOfCurrentPlayer(): string {
@@ -68,6 +69,10 @@ export class KillerGame {
     this.team2.addPlayers(players[2], players[3]);
 
     this.phase = KillerGamePhase.EnterTargets;
+  }
+
+  public switchTeamColours() {
+    TeamColours.toggleColours();
   }
 
   /**
@@ -130,6 +135,29 @@ export class PlayerStats {
   public defendingPoints = 0;
   public omOmOms = 0;
   public pointlessTurns = 0;
+
+  // TODO: implements these stats
+  // Classic killer stats
+  public totalPoints = 0;
+  public classicOmOmOms = 0;
+  public kills = 0;
+
+  // Colour changes - attacking
+  public greenToDead = 0;
+  public orangeToDead = 0;
+  public redToDead = 0;
+  public orangeToRed = 0;
+  public greenToRed = 0;
+  public greenToOrange = 0;
+
+  // Colour changes - defending
+  public redToGreen = 0;
+  public redToOrgane = 0;
+  public orangeToGreen = 0;
+
+  // Averages
+  public pointsPerTurn = 0;
+  public pointsPerThrow = 0;
 
   constructor(player: string) {
     this.player = player;
@@ -199,8 +227,6 @@ export class KillerTeam {
     return this._turn == 1 ? this.firstThrowerStats : this.secondThrowerStats;
   }
 
-  public readonly colour: string;
-
   /**
    * The targets the team has to protect
    */
@@ -230,7 +256,6 @@ export class KillerTeam {
 
   private constructor(name: string, id: number) {
     this.name = name;
-    this.colour = TEAM_COLOURS[id];
     this.id = id;
   }
 
@@ -249,7 +274,7 @@ export class KillerTeam {
       throw new Error('Target already exists');
     }
 
-    newTargets.forEach(target => this.targets.push(KillerTarget.Create(target, this.colour)));
+    newTargets.forEach(target => this.targets.push(KillerTarget.Create(target, TeamColours.getForTeam(this.id))));
   }
 
   public addPlayers(firstThrower: string, secondThrower: string) {
@@ -276,11 +301,6 @@ export class KillerTeam {
     return new KillerTeam(name, teamNumber);
   }
 }
-
-export const TEAM_COLOURS = [
-  '#0094C6',
-  '#A14A76'
-]
 
 /**
  * Represents a number in the game of killer
