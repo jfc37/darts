@@ -2,6 +2,7 @@ import { Theme } from '../theme';
 import { PolarPoint } from '../utils';
 import { Board } from './board';
 import { drawHits } from './draw-hits';
+import { drawInnerTexts } from './draw-inner-text';
 import { drawNumbers } from './draw-numbers';
 import { drawSectors } from './draw-sectors';
 import { drawWire } from './draw-wire';
@@ -21,5 +22,6 @@ export const drawBoard = (
   drawSectors(board, theme, context);
   drawWire(board, theme, context);
   drawNumbers(board, theme, context);
+  drawInnerTexts(board, theme, context);
   drawHits(theme, context, hits);
 };

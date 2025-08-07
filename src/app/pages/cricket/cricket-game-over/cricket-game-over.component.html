@@ -1,0 +1,42 @@
+<section class="match-up large-bottom-spacing">
+    <div class="nes-container with-title" [style.background-color]="winningTeam.colour">
+        <p class="title">Winners </p>
+        <div class="team-group">
+            <div class="player">
+                <app-player [player]="winningTeam.firstThrower"></app-player>
+                <i class="nes-icon trophy is-large"></i>
+
+
+            </div>
+            <div class="player">
+                <app-player [player]="winningTeam.secondThrower"></app-player>
+                <i class="nes-icon trophy is-large"></i>
+
+            </div>
+        </div>
+        <div class="score">
+            {{winningScore}}
+        </div>
+    </div>
+
+    <div>vs</div>
+
+    <div class="nes-container with-title" [style.background-color]="losingTeam.colour">
+        <p class="title">Losers</p>
+        <div class="team-group">
+            <div class="player">
+                <app-player [player]="losingTeam.firstThrower"></app-player>
+                <i class="nes-icon close is-large"></i>
+            </div>
+            <div class="player">
+                <app-player [player]="losingTeam.secondThrower"></app-player>
+                <i class="nes-icon close is-large"></i>
+            </div>
+        </div>
+        <div class="score">
+            {{losingScore}}
+        </div>
+    </div>
+</section>
+
+<button (click)="playAgainClicked()" type="button" class="nes-btn is-primary large-bottom-spacing">Rematch</button>

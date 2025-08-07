@@ -1,0 +1,19 @@
+<section class="nes-container is-rounded with-title">
+    <p class="title">Cricket</p>
+    @if (game.phase == 'enter-teams') {
+    <app-team-selection (playersSelected)="setPlayers($event)"
+        (switchTeamColours)="switchTeamColours()"></app-team-selection>
+    } @else if (game.phase == 'play') {
+    <app-play-cricket [team]="game.nameOfCurrentTeam" [teamColour]="game.currentTeamColour"
+        [player]="game.nameOfCurrentPlayer" [targets]="game.targets" (hits)="handleHits($event)"
+        (forfeit)="forfeit()"></app-play-cricket>
+    } @else if (game.phase == 'game-over') {
+    <app-cricket-game-over [teamOne]="game.team1" [teamTwo]="game.team2" [targets]="game.targets"
+        (startNewGame)="handleNewGame()"></app-cricket-game-over>
+    }
+</section>
+
+<details class="large-top-spacing">
+    <summary>Debugging</summary>
+    <pre>{{game | json}}</pre>
+</details>

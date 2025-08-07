@@ -5,12 +5,18 @@ import { GolfContainer } from './pages/golf/golf.container';
 import { TargetPracticeContainer } from './pages/target-practice/target-practice.container';
 import { TeamGolfContainer } from './pages/team-golf/team-golf.container';
 import { MultiplierPracticeContainer } from './pages/multiplier-practice/multiplier-practice.container';
+import { CricketContainer } from './pages/cricket/cricket.container';
 
 export const routes: Routes = [
     {
         path: '',
         component: GameSelectionContainer,
         title: 'Darts | Game Selection'
+    },
+    {
+        path: 'cricket',
+        component: CricketContainer,
+        title: 'Darts | Cricket'
     },
     {
         path: 'golf',

@@ -29,8 +29,8 @@ export const drawSectors = (
   }
 
   // Draw the bullseye
-  const c1 = theme.sectorBackground[(1 % 2) * 2 + 1];
-  const c2 = theme.sectorBackground[(0 % 2) * 2 + 1];
+  const c1 = board.outerBullseyeColour ?? theme.sectorBackground[(1 % 2) * 2 + 1];
+  const c2 = board.innerBullseyeColour ?? theme.sectorBackground[(0 % 2) * 2 + 1];
   context.fillStyle = c1;
   context.beginPath();
   context.moveTo(0, 0);

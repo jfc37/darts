@@ -8,6 +8,9 @@ export interface Board {
   sectors: number[];
   sectorColours: { [key: string]: string };
   tripleColours: { [key: string]: string };
+  outerBullseyeColour?: string;
+  innerBullseyeColour?: string;
+  innerText: { [key: string]: { text: string, colour: string, shouldRotate: boolean }[] };
 }
 
 export const createBoard = () => ({
@@ -24,7 +27,8 @@ export const createBoard = () => ({
     20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5,
   ],
   sectorColours: {},
-  tripleColours: {}
+  tripleColours: {},
+  innerText: {},
 });
 
 export const radiansToDegrees = (radians: number): number =>

@@ -1,0 +1,36 @@
+<section class="match-up large-bottom-spacing">
+    <div class="nes-container with-title" [style.background-color]="team1Colour">
+        <p class="title">Team 1</p>
+        <div class="team-group">
+            <app-player [player]="avatars[0]" displayName="P1" [pulse]="selectingPlayer == 1"></app-player>
+            <app-player [player]="avatars[1]" displayName="P2" [pulse]="selectingPlayer == 2"></app-player>
+        </div>
+    </div>
+
+    <div>vs</div>
+
+    <div class="nes-container with-title" [style.background-color]="team2Colour">
+        <p class="title">Team 2</p>
+        <div class="team-group">
+            <app-player [player]="avatars[2]" displayName="P3" [pulse]="selectingPlayer == 3"></app-player>
+            <app-player [player]="avatars[3]" displayName="P4" [pulse]="selectingPlayer == 4"></app-player>
+        </div>
+
+    </div>
+</section>
+<section class="swap-teams-container large-bottom-spacing">
+    <button class="nes-btn" type="button" (click)="swapColours()">Swap Team Colours</button>
+</section>
+
+<app-character-selection (characterSelected)="handleCharacterSelected($event)"></app-character-selection>
+
+
+<dialog #confirmDialog class="nes-dialog" id="dialog-default">
+    <form method="dialog">
+        <p>Happy with these teams?</p>
+        <div class="dialog-menu">
+            <button (click)="resetPlayers()" class="nes-btn">No</button>
+            <button (click)="confirmPlayers()" class="nes-btn is-primary">Yes</button>
+        </div>
+    </form>
+</dialog>

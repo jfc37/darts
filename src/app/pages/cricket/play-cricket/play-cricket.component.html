@@ -1,0 +1,49 @@
+<div class="nes-container with-title small-bottom-spacing" [style.background-color]="teamColour">
+    <p class="title">{{team}}</p>
+    <div class="throwing-wrapper">
+        <div class="player">
+            <img class="nes-avatar is-rounded is-large" alt="Player" [src]="player" style="image-rendering: pixelated;">
+        </div>
+        <div class="throws">
+            <div [ngClass]="{'pulse': recordedHits.length == 0}">
+                <i [ngClass]="{'is-transparent': recordedHits.length > 0}"
+                    class="nes-icon is-large is-transparent heart"></i>
+            </div>
+            <div [ngClass]="{'pulse': recordedHits.length == 1}">
+                <i [ngClass]="{'is-transparent': recordedHits.length > 1}"
+                    class="nes-icon is-large is-transparent heart"></i>
+            </div>
+            <div [ngClass]="{'pulse': recordedHits.length == 2}">
+                <i [ngClass]="{'is-transparent': recordedHits.length > 2}"
+                    class="nes-icon is-large is-transparent heart"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-board [colouredSections]="colouredNumbers" [colouredTriples]="colouredNumbers" [innerTexts]="marks"
+    [outerBullseyeColour]="bullseyeColour" [innerBullseyeColour]="bullseyeColour" (hit)="recordHit($event)"></app-board>
+
+<button type="button" class="nes-btn is-warning" (click)="forfeitClicked()">FORFEIT</button>
+
+<dialog #confirmDialog class="nes-dialog" id="dialog-default">
+    <form method="dialog">
+        <p>Numbers hit: {{numbersHitThisTurn}}</p>
+        <p>Happy with these numbers?</p>
+        <div class="dialog-menu">
+            <button (click)="resetTargets()" class="nes-btn">No</button>
+            <button (click)="confirmTargets()" class="nes-btn is-primary">Yes</button>
+        </div>
+    </form>
+</dialog>
+
+<dialog #confirmForfeitDialog class="nes-dialog" id="dialog-default">
+    <form method="dialog">
+        <p>Are you sure you want to forfeit?</p>
+        <p>Are we sure this isn't a classic Andy cock up?</p>
+        <div class="dialog-menu">
+            <button class="nes-btn">Oops, fucking Andy</button>
+            <button (click)="confirmForfeit()" class="nes-btn is-primary">Yes, I accept defeat</button>
+        </div>
+    </form>
+</dialog>
