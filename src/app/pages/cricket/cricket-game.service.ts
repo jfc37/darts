@@ -71,6 +71,8 @@ export class CricketGame {
     }
 
     public hit(hits: Hit[]) {
+        this.currentTeam.currentThrowerStats.adjustStats(hits, this.targets, this._roundOfThrows);
+
         hits.forEach(hit => {
             const target = this.targets.find(t => t.target === hit.number);
             if (target != null) {
@@ -128,6 +130,12 @@ export class Team {
         return this._turn == 1 ? this.firstThrower : this.secondThrower;
     }
 
+    public firstThrowerStats!: PlayerStats;
+    public secondThrowerStats!: PlayerStats;
+    public get currentThrowerStats() {
+        return this._turn == 1 ? this.firstThrowerStats : this.secondThrowerStats;
+    }
+
     private constructor(name: string, id: number) {
         this.name = name;
         this.id = id;
@@ -137,6 +145,8 @@ export class Team {
     public addPlayers(firstThrower: string, secondThrower: string) {
         this.firstThrower = firstThrower;
         this.secondThrower = secondThrower;
+        this.firstThrowerStats = new PlayerStats(firstThrower, this.id);
+        this.secondThrowerStats = new PlayerStats(secondThrower, this.id);
     }
 
     public changeTurn() {
@@ -166,6 +176,15 @@ export class Target {
 
     public constructor(target: number) {
         this.target = target;
+    }
+
+    public Clone(): Target {
+        const clone = new Target(this.target);
+        clone.teamOneHits = this.teamOneHits;
+        clone.teamTwoHits = this.teamTwoHits;
+        clone.owningTeam = this.owningTeam;
+        clone.points = this.points;
+        return clone;
     }
 
     public get status(): TargetStatus {
@@ -205,7 +224,6 @@ export class Target {
             if (this.status === TargetStatus.OpenTeam1) {
                 this.points += points;
             } else {
-                console.error('bumping');
                 this.teamOneHits += points;
             }
         } else if (this.status === TargetStatus.OpenTeam2) {
@@ -228,6 +246,84 @@ export class Target {
             this.owningTeam = 2;
         }
     }
+}
+
+export class PlayerStats {
+    public player: string;
+    public points = 0;
+
+    // number of targets opened for scoring
+    public openers = 0;
+
+    // number of targets closed for scoring
+    public closers = 0;
+
+    public pointlessTurns = 0;
+
+    private team: number;
+
+    constructor(player: string, team: number) {
+        this.player = player;
+        this.team = team;
+    }
+
+    public adjustStats(hits: Hit[], targets: Target[], totalTurns: number) {
+        const clonedTargets = targets.map(t => t.Clone());
+        hits.forEach(hit => {
+            const target = clonedTargets.find(t => t.target === hit.number);
+            if (target != null) {
+                const points = hit.multiplier === DartCell.Triple ? 3 : hit.multiplier === DartCell.Double ? 2 : 1;
+
+                target.hit(this.team, points)
+            }
+
+            // Handle inner bullseye hits
+            if (hit.number === 50) {
+                const bulleyeTarget = clonedTargets.find(t => t.target === 25);
+                if (bulleyeTarget != null) {
+                    bulleyeTarget.hit(this.team, 2);
+                }
+            }
+        });
+
+        this.points += calculatePoints(targets, clonedTargets);
+        this.openers += calculateOpeners(targets, clonedTargets);
+        this.closers += calculateClosers(targets, clonedTargets);
+        this.pointlessTurns += calculatePointlessTurns(targets, clonedTargets);
+    }
+}
+
+function calculatePoints(before: Target[], after: Target[]): number {
+    const pointsBefore = before.reduce((sum, target) => sum + target.points, 0);
+    const pointsAfter = after.reduce((sum, target) => sum + target.points, 0);
+
+    return pointsAfter - pointsBefore;
+}
+
+function calculateOpeners(before: Target[], after: Target[]): number {
+    const availableBefore = before.filter(t => t.status === TargetStatus.Available).length;
+    const availableAfter = after.filter(t => t.status === TargetStatus.Available).length;
+
+    return availableBefore - availableAfter;
+}
+
+function calculateClosers(before: Target[], after: Target[]): number {
+    const closedBefore = before.filter(t => t.status === TargetStatus.Closed).length;
+    const closedAfter = after.filter(t => t.status === TargetStatus.Closed).length;
+
+    return closedAfter - closedBefore;
+}
+
+function calculatePointlessTurns(before: Target[], after: Target[]): number {
+    const pointsBefore = before.reduce((sum, target) => sum + target.points, 0);
+    const pointsAfter = after.reduce((sum, target) => sum + target.points, 0);
+    const noChangeInPoints = pointsAfter === pointsBefore;
+
+    const hitsBefore = before.reduce((sum, target) => sum + target.teamOneHits + target.teamTwoHits, 0);
+    const hitsAfter = after.reduce((sum, target) => sum + target.teamOneHits + target.teamTwoHits, 0);
+    const noChangeInHits = hitsAfter === hitsBefore;
+
+    return noChangeInPoints && noChangeInHits ? 1 : 0;
 }
 
 export enum TargetStatus {

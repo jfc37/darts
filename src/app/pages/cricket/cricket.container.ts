@@ -19,22 +19,25 @@ export class CricketContainer {
 
   public ngOnInit() {
     this.game = this.gameService.createGame();
-    this.game.setPlayers(["img/joe.jpg",
-      "img/andy.jpg",
-      "img/chris.jpg",
-      "img/rich.jpg"]);
+    // this.game.setPlayers(["img/joe.jpg",
+    //   "img/andy.jpg",
+    //   "img/chris.jpg",
+    //   "img/rich.jpg"]);
 
-    this.game.hit([Hit.Triple(20), Hit.Triple(19), Hit.Triple(18)]);
-    this.game.hit([Hit.Triple(15), Hit.Triple(16), Hit.Triple(17)]);
+    // this.game.hit([Hit.Triple(20), Hit.Triple(19), Hit.Triple(18)]);
+    // this.game.hit([Hit.Triple(15), Hit.Triple(16), Hit.Triple(17)]);
 
-    this.game.hit([Hit.Triple(20), Hit.Triple(19), Hit.Triple(18)]);
-    this.game.hit([Hit.Triple(15), Hit.Triple(16), Hit.Triple(17)]);
+    // this.game.hit([Hit.Triple(20), Hit.Triple(19), Hit.Triple(18)]);
+    // this.game.hit([Hit.Triple(15), Hit.Triple(16), Hit.Triple(17)]);
 
-    this.game.hit([Hit.Triple(15), Hit.Triple(16), Hit.Triple(17)]);
-    this.game.hit([Hit.Triple(20), Hit.Triple(19), Hit.Triple(18)]);
+    // this.game.hit([Hit.Triple(2), Hit.Triple(2), Hit.Triple(2)]);
+    // this.game.hit([Hit.Triple(2), Hit.Triple(2), Hit.Triple(2)]);
 
-    this.game.hit([Hit.Single(50), Hit.Single(25), Hit.Single(25)]);
-    this.game.hit([Hit.Single(25), Hit.Single(25), Hit.Single(25)]);
+    // this.game.hit([Hit.Triple(15), Hit.Triple(16), Hit.Triple(17)]);
+    // this.game.hit([Hit.Triple(20), Hit.Triple(19), Hit.Triple(18)]);
+
+    // this.game.hit([Hit.Single(50), Hit.Single(25), Hit.Single(25)]);
+    // this.game.hit([Hit.Single(25), Hit.Single(25), Hit.Single(25)]);
   }
 
   public switchTeamColours() {

@@ -21,14 +21,14 @@ export class CricketGameOverComponent {
 
   @Output() public startNewGame = new EventEmitter<void>();
 
-  // public get unorderedPlayerStats() {
-  //   return [
-  //     this.winningTeam?.firstThrowerStats,
-  //     this.winningTeam?.secondThrowerStats,
-  //     this.losingTeam?.firstThrowerStats,
-  //     this.losingTeam?.secondThrowerStats
-  //   ];
-  // }
+  public get unorderedPlayerStats() {
+    return [
+      this.winningTeam?.firstThrowerStats,
+      this.winningTeam?.secondThrowerStats,
+      this.losingTeam?.firstThrowerStats,
+      this.losingTeam?.secondThrowerStats
+    ];
+  }
 
   constructor(private analytics: AnalyticsService) { }
 
@@ -46,11 +46,43 @@ export class CricketGameOverComponent {
       this.winningScore = team2Score;
       this.losingScore = team1Score;
     }
-    // const winnerInfo = `Winners: ${this.winningTeam.firstThrower}/${this.winningTeam.secondThrower}`;
-    // const loserInfo = `Losers: ${this.losingTeam.firstThrower}/${this.losingTeam.secondThrower}`;
-    // const gameInfo = [winnerInfo, loserInfo].join(', ');
+    const winnerInfo = `Winners: ${this.winningTeam.firstThrower}/${this.winningTeam.secondThrower}`;
+    const loserInfo = `Losers: ${this.losingTeam.firstThrower}/${this.losingTeam.secondThrower}`;
+    const gameInfo = [winnerInfo, loserInfo].join(', ');
 
-    // this.analytics.trackEvent('GAME_COMPLETED', gameInfo, 'CRICKET')
+    this.analytics.trackEvent('GAME_COMPLETED', gameInfo, 'CRICKET')
+  }
+
+  public get pointsOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => a.points - b.points > 0 ? -1 : 1)
+      .map(player => ({
+        player: player.player,
+        text: `${player.points}`
+      }))
+  }
+
+  public get openersOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => a.openers - b.openers > 0 ? -1 : 1)
+      .map(player => ({
+        player: player.player,
+        text: `${player.openers}`
+      }))
+  }
+
+  public get closersOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => a.closers - b.closers > 0 ? -1 : 1)
+      .map(player => ({
+        player: player.player,
+        text: `${player.closers}`
+      }))
+  }
+
+  public get pointlessTurnsOrder() {
+    return [...this.unorderedPlayerStats].sort((a, b) => a.pointlessTurns - b.pointlessTurns > 0 ? -1 : 1)
+      .map(player => ({
+        player: player.player,
+        text: `${player.pointlessTurns}`
+      }))
   }
 
   public playAgainClicked() {

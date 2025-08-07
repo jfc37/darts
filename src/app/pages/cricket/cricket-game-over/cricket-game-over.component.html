@@ -40,3 +40,59 @@
 </section>
 
 <button (click)="playAgainClicked()" type="button" class="nes-btn is-primary large-bottom-spacing">Rematch</button>
+
+<div class="nes-table-responsive">
+    <table class="nes-table is-bordered is-centered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>1st <i class="nes-icon trophy"></i></th>
+                <th>2nd</th>
+                <th>3rd</th>
+                <th>4th</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Points</td>
+                @for (award of pointsOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Openers</td>
+                @for (award of openersOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Closers</td>
+                @for (award of closersOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            <tr>
+                <td>Pointless Turns</td>
+                @for (award of pointlessTurnsOrder; track $index)
+                {
+                <td>
+                    <div class="award"><app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
