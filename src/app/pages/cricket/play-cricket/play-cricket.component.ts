@@ -20,6 +20,9 @@ export class PlayCricketComponent {
 
   @Input() public targets!: Target[];
 
+  public teamOneColour = TeamColours.getForTeam(1);
+  public teamTwoColour = TeamColours.getForTeam(2);
+
   public recordedHits: Hit[] = [];
 
   public get numbersHitThisTurn() {
@@ -54,11 +57,11 @@ export class PlayCricketComponent {
     }
 
     if (bullseyeTarget.status === TargetStatus.OpenTeam1) {
-      return TeamColours.getForTeam(0);
+      return TeamColours.getForTeam(1);
     }
 
     if (bullseyeTarget.status === TargetStatus.OpenTeam2) {
-      return TeamColours.getForTeam(1);
+      return TeamColours.getForTeam(2);
     }
 
     if (bullseyeTarget.status === TargetStatus.Closed) {
@@ -73,33 +76,33 @@ export class PlayCricketComponent {
       ...marks,
       [target.target]: [{
         text: hitsToMarks(target.teamOneHits),
-        colour: TeamColours.getForTeam(0),
+        colour: TeamColours.getForTeam(1),
         shouldRotate: true
       }, {
         text: hitsToMarks(target.teamTwoHits),
-        colour: TeamColours.getForTeam(1),
+        colour: TeamColours.getForTeam(2),
         shouldRotate: true
       }]
     }), {});
 
     const bullseyeTarget = this.targets.find(t => t.target === 25);
     const bullseyeMarks = {
-      ['11']: [{ text: hitsToMarks(bullseyeTarget!.teamOneHits), colour: TeamColours.getForTeam(0), shouldRotate: true }],
-      ['6']: [{ text: hitsToMarks(bullseyeTarget!.teamTwoHits), colour: TeamColours.getForTeam(1), shouldRotate: true }]
-    }
-
-    const teamOneScore = this.targets.reduce((score, target) => score + target.pointsForTeamOne, 0);
-    const teamTwoScore = this.targets.reduce((score, target) => score + target.pointsForTeamTwo, 0);
-    const scores = {
-      ['5']: [{ text: teamOneScore.toString(), colour: TeamColours.getForTeam(0), shouldRotate: true }],
-      ['1']: [{ text: teamTwoScore.toString(), colour: TeamColours.getForTeam(1), shouldRotate: true }],
+      ['11']: [{ text: hitsToMarks(bullseyeTarget!.teamOneHits), colour: TeamColours.getForTeam(1), shouldRotate: true }],
+      ['6']: [{ text: hitsToMarks(bullseyeTarget!.teamTwoHits), colour: TeamColours.getForTeam(2), shouldRotate: true }]
     }
 
     return {
       ...targetMarks,
-      ...bullseyeMarks,
-      ...scores
+      ...bullseyeMarks
     }
+  }
+
+  public get teamOneScore() {
+    return this.targets.reduce((score, target) => score + target.pointsForTeamOne, 0);
+  }
+
+  public get teamTwoScore() {
+    return this.targets.reduce((score, target) => score + target.pointsForTeamTwo, 0);
   }
 
   public recordHit(hit: Hit) {
@@ -136,9 +139,9 @@ function toTargetColour(status: TargetStatus): string {
   if (status === TargetStatus.Available) {
     return 'green';
   } else if (status === TargetStatus.OpenTeam1) {
-    return TeamColours.getForTeam(0);
-  } else if (status === TargetStatus.OpenTeam2) {
     return TeamColours.getForTeam(1);
+  } else if (status === TargetStatus.OpenTeam2) {
+    return TeamColours.getForTeam(2);
   }
   return '#d3d3d3';
 }

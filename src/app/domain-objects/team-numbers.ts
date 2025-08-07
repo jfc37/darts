@@ -1,0 +1,1 @@
+export type TeamNumbers = 1 | 2;

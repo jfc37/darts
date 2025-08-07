@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Hit } from '../domain-objects/hit';
 import { DartCell } from '../domain-objects/dart-cell';
 import { TeamColours } from '../domain-objects/team-colours';
+import { TeamNumbers } from '../domain-objects/team-numbers';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,8 @@ export class KillerGameService {
  * Represents the game state of killer
  */
 export class KillerGame {
-  public team1: KillerTeam = KillerTeam.Create('Team 1', 0);
-  public team2: KillerTeam = KillerTeam.Create('Team 2', 1);
+  public team1: KillerTeam = KillerTeam.Create('Team 1', 1);
+  public team2: KillerTeam = KillerTeam.Create('Team 2', 2);
   public phase: KillerGamePhase = KillerGamePhase.EnterTeams;
 
   private _teamTurn = 1;
@@ -369,7 +370,7 @@ export class PlayerStats {
  * Represents a team in the game of killer with their targets
  */
 export class KillerTeam {
-  public readonly id: number;
+  public readonly id: TeamNumbers;
 
   public get colour(): string {
     return TeamColours.getForTeam(this.id);
@@ -420,7 +421,7 @@ export class KillerTeam {
     return KillerTeamStatus.ReadyToPlay;
   }
 
-  private constructor(name: string, id: number) {
+  private constructor(name: string, id: TeamNumbers) {
     this.name = name;
     this.id = id;
   }
@@ -463,7 +464,7 @@ export class KillerTeam {
    * @param name 
    * @returns 
    */
-  static Create(name: string, teamNumber: number): KillerTeam {
+  static Create(name: string, teamNumber: TeamNumbers): KillerTeam {
     return new KillerTeam(name, teamNumber);
   }
 }

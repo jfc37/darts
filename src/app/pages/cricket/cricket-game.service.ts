@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TeamColours } from '../../domain-objects/team-colours';
 import { Hit } from '../../domain-objects/hit';
 import { DartCell } from '../../domain-objects/dart-cell';
+import { TeamNumbers } from '../../domain-objects/team-numbers';
 
 @Injectable({
     providedIn: 'root'
@@ -19,8 +20,8 @@ export class CricketGameService {
  * Represents the game state of cricket
  */
 export class CricketGame {
-    public team1: Team = Team.Create('Team 1', 0);
-    public team2: Team = Team.Create('Team 2', 1);
+    public team1: Team = Team.Create('Team 1', 1);
+    public team2: Team = Team.Create('Team 2', 2);
     public phase: GamePhase = GamePhase.EnterTeams;
     public targets: Target[] = [
         new Target(15),
@@ -33,7 +34,7 @@ export class CricketGame {
         new Target(25)
     ];
 
-    private _teamTurn = 1;
+    private _teamTurn: TeamNumbers = 1;
     private _roundOfThrows = 1;
 
     public get currentTeam(): Team {
@@ -99,9 +100,9 @@ export class CricketGame {
 
     private changeCurrentTeam() {
         this.currentTeam.changeTurn();
-        this._teamTurn = this._teamTurn == 1 ? 0 : 1;
+        this._teamTurn = this._teamTurn == 2 ? 1 : 2;
 
-        if (this._teamTurn == 0) {
+        if (this._teamTurn == 1) {
             this._roundOfThrows++;
         }
     }
@@ -112,7 +113,7 @@ export class CricketGame {
 
 }
 export class Team {
-    public readonly id: number;
+    public readonly id: TeamNumbers;
 
     public get colour(): string {
         return TeamColours.getForTeam(this.id);
@@ -136,7 +137,7 @@ export class Team {
         return this._turn == 1 ? this.firstThrowerStats : this.secondThrowerStats;
     }
 
-    private constructor(name: string, id: number) {
+    private constructor(name: string, id: TeamNumbers) {
         this.name = name;
         this.id = id;
     }
@@ -162,7 +163,7 @@ export class Team {
      * @param name 
      * @returns 
      */
-    static Create(name: string, teamNumber: number): Team {
+    static Create(name: string, teamNumber: TeamNumbers): Team {
         return new Team(name, teamNumber);
     }
 }
@@ -171,7 +172,7 @@ export class Target {
     public readonly target: number;
     public teamOneHits: number = 0;
     public teamTwoHits: number = 0;
-    public owningTeam: number | null = null;
+    public owningTeam: TeamNumbers | null = null;
     public points = 0;
 
     public constructor(target: number) {
@@ -215,7 +216,7 @@ export class Target {
         return 0;
     }
 
-    public hit(team: number, points: number) {
+    public hit(team: TeamNumbers, points: number) {
         if (this.status === TargetStatus.Closed) {
             return;
         }
@@ -260,9 +261,9 @@ export class PlayerStats {
 
     public pointlessTurns = 0;
 
-    private team: number;
+    private team: TeamNumbers;
 
-    constructor(player: string, team: number) {
+    constructor(player: string, team: TeamNumbers) {
         this.player = player;
         this.team = team;
     }

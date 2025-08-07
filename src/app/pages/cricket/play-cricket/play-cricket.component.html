@@ -1,25 +1,24 @@
-<div class="nes-container with-title small-bottom-spacing" [style.background-color]="teamColour">
-    <p class="title">{{team}}</p>
-    <div class="throwing-wrapper">
-        <div class="player">
-            <img class="nes-avatar is-rounded is-large" alt="Player" [src]="player" style="image-rendering: pixelated;">
-        </div>
-        <div class="throws">
-            <div [ngClass]="{'pulse': recordedHits.length == 0}">
-                <i [ngClass]="{'is-transparent': recordedHits.length > 0}"
-                    class="nes-icon is-large is-transparent heart"></i>
-            </div>
-            <div [ngClass]="{'pulse': recordedHits.length == 1}">
-                <i [ngClass]="{'is-transparent': recordedHits.length > 1}"
-                    class="nes-icon is-large is-transparent heart"></i>
-            </div>
-            <div [ngClass]="{'pulse': recordedHits.length == 2}">
-                <i [ngClass]="{'is-transparent': recordedHits.length > 2}"
-                    class="nes-icon is-large is-transparent heart"></i>
+<div class="info-wrapper">
+    <div class="nes-container with-title small-bottom-spacing" [style.background-color]="teamColour">
+        <p class="title">{{team}}</p>
+        <div class="throwing-wrapper">
+            <div class="player">
+                <img class="nes-avatar is-rounded is-large" alt="Player" [src]="player"
+                    style="image-rendering: pixelated;">
             </div>
         </div>
     </div>
+
+    <div class="nes-container with-title small-bottom-spacing">
+        <p class="title">Scores</p>
+        <div class="throwing-wrapper scores">
+            <div [style.color]="teamOneColour">{{teamOneScore}}</div>
+            <div>-</div>
+            <div [style.color]="teamTwoColour">{{teamTwoScore}}</div>
+        </div>
+    </div>
 </div>
+
 
 <app-board [colouredSections]="colouredNumbers" [colouredTriples]="colouredNumbers" [innerTexts]="marks"
     [outerBullseyeColour]="bullseyeColour" [innerBullseyeColour]="bullseyeColour" (hit)="recordHit($event)"></app-board>

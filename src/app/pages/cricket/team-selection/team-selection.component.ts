@@ -23,8 +23,8 @@ export class TeamSelectionComponent {
   public selectingPlayer = 1;
   public avatars: string[] = [];
 
-  public team1Colour = TeamColours.getForTeam(0);
-  public team2Colour = TeamColours.getForTeam(1);
+  public team1Colour = TeamColours.getForTeam(1);
+  public team2Colour = TeamColours.getForTeam(2);
 
   public handleCharacterSelected(name: string): void {
     this.avatars.push(name);

@@ -41,8 +41,8 @@ export class EnterTargetsComponent {
 
   public get colouredNumbers() {
     return {
-      ...this.teamTargets[0].reduce((accum, target) => ({ ...accum, [target]: TeamColours.getForTeam(0) }), {}),
-      ...this.teamTargets[1].reduce((accum, target) => ({ ...accum, [target]: TeamColours.getForTeam(1) }), {}),
+      ...this.teamTargets[0].reduce((accum, target) => ({ ...accum, [target]: TeamColours.getForTeam(1) }), {}),
+      ...this.teamTargets[1].reduce((accum, target) => ({ ...accum, [target]: TeamColours.getForTeam(2) }), {}),
       ...this.recordedNumbers.reduce((accum, target) => ({ ...accum, [target]: this.teamColour }), {}),
     }
   }

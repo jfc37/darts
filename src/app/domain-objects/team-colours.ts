@@ -8,8 +8,8 @@ export const TeamColours = {
         '#A14A76'
     ],
 
-    getForTeam: function (teamNumber: number): string {
-        return this._colours[teamNumber];
+    getForTeam: function (teamNumber: 1 | 2): string {
+        return this._colours[teamNumber - 1];
     },
 
     teamTwo: function () {
@@ -23,3 +23,4 @@ export const TeamColours = {
         this._colours[1] = newTeam2Colour;
     }
 }
+
