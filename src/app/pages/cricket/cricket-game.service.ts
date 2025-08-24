@@ -4,6 +4,14 @@ import { Hit } from '../../domain-objects/hit';
 import { DartCell } from '../../domain-objects/dart-cell';
 import { TeamNumbers } from '../../domain-objects/team-numbers';
 
+
+export class CricketSettings {
+    // When bullseye is opened, should everyone elses marks on it be cleared?
+    public clearTargetsOnBullseye = false;
+}
+
+let SETTINGS = new CricketSettings();
+
 @Injectable({
     providedIn: 'root'
 })
@@ -15,7 +23,6 @@ export class CricketGameService {
         return CricketGame.InitialiseNewGame();
     }
 }
-
 /**
  * Represents the game state of cricket
  */
@@ -63,6 +70,12 @@ export class CricketGame {
     public setPlayers(players: string[]) {
         this.team1.addPlayers(players[0], players[1]);
         this.team2.addPlayers(players[2], players[3]);
+
+        this.phase = GamePhase.EnterSettings;
+    }
+
+    public setSettings(settings: CricketSettings) {
+        SETTINGS = settings;
 
         this.phase = GamePhase.Play;
     }
@@ -221,21 +234,45 @@ export class Target {
             return;
         }
 
+        let isPossibleBullseyeClear = false;
+
         if (team === 1) {
             if (this.status === TargetStatus.OpenTeam1) {
                 // You get points for the target number * the multiplier
                 this.points += points * this.target;
             } else {
                 this.teamOneHits += points;
+                isPossibleBullseyeClear = true;
             }
         } else if (this.status === TargetStatus.OpenTeam2) {
             // You get points for the target number * the multiplier
             this.points += points * this.target;
         } else {
             this.teamTwoHits += points;
+            isPossibleBullseyeClear = true;
         }
 
-        return this.updateOwningTeam();
+        this.updateOwningTeam();
+
+        if (isPossibleBullseyeClear) {
+            this.runBullseyeRule(team);
+        }
+    }
+
+    private runBullseyeRule(team: TeamNumbers) {
+        if (!SETTINGS.clearTargetsOnBullseye) {
+            return;
+        }
+
+        if (this.target !== 25) {
+            return;
+        }
+
+        if (team === 1 && this.status === TargetStatus.OpenTeam1) {
+            this.teamTwoHits = 0;
+        } else if (team === 2 && this.status === TargetStatus.OpenTeam2) {
+            this.teamOneHits = 0;
+        }
     }
 
     private updateOwningTeam() {
@@ -344,6 +381,11 @@ export enum GamePhase {
      * Entering the names of the teams
      */
     EnterTeams = 'enter-teams',
+
+    /**
+     * Entering the settings for the game
+     */
+    EnterSettings = 'enter-settings',
 
     /**
      * Playing the game

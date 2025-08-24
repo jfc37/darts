@@ -1,0 +1,25 @@
+<p class="small-bottom-spacing nes-text is-primary"><b>Game Settings</b></p>
+
+<section class="small-bottom-spacing">
+
+    <div class="nes-setting-option">
+        <div>
+            Clear opponents' marks when bullseye is opened?
+        </div>
+        <div class="nes-radio-list">
+            <label>
+                <input type="radio" class="nes-radio" name="answer" [(ngModel)]="settings.clearTargetsOnBullseye"
+                    [value]="true" />
+                <span>Yes</span>
+            </label>
+
+            <label>
+                <input type="radio" class="nes-radio" name="answer" [(ngModel)]="settings.clearTargetsOnBullseye"
+                    [value]="false" />
+                <span>No</span>
+            </label>
+        </div>
+    </div>
+</section>
+
+<button (click)="confirmSettings()" class="nes-btn">Okay</button>

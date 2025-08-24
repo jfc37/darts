@@ -3,6 +3,8 @@
     @if (game.phase == 'enter-teams') {
     <app-team-selection (playersSelected)="setPlayers($event)"
         (switchTeamColours)="switchTeamColours()"></app-team-selection>
+    } @else if (game.phase == 'enter-settings') {
+    <app-cricket-settings (settingsSelected)="setSettings($event)"></app-cricket-settings>
     } @else if (game.phase == 'play') {
     <app-play-cricket [team]="game.nameOfCurrentTeam" [teamColour]="game.currentTeamColour"
         [player]="game.nameOfCurrentPlayer" [targets]="game.targets" (hits)="handleHits($event)"

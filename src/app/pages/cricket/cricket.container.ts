@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { PlayCricketComponent } from "./play-cricket/play-cricket.component";
 import { TeamSelectionComponent } from "./team-selection/team-selection.component";
 import { Hit } from '../../domain-objects/hit';
-import { CricketGame, CricketGameService } from './cricket-game.service';
+import { CricketGame, CricketGameService, CricketSettings } from './cricket-game.service';
 import { CricketGameOverComponent } from './cricket-game-over/cricket-game-over.component';
+import { CricketSettingsComponent } from './cricket-settings/cricket-settings.component';
 
 @Component({
   selector: 'app-cricket',
-  imports: [CommonModule, TeamSelectionComponent, PlayCricketComponent, CricketGameOverComponent],
+  imports: [CommonModule, TeamSelectionComponent, PlayCricketComponent, CricketGameOverComponent, CricketSettingsComponent],
   templateUrl: './cricket.container.html',
   styleUrl: './cricket.container.scss'
 })
@@ -48,6 +49,9 @@ export class CricketContainer {
     this.game.setPlayers(players);
   }
 
+  public setSettings(settings: CricketSettings) {
+    this.game.setSettings(settings);
+  }
 
   public handleHits(hits: Hit[]) {
     this.game.hit(hits);
