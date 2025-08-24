@@ -223,12 +223,14 @@ export class Target {
 
         if (team === 1) {
             if (this.status === TargetStatus.OpenTeam1) {
-                this.points += points;
+                // You get points for the target number * the multiplier
+                this.points += points * this.target;
             } else {
                 this.teamOneHits += points;
             }
         } else if (this.status === TargetStatus.OpenTeam2) {
-            this.points += points;
+            // You get points for the target number * the multiplier
+            this.points += points * this.target;
         } else {
             this.teamTwoHits += points;
         }
