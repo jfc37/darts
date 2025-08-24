@@ -4,12 +4,12 @@ import { EnterTargetsComponent } from "./enter-targets/enter-targets.component";
 import { CommonModule } from '@angular/common';
 import { PlayKillerComponent } from "./play-killer/play-killer.component";
 import { KillerGameOverComponent } from "./killer-game-over/killer-game-over.component";
-import { TeamSelectionComponent } from "./team-selection/team-selection.component";
 import { Hit } from '../../domain-objects/hit';
+import { TeamSelectionComponent } from '../../components/team-selection/team-selection.component';
 
 @Component({
   selector: 'app-killer',
-  imports: [CommonModule, TeamSelectionComponent, EnterTargetsComponent, PlayKillerComponent, KillerGameOverComponent, TeamSelectionComponent],
+  imports: [CommonModule, TeamSelectionComponent, EnterTargetsComponent, PlayKillerComponent, KillerGameOverComponent],
   providers: [KillerGameService],
   templateUrl: './killer.container.html',
   styleUrl: './killer.container.scss'

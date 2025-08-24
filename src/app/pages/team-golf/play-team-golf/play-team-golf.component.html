@@ -2,7 +2,7 @@
     <p class="title">Hole {{hole}} </p>
     <div class="team-group">
         @for (team of teams; track $index) {
-        <app-player [player]="team.currentThrower" [secondaryPlayer]="team.nextThrower"
+        <app-player [player]="team.currentThrower.name" [secondaryPlayer]="team.nextThrower.name"
             [displayName]="team.score | golfScore" [pulse]="team.isActive"></app-player>
         }
     </div>

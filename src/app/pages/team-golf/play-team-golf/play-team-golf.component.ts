@@ -2,9 +2,9 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { BoardComponent } from '../../../components/board/board.component';
 import { PlayerComponent } from '../../../components/player/player.component';
 import { GolfScorePipe } from '../../../pipes/golf-score.pipe';
-import { GolfTeam } from '../../../services/team-golf-game.service';
 import { ScoreCardComponent } from "../score-card/score-card.component";
 import { Hit } from '../../../domain-objects/hit';
+import { GolfTeam } from '../../../domain-objects/golf/golf-team';
 
 @Component({
   selector: 'app-play-team-golf',

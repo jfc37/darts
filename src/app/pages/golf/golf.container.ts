@@ -25,6 +25,8 @@ export class GolfContainer {
 
     // this.game.setPlayers(['img/joe.jpg', 'img/andy.jpg']);
 
+    // this.game.setSettings(GolfSettings.getSettings());
+
     // this.game.recordRound([Hit.Double(1), Hit.Double(1), Hit.Double(1)]);
     // this.game.recordRound([Hit.Single(1), Hit.Double(20), Hit.Double(20)]);
 

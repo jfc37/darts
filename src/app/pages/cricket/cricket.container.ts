@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlayCricketComponent } from "./play-cricket/play-cricket.component";
-import { TeamSelectionComponent } from "./team-selection/team-selection.component";
 import { Hit } from '../../domain-objects/hit';
 import { CricketGame, CricketGameService, CricketSettings } from './cricket-game.service';
 import { CricketGameOverComponent } from './cricket-game-over/cricket-game-over.component';
 import { CricketSettingsComponent } from './cricket-settings/cricket-settings.component';
+import { TeamSelectionComponent } from '../../components/team-selection/team-selection.component';
 
 @Component({
   selector: 'app-cricket',

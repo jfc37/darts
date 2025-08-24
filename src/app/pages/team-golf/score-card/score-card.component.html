@@ -6,7 +6,8 @@
                 <th>Hole</th>
                 @for (team of teams; track $index) {
                 <th>
-                    <app-player [player]="team.firstThrower" [secondaryPlayer]="team.secondThrower"></app-player>
+                    <app-player [player]="team.firstThrower.name"
+                        [secondaryPlayer]="team.secondThrower.name"></app-player>
                 </th>
                 }
             </tr>

@@ -1,7 +1,9 @@
 <section class="nes-container is-rounded with-title">
     <p class="title">Golf 2v2</p>
-    @if (game.phase == 'enter-teams') {
+    @if (game.phase == 'select-players') {
     <app-team-selection (playersSelected)="setPlayers($event)"></app-team-selection>
+    } @else if (game.phase == 'select-settings') {
+    <app-golf-settings (settingsSelected)="setSettings($event)"></app-golf-settings>
     } @else if (game.phase == 'play') {
     <app-play-team-golf [hole]="game.hole" [teams]="game.teams" (hits)="handleHits($event)"></app-play-team-golf>
     } @else if (game.phase == 'game-over') {

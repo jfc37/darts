@@ -1,10 +1,10 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { GolfPlayer } from '../../../services/golf-game.service';
 import { BoardComponent } from '../../../components/board/board.component';
 import { PlayerComponent } from '../../../components/player/player.component';
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { GolfScorePipe } from '../../../pipes/golf-score.pipe';
 import { Hit } from '../../../domain-objects/hit';
+import { GolfPlayer } from '../../../domain-objects/golf/golf-player';
 
 @Component({
   selector: 'app-play-golf',

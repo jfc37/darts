@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { GolfPlayer } from '../../../services/golf-game.service';
 import { PlayerComponent } from "../../../components/player/player.component";
 import { GolfScorePipe } from '../../../pipes/golf-score.pipe';
+import { GolfPlayer } from '../../../domain-objects/golf/golf-player';
 
 @Component({
   selector: 'app-score-card',

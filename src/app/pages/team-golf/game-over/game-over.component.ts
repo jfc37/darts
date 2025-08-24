@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PlayerComponent } from '../../../components/player/player.component';
 import { ScoreCardComponent } from '../score-card/score-card.component';
-import { GolfTeam } from '../../../services/team-golf-game.service';
 import { GolfScorePipe } from '../../../pipes/golf-score.pipe';
 import { AnalyticsService } from '../../../services/analytics.service';
+import { GolfStatsComponent } from "../../../components/golf-stats/golf-stats.component";
+import { GolfTeam } from '../../../domain-objects/golf/golf-team';
 
 @Component({
   selector: 'app-game-over',
-  imports: [PlayerComponent, ScoreCardComponent],
+  imports: [PlayerComponent, ScoreCardComponent, GolfStatsComponent],
   templateUrl: './game-over.component.html',
   styleUrl: './game-over.component.scss'
 })
@@ -16,13 +17,22 @@ export class GameOverComponent {
   @Input()
   public teams!: GolfTeam[];
 
+  public get players() {
+    return [
+      this.teams[0].firstThrower,
+      this.teams[0].secondThrower,
+      this.teams[1].firstThrower,
+      this.teams[1].secondThrower
+    ];
+  }
+
   @Output() public startNewGame = new EventEmitter<void>();
 
   public get scoreOrder() {
     return [...this.teams].sort((a, b) => a.score - b.score > 0 ? 1 : -1)
       .map(team => ({
-        firstPlayer: team.firstThrower,
-        secondPlayer: team.secondThrower,
+        firstPlayer: team.firstThrower.name,
+        secondPlayer: team.secondThrower.name,
         text: `${new GolfScorePipe().transform(team.score)}`
       }))
   }
@@ -33,47 +43,6 @@ export class GameOverComponent {
 
   public get losers() {
     return this.scoreOrder[1];
-  }
-
-  private get playerStats() {
-    return [
-      this.teams[0].firstThrowerStats,
-      this.teams[0].secondThrowerStats,
-      this.teams[1].firstThrowerStats,
-      this.teams[1].secondThrowerStats
-    ];
-  }
-
-  public get totalEaglesOrder() {
-    return [...this.playerStats].sort((a, b) => a.eagles - b.eagles > 0 ? -1 : 1)
-      .map(x => ({
-        player: x.player,
-        text: `${x.eagles}`
-      }))
-  }
-
-  public get totalBirdiesOrder() {
-    return [...this.playerStats].sort((a, b) => a.birdies - b.birdies > 0 ? -1 : 1)
-      .map(x => ({
-        player: x.player,
-        text: `${x.birdies}`
-      }))
-  }
-
-  public get totalParsOrder() {
-    return [...this.playerStats].sort((a, b) => a.pars - b.pars > 0 ? -1 : 1)
-      .map(x => ({
-        player: x.player,
-        text: `${x.pars}`
-      }))
-  }
-
-  public get totalBoogiesOrder() {
-    return [...this.playerStats].sort((a, b) => a.boogies - b.boogies > 0 ? -1 : 1)
-      .map(x => ({
-        player: x.player,
-        text: `${x.boogies}`
-      }))
   }
 
   constructor(private analytics: AnalyticsService) { }

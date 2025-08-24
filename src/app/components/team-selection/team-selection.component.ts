@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { CharacterSelectionComponent } from '../../../components/character-selection/character-selection.component';
-import { PlayerComponent } from '../../../components/player/player.component';
-import { TeamColours } from '../../../domain-objects/team-colours';
+import { CharacterSelectionComponent } from '../character-selection/character-selection.component';
+import { TeamColours } from '../../domain-objects/team-colours';
+import { PlayerComponent } from '../player/player.component';
 
 @Component({
   selector: 'app-team-selection',

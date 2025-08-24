@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { TeamGolfGame, TeamGolfGameService } from '../../services/team-golf-game.service';
 import { CommonModule } from '@angular/common';
-import { TeamSelectionComponent } from '../killer/team-selection/team-selection.component';
 import { PlayTeamGolfComponent } from "./play-team-golf/play-team-golf.component";
 import { GameOverComponent } from "./game-over/game-over.component";
 import { Hit } from '../../domain-objects/hit';
+import { GolfSettingsComponent } from "../../components/golf-settings/golf-settings.component";
+import { GolfSettings } from '../../domain-objects/golf/golf-settings';
+import { TeamSelectionComponent } from '../../components/team-selection/team-selection.component';
 
 @Component({
   selector: 'app-team-golf',
-  imports: [CommonModule, TeamSelectionComponent, PlayTeamGolfComponent, GameOverComponent],
+  imports: [CommonModule, TeamSelectionComponent, PlayTeamGolfComponent, GameOverComponent, GolfSettingsComponent],
   templateUrl: './team-golf.container.html',
   styleUrl: './team-golf.container.scss'
 })
@@ -23,6 +25,8 @@ export class TeamGolfContainer {
     //   "img/andy.jpg",
     //   "img/chris.jpg",
     //   "img/rich.jpg"]);
+
+    // this.game.setSettings(GolfSettings.getSettings());
 
     // this.game.recordHole([Hit.Double(1), Hit.Double(1), Hit.Double(1)]);
     // this.game.recordHole([Hit.Single(1), Hit.Double(20), Hit.Double(20)]);
@@ -81,6 +85,10 @@ export class TeamGolfContainer {
 
   public setPlayers(players: string[]) {
     this.game.setPlayers(players);
+  }
+
+  public setSettings(settings: GolfSettings) {
+    this.game.setSettings(settings);
   }
 
   public handleHits(hits: Hit[]) {

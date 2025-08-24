@@ -1,14 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { GolfPlayer } from '../../../services/golf-game.service';
 import { PlayerComponent } from '../../../components/player/player.component';
 import { GolfScorePipe } from "../../../pipes/golf-score.pipe";
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { GolfSettings } from '../../../domain-objects/golf/golf-settings';
+import { GolfPlayer } from '../../../domain-objects/golf/golf-player';
+import { GolfStatsComponent } from '../../../components/golf-stats/golf-stats.component';
 
 @Component({
   selector: 'app-game-over',
-  imports: [PlayerComponent, ScoreCardComponent],
+  imports: [PlayerComponent, ScoreCardComponent, GolfStatsComponent],
   templateUrl: './game-over.component.html',
   styleUrl: './game-over.component.scss'
 })
