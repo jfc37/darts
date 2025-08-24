@@ -56,6 +56,20 @@
                 </td>
                 }
             </tr>
+            @if (showAlbatrossColumn) {
+            <tr>
+                <td>Total Albatrosses</td>
+                @for (award of totalAlbatrossOrder; track $index)
+                {
+                <td>
+                    <div class="award">
+                        <app-player [player]="award.player" [displayName]="award.text"></app-player>
+                    </div>
+                </td>
+                }
+            </tr>
+            }
+
             <tr>
                 <td>Total Eagles</td>
                 @for (award of totalEaglesOrder; track $index)

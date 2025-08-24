@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Hit } from '../domain-objects/hit';
-import { DartCell } from '../domain-objects/dart-cell';
+import { GolfGamePhase } from '../domain-objects/golf/golf-game-phase';
+import { GolfSettings } from '../domain-objects/golf/golf-settings';
+import { GolfRound } from '../domain-objects/golf/golf-round';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,7 @@ export class GolfGameService {
   }
 }
 
+
 export class GolfGame {
   public phase: GolfGamePhase = GolfGamePhase.SelectPlayers;
   public players!: GolfPlayer[];
@@ -23,6 +26,8 @@ export class GolfGame {
     return this.players.find(x => x.isActive)!;
   }
 
+  private _settings: GolfSettings = GolfSettings.getSettings();
+
   private constructor() {
 
   }
@@ -30,6 +35,13 @@ export class GolfGame {
   public setPlayers(players: string[]) {
     this.players = players.map(player => GolfPlayer.NewPlayer(player));
     this.players[0].isActive = true;
+    this.phase = GolfGamePhase.SelectSettings;
+  }
+
+  public setSettings(settings: GolfSettings) {
+    GolfSettings.setSettings(settings);
+    this._settings = GolfSettings.getSettings();
+
     this.phase = GolfGamePhase.Play;
   }
 
@@ -47,7 +59,7 @@ export class GolfGame {
     const isLastPlayer = currentPlayerIndex == this.players.length - 1;
 
     if (isLastPlayer) {
-      if (this.round == TOTAL_ROUNDS) {
+      if (this.round == GolfSettings.getSettings().numberOfHoles) {
         this.phase = GolfGamePhase.GameOver;
         return;
       } else {
@@ -70,6 +82,10 @@ export class GolfPlayer {
 
   public get score(): number {
     return this.rounds.reduce((totalScore, round) => round.score + totalScore, 0);
+  }
+
+  public get totalAlbatrossHoles(): number {
+    return this.rounds.filter(x => x.score == -3).length;
   }
 
   public get totalEagleHoles(): number {
@@ -105,53 +121,4 @@ export class GolfPlayer {
   }
 }
 
-export class GolfRound {
-  public hole: number;
-  private _hits: Hit[];
 
-  constructor(hole: number, hits: Hit[]) {
-    this.hole = hole;
-    this._hits = hits;
-  }
-
-  public get score(): number {
-    const hitsOnRound = this._hits.filter(x => x.number == this.hole);
-
-    const hasAnEagle = hitsOnRound.some(x => [DartCell.Double, DartCell.Triple].includes(x.multiplier));
-    if (hasAnEagle) {
-      return -2;
-    }
-
-    const hasABirdie = hitsOnRound.some(x => x.multiplier == DartCell.SingleInner);
-    if (hasABirdie) {
-      return -1;
-    }
-
-    const hasPar = hitsOnRound.some(x => x.multiplier == DartCell.SingleOuter);
-    if (hasPar) {
-      return 0;
-    }
-
-    return 1;
-  }
-}
-
-/**
- * Represents the current phase of the game
- */
-export enum GolfGamePhase {
-  SelectPlayers = 'select-players',
-
-  /**
-   * Playing the game
-   */
-  Play = 'play',
-
-  /**
-   * The game has ended
-   */
-  GameOver = 'game-over'
-}
-
-
-const TOTAL_ROUNDS = 18;

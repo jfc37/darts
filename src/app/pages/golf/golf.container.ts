@@ -5,10 +5,12 @@ import { SelectPlayersComponent } from '../../components/select-players/select-p
 import { PlayGolfComponent } from './play-golf/play-golf.component';
 import { GameOverComponent } from "./game-over/game-over.component";
 import { Hit } from '../../domain-objects/hit';
+import { GolfSettingsComponent } from "../../components/golf-settings/golf-settings.component";
+import { GolfSettings } from '../../domain-objects/golf/golf-settings';
 
 @Component({
   selector: 'app-golf',
-  imports: [CommonModule, SelectPlayersComponent, PlayGolfComponent, GameOverComponent],
+  imports: [CommonModule, SelectPlayersComponent, PlayGolfComponent, GameOverComponent, GolfSettingsComponent],
   providers: [GolfGameService],
   templateUrl: './golf.container.html',
   styleUrl: './golf.container.scss'
@@ -81,6 +83,10 @@ export class GolfContainer {
 
   public setPlayers(players: string[]) {
     this.game.setPlayers(players);
+  }
+
+  public setSettings(settings: GolfSettings) {
+    this.game.setSettings(settings);
   }
 
   public handleHits(hits: Hit[]) {

@@ -4,6 +4,7 @@ import { PlayerComponent } from '../../../components/player/player.component';
 import { GolfScorePipe } from "../../../pipes/golf-score.pipe";
 import { ScoreCardComponent } from '../score-card/score-card.component';
 import { AnalyticsService } from '../../../services/analytics.service';
+import { GolfSettings } from '../../../domain-objects/golf/golf-settings';
 
 @Component({
   selector: 'app-game-over',
@@ -17,6 +18,8 @@ export class GameOverComponent {
   public players!: GolfPlayer[];
 
   @Output() public startNewGame = new EventEmitter<void>();
+
+  public showAlbatrossColumn = GolfSettings.getSettings().albatrossOnTriple;
 
   public get scoreOrder() {
     return [...this.players].sort((a, b) => a.score - b.score > 0 ? 1 : -1)
@@ -32,6 +35,14 @@ export class GameOverComponent {
 
   public get losers() {
     return this.scoreOrder.slice(1);
+  }
+
+  public get totalAlbatrossOrder() {
+    return [...this.players].sort((a, b) => a.totalAlbatrossHoles - b.totalAlbatrossHoles > 0 ? -3 : 1)
+      .map(player => ({
+        player: player.name,
+        text: `${player.totalAlbatrossHoles}`
+      }))
   }
 
   public get totalEaglesOrder() {

@@ -2,6 +2,8 @@
     <p class="title">Golf</p>
     @if (game.phase == 'select-players') {
     <app-select-players (playersSelected)="setPlayers($event)"></app-select-players>
+    } @else if (game.phase == 'select-settings') {
+    <app-golf-settings (settingsSelected)="setSettings($event)"></app-golf-settings>
     } @else if (game.phase == 'play') {
     <app-play-golf [round]="game.round" [players]="game.players" (hits)="handleHits($event)"></app-play-golf>
     } @else if (game.phase == 'game-over') {
