@@ -6,12 +6,18 @@ import { TargetPracticeContainer } from './pages/target-practice/target-practice
 import { TeamGolfContainer } from './pages/team-golf/team-golf.container';
 import { MultiplierPracticeContainer } from './pages/multiplier-practice/multiplier-practice.container';
 import { CricketContainer } from './pages/cricket/cricket.container';
+import { OhOneContainer } from './pages/oh-one/oh-one.container';
 
 export const routes: Routes = [
     {
         path: '',
         component: GameSelectionContainer,
         title: 'Darts | Game Selection'
+    },
+    {
+        path: '01',
+        component: OhOneContainer,
+        title: 'Darts | 01'
     },
     {
         path: 'cricket',

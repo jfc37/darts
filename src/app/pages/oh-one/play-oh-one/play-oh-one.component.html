@@ -1,0 +1,23 @@
+<section class="nes-container with-title small-bottom-spacing">
+    <div class="team-group">
+        @for (player of players; track $index) {
+        <app-player [player]="player.name" [displayName]="player.points.toString()"
+            [pulse]="player.isActive"></app-player>
+        }
+    </div>
+</section>
+
+<app-board [colouredSections]="colouredSingles" [colouredDoubles]="colouredDoubles" [colouredTriples]="colouredTriples"
+    (hit)="recordHit($event)"></app-board>
+<div class="large-top-spacing"></div>
+
+<dialog #confirmDialog class="nes-dialog" id="dialog-default">
+    <form method="dialog">
+        <p>Numbers hit: {{numbersHitThisTurn}}</p>
+        <p>Happy with these numbers?</p>
+        <div class="dialog-menu">
+            <button (click)="resetTargets()" class="nes-btn">No</button>
+            <button (click)="confirmTargets()" class="nes-btn is-primary">Yes</button>
+        </div>
+    </form>
+</dialog>

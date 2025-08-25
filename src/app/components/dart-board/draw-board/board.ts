@@ -7,6 +7,7 @@ export interface Board {
   rings: number[];
   sectors: number[];
   sectorColours: { [key: string]: string };
+  doubleColours: { [key: string]: string };
   tripleColours: { [key: string]: string };
   outerBullseyeColour?: string;
   innerBullseyeColour?: string;
@@ -27,6 +28,7 @@ export const createBoard = () => ({
     20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5,
   ],
   sectorColours: {},
+  doubleColours: {},
   tripleColours: {},
   innerText: {},
 });

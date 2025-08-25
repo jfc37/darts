@@ -72,11 +72,18 @@ const drawSector = (
     context.arc(0, 0, board.rings[r], angleStart, angleEnd, true);
     context.arc(0, 0, board.rings[r - 1], angleEnd, angleStart);
     context.closePath();
-    if (!sectorBackground || [3, 5].includes(r)) {
+    if (r == 3) {
       const color = theme.sectorBackground[(s % 2) * 2 + (r % 2)];
       const tripleColour = board.tripleColours[getSectorValue(board, s)];
 
       context.fillStyle = tripleColour || color;
+      context.fill();
+    }
+    if (r == 5) {
+      const color = theme.sectorBackground[(s % 2) * 2 + (r % 2)];
+      const doubleColour = board.doubleColours[getSectorValue(board, s)];
+
+      context.fillStyle = doubleColour || color;
       context.fill();
     }
   }

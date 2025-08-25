@@ -1,0 +1,27 @@
+<section class="match-up large-bottom-spacing">
+    <div class="nes-container with-title">
+        <p class="title">Winner</p>
+        <div class="team-group">
+            <div class="player">
+                <app-player [player]="winner.player" [displayName]="winner.text"></app-player>
+                <i class="nes-icon trophy is-large"></i>
+            </div>
+        </div>
+    </div>
+
+    @if (losers.length > 0) {
+    <div class="nes-container with-title">
+        <p class="title">Losers</p>
+        <div class="team-group">
+            @for (loser of losers; track $index) {
+            <div class="player">
+                <app-player [player]="loser.player" [displayName]="loser.text"></app-player>
+                <i class="nes-icon close is-large"></i>
+            </div>
+            }
+        </div>
+    </div>
+    }
+</section>
+
+<button (click)="playAgainClicked()" type="button" class="nes-btn is-primary large-bottom-spacing">Rematch</button>

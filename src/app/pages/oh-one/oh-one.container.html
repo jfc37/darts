@@ -1,0 +1,17 @@
+<section class="nes-container is-rounded with-title">
+    <p class="title">01</p>
+    @if (game.phase == 'select-players') {
+    <app-select-players (playersSelected)="setPlayers($event)"></app-select-players>
+    } @else if (game.phase == 'select-settings') {
+    <app-oh-one-settings (settingsSelected)="setSettings($event)"></app-oh-one-settings>
+    } @else if (game.phase == 'play') {
+    <app-play-oh-one [players]="game.players" (hits)="handleHits($event)"></app-play-oh-one>
+    } @else if (game.phase == 'game-over') {
+    <app-game-over [players]="game.players" (startNewGame)="handleNewGame()"></app-game-over>
+    }
+</section>
+
+<details class="large-top-spacing">
+    <summary>Debugging</summary>
+    <pre>{{game | json}}</pre>
+</details>

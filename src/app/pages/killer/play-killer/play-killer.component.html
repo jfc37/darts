@@ -21,7 +21,8 @@
     </div>
 </div>
 
-<app-board [colouredSections]="colouredNumbers" [colouredTriples]="healthColours" (hit)="recordHit($event)"></app-board>
+<app-board [colouredSections]="colouredNumbers" [colouredDoubles]="healthColours" [colouredTriples]="healthColours"
+    (hit)="recordHit($event)"></app-board>
 
 
 <dialog #confirmDialog class="nes-dialog" id="dialog-default">

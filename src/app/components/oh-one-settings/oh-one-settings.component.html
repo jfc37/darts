@@ -1,0 +1,72 @@
+<p class="small-bottom-spacing nes-text is-primary"><b>Game Settings</b></p>
+
+<section class="small-bottom-spacing">
+    <div class="nes-setting-option">
+        <div>
+            Starting Points
+        </div>
+        <div class="nes-radio-list">
+            <label>
+                <input type="radio" class="nes-radio" name="startingPoints" [(ngModel)]="settings.startingPoints"
+                    [value]="8" />
+                <span>8</span>
+            </label>
+
+            <label>
+                <input type="radio" class="nes-radio" name="startingPoints" [(ngModel)]="settings.startingPoints"
+                    [value]="301" />
+                <span>301</span>
+            </label>
+
+            <label>
+                <input type="radio" class="nes-radio" name="startingPoints" [(ngModel)]="settings.startingPoints"
+                    [value]="501" />
+                <span>501</span>
+            </label>
+        </div>
+    </div>
+    <hr>
+    <div class="nes-setting-option">
+        <div>
+            End Game
+        </div>
+        <div class="nes-radio-list">
+            <label>
+                <input type="checkbox" class="nes-checkbox" [(ngModel)]="settings.canExitOnASingle" />
+                <span>Exit on a single</span>
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" class="nes-checkbox" [(ngModel)]="settings.canExitOnADouble" />
+                <span>Exit on a double</span>
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" class="nes-checkbox" [(ngModel)]="settings.canExitOnATriple" />
+                <span>Exit on a triple</span>
+            </label>
+        </div>
+    </div>
+    <hr>
+
+    <div class="nes-setting-option">
+        <div>
+            Who should do the math calculations?
+        </div>
+        <div class="nes-radio-list">
+            <label>
+                <input type="radio" class="nes-radio" name="answer" value="app" checked />
+                <span>Website</span>
+            </label>
+
+            <label>
+                <input type="radio" class="nes-radio" name="answer" value="andy" />
+                <span>Andy the Human Calculator</span>
+            </label>
+        </div>
+    </div>
+</section>
+
+<button (click)="confirmSettings()" class="nes-btn">Okay</button>

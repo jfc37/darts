@@ -31,6 +31,18 @@ export class BoardComponent implements AfterViewInit {
   }
   private _colouredSections!: { [key: string]: string };
 
+  @Input() set colouredDoubles(value: { [key: string]: string }) {
+    this._colouredDoubles = value;
+
+    if (!this.dartboard) {
+      return;
+    }
+
+    this.dartboard.board.doubleColours = value;
+    this.dartboard.render();
+  }
+  private _colouredDoubles!: { [key: string]: string };
+
   @Input() set colouredTriples(value: { [key: string]: string }) {
     this._colouredTriples = value;
 
@@ -105,6 +117,11 @@ export class BoardComponent implements AfterViewInit {
 
     if (this._colouredSections) {
       this.dartboard.board.sectorColours = this._colouredSections;
+      this.dartboard.render();
+    }
+
+    if (this._colouredDoubles) {
+      this.dartboard.board.doubleColours = this._colouredDoubles;
       this.dartboard.render();
     }
 
