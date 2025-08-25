@@ -37,7 +37,6 @@ export class CricketGame {
         new Target(18),
         new Target(19),
         new Target(20),
-        // TODO: Add bullseye
         new Target(25)
     ];
 
