@@ -20,6 +20,7 @@ export class OhOneGameService {
 export class OhOneGame {
     public phase: OhOneGamePhase = OhOneGamePhase.SelectPlayers;
     public players!: OhOnePlayer[];
+    private history: OhOneSnapshot[] = [];
 
     public get activePlayer() {
         return this.players.find(x => x.isActive)!;
@@ -46,6 +47,7 @@ export class OhOneGame {
     }
 
     public recordRound(hits: Hit[]) {
+        this.saveSnapshot();
         this.activePlayer.recordRound(hits);
 
         if (this.activePlayer.points == 0) {
@@ -54,6 +56,26 @@ export class OhOneGame {
         }
 
         this.changeToNextPlayer();
+    }
+
+    public undoLastTurn() {
+        const previous = this.history.pop();
+        if (!previous) {
+            return;
+        }
+
+        this.players = previous.players.map(player => {
+            const clone = OhOnePlayer.NewPlayer(player.name);
+            clone.isActive = player.isActive;
+            clone.points = player.points;
+            clone.busts = player.busts;
+            return clone;
+        });
+        this.phase = previous.phase;
+    }
+
+    public get canUndo() {
+        return this.history.length > 0;
     }
 
     public static InitialseNewGame(): OhOneGame {
@@ -66,6 +88,28 @@ export class OhOneGame {
         const nextPlayerIndex = (currentPlayerIndex + 1) % this.players.length;
         this.players[nextPlayerIndex].isActive = true;
     }
+
+    private saveSnapshot() {
+        this.history.push({
+            phase: this.phase,
+            players: this.players.map(player => ({
+                name: player.name,
+                points: player.points,
+                busts: player.busts,
+                isActive: player.isActive
+            }))
+        });
+    }
+}
+
+interface OhOneSnapshot {
+    phase: OhOneGamePhase;
+    players: {
+        name: string;
+        points: number;
+        busts: number;
+        isActive: boolean;
+    }[];
 }
 
 

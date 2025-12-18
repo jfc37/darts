@@ -7,8 +7,8 @@
     <app-cricket-settings (settingsSelected)="setSettings($event)"></app-cricket-settings>
     } @else if (game.phase == 'play') {
     <app-play-cricket [team]="game.nameOfCurrentTeam" [teamColour]="game.currentTeamColour"
-        [player]="game.nameOfCurrentPlayer" [targets]="game.targets" (hits)="handleHits($event)"
-        (forfeit)="forfeit()"></app-play-cricket>
+        [player]="game.nameOfCurrentPlayer" [targets]="game.targets" [canUndo]="game.canUndo"
+        (hits)="handleHits($event)" (forfeit)="forfeit()" (undo)="handleUndo()"></app-play-cricket>
     } @else if (game.phase == 'game-over') {
     <app-cricket-game-over [teamOne]="game.team1" [teamTwo]="game.team2" [targets]="game.targets"
         (startNewGame)="handleNewGame()"></app-cricket-game-over>

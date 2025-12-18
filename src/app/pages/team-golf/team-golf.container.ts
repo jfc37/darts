@@ -95,6 +95,10 @@ export class TeamGolfContainer {
     this.game.recordHole(hits);
   }
 
+  public handleUndo() {
+    this.game.undoLastTurn();
+  }
+
   public handleNewGame() {
     this.game = this.golfGameService.createGame();
   }

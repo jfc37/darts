@@ -42,6 +42,7 @@ export class CricketGame {
 
     private _teamTurn: TeamNumbers = 1;
     private _roundOfThrows = 1;
+    private history: CricketSnapshot[] = [];
 
     public get currentTeam(): Team {
         return this._teamTurn == 1 ? this.team1 : this.team2;
@@ -84,6 +85,7 @@ export class CricketGame {
     }
 
     public hit(hits: Hit[]) {
+        this.saveSnapshot();
         this.currentTeam.currentThrowerStats.adjustStats(hits, this.targets, this._roundOfThrows);
 
         hits.forEach(hit => {
@@ -110,6 +112,24 @@ export class CricketGame {
         }
     }
 
+    public undoLastTurn() {
+        const previous = this.history.pop();
+        if (!previous) {
+            return;
+        }
+
+        this.phase = previous.phase;
+        this._teamTurn = previous.teamTurn;
+        this._roundOfThrows = previous.roundOfThrows;
+        this.team1 = this.restoreTeam(previous.team1);
+        this.team2 = this.restoreTeam(previous.team2);
+        this.targets = previous.targets.map(target => this.restoreTarget(target));
+    }
+
+    public get canUndo() {
+        return this.history.length > 0;
+    }
+
     private changeCurrentTeam() {
         this.currentTeam.changeTurn();
         this._teamTurn = this._teamTurn == 2 ? 1 : 2;
@@ -117,6 +137,67 @@ export class CricketGame {
         if (this._teamTurn == 1) {
             this._roundOfThrows++;
         }
+    }
+
+    private saveSnapshot() {
+        this.history.push({
+            phase: this.phase,
+            teamTurn: this._teamTurn,
+            roundOfThrows: this._roundOfThrows,
+            team1: this.cloneTeam(this.team1),
+            team2: this.cloneTeam(this.team2),
+            targets: this.targets.map(t => this.cloneTarget(t))
+        });
+    }
+
+    private cloneTeam(team: Team): CricketTeamSnapshot {
+        return {
+            id: team.id,
+            name: team.name,
+            firstThrower: team.firstThrower,
+            secondThrower: team.secondThrower,
+            firstThrowerStats: this.cloneStats(team.firstThrowerStats),
+            secondThrowerStats: this.cloneStats(team.secondThrowerStats),
+            turn: (team as any)._turn ?? 1
+        }
+    }
+
+    private restoreTeam(snapshot: CricketTeamSnapshot): Team {
+        const restored = Team.Create(snapshot.name, snapshot.id);
+        restored.addPlayers(snapshot.firstThrower, snapshot.secondThrower);
+        (restored as any)._turn = snapshot.turn;
+        restored.firstThrowerStats = this.restoreStats(snapshot.firstThrowerStats, snapshot.id);
+        restored.secondThrowerStats = this.restoreStats(snapshot.secondThrowerStats, snapshot.id);
+        return restored;
+    }
+
+    private cloneTarget(target: Target): TargetSnapshot {
+        return {
+            target: target.target,
+            teamOneHits: target.teamOneHits,
+            teamTwoHits: target.teamTwoHits,
+            owningTeam: target.owningTeam,
+            points: target.points
+        }
+    }
+
+    private restoreTarget(snapshot: TargetSnapshot): Target {
+        const restored = new Target(snapshot.target);
+        restored.teamOneHits = snapshot.teamOneHits;
+        restored.teamTwoHits = snapshot.teamTwoHits;
+        restored.owningTeam = snapshot.owningTeam;
+        restored.points = snapshot.points;
+        return restored;
+    }
+
+    private cloneStats(stats: PlayerStats): CricketPlayerStatsSnapshot {
+        return { ...stats } as CricketPlayerStatsSnapshot;
+    }
+
+    private restoreStats(snapshot: CricketPlayerStatsSnapshot, team: TeamNumbers): PlayerStats {
+        const restored = new PlayerStats(snapshot.player, team);
+        Object.assign(restored, snapshot);
+        return restored;
     }
 
     static InitialiseNewGame(): CricketGame {
@@ -396,3 +477,32 @@ export enum GamePhase {
      */
     GameOver = 'game-over'
 }
+
+interface CricketSnapshot {
+    phase: GamePhase;
+    teamTurn: TeamNumbers;
+    roundOfThrows: number;
+    team1: CricketTeamSnapshot;
+    team2: CricketTeamSnapshot;
+    targets: TargetSnapshot[];
+}
+
+interface CricketTeamSnapshot {
+    id: TeamNumbers;
+    name: string;
+    firstThrower: string;
+    secondThrower: string;
+    firstThrowerStats: CricketPlayerStatsSnapshot;
+    secondThrowerStats: CricketPlayerStatsSnapshot;
+    turn: number;
+}
+
+interface TargetSnapshot {
+    target: number;
+    teamOneHits: number;
+    teamTwoHits: number;
+    owningTeam: TeamNumbers | null;
+    points: number;
+}
+
+type CricketPlayerStatsSnapshot = Omit<PlayerStats, 'adjustStats'>;

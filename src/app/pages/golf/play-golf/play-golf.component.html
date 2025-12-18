@@ -10,6 +10,9 @@
 </section>
 
 <app-board [colouredSections]="colouredNumbers" (hit)="recordHit($event)"></app-board>
+<div class="large-top-spacing">
+    <button type="button" class="nes-btn is-warning" (click)="undoTurn()" [disabled]="!canUndo">Undo last turn</button>
+</div>
 <div class="large-top-spacing"></div>
 <app-score-card [players]="players"></app-score-card>
 

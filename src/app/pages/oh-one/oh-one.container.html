@@ -5,7 +5,8 @@
     } @else if (game.phase == 'select-settings') {
     <app-oh-one-settings (settingsSelected)="setSettings($event)"></app-oh-one-settings>
     } @else if (game.phase == 'play') {
-    <app-play-oh-one [players]="game.players" (hits)="handleHits($event)"></app-play-oh-one>
+    <app-play-oh-one [players]="game.players" [canUndo]="game.canUndo" (hits)="handleHits($event)"
+        (undo)="handleUndo()"></app-play-oh-one>
     } @else if (game.phase == 'game-over') {
     <app-game-over [players]="game.players" (startNewGame)="handleNewGame()"></app-game-over>
     }

@@ -15,7 +15,11 @@ export class PlayOhOneComponent {
   @Input()
   public players!: OhOnePlayer[];
 
+  @Input()
+  public canUndo: boolean = false;
+
   @Output() public hits = new EventEmitter<Hit[]>();
+  @Output() public undo = new EventEmitter<void>();
 
   @ViewChild('confirmDialog', { static: true })
   public dialog!: ElementRef<HTMLDialogElement>;
@@ -84,6 +88,11 @@ export class PlayOhOneComponent {
   public confirmTargets() {
     this.hits.emit(this.recordedHits);
     this.recordedHits = [];
+  }
+
+  public undoTurn() {
+    this.recordedHits = [];
+    this.undo.emit();
   }
 }
 

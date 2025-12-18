@@ -24,7 +24,10 @@
     [innerTexts]="marks" [outerBullseyeColour]="bullseyeColour" [innerBullseyeColour]="bullseyeColour"
     (hit)="recordHit($event)"></app-board>
 
-<button type="button" class="nes-btn is-warning" (click)="forfeitClicked()">FORFEIT</button>
+<div class="large-top-spacing button-row">
+    <button type="button" class="nes-btn is-warning" (click)="undoTurn()" [disabled]="!canUndo">Undo last turn</button>
+    <button type="button" class="nes-btn is-warning" (click)="forfeitClicked()">FORFEIT</button>
+</div>
 
 <dialog #confirmDialog class="nes-dialog" id="dialog-default">
     <form method="dialog">

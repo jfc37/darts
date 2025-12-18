@@ -20,6 +20,8 @@ export class PlayCricketComponent {
 
   @Input() public targets!: Target[];
 
+  @Input() public canUndo: boolean = false;
+
   public teamOneColour = TeamColours.getForTeam(1);
   public teamTwoColour = TeamColours.getForTeam(2);
 
@@ -31,6 +33,7 @@ export class PlayCricketComponent {
 
   @Output() public hits = new EventEmitter<Hit[]>();
   @Output() public forfeit = new EventEmitter();
+  @Output() public undo = new EventEmitter<void>();
 
   @ViewChild('confirmDialog', { static: true })
   public dialog!: ElementRef<HTMLDialogElement>;
@@ -132,6 +135,11 @@ export class PlayCricketComponent {
   public confirmTargets() {
     this.hits.emit(this.recordedHits);
     this.recordedHits = [];
+  }
+
+  public undoTurn() {
+    this.recordedHits = [];
+    this.undo.emit();
   }
 }
 

@@ -23,6 +23,8 @@ export class PlayKillerComponent {
   @Input() public teamTargets!: KillerTarget[];
   @Input() public opponentTargets!: KillerTarget[];
 
+  @Input() public canUndo: boolean = false;
+
   public recordedHits: Hit[] = [];
 
   public get numbersHitThisTurn() {
@@ -30,6 +32,7 @@ export class PlayKillerComponent {
   }
 
   @Output() public hits = new EventEmitter<Hit[]>();
+  @Output() public undo = new EventEmitter<void>();
 
   @ViewChild('confirmDialog', { static: true })
   public dialog!: ElementRef<HTMLDialogElement>;
@@ -65,6 +68,11 @@ export class PlayKillerComponent {
   public confirmTargets() {
     this.hits.emit(this.recordedHits);
     this.recordedHits = [];
+  }
+
+  public undoTurn() {
+    this.recordedHits = [];
+    this.undo.emit();
   }
 }
 

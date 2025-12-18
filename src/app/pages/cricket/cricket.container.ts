@@ -57,6 +57,10 @@ export class CricketContainer {
     this.game.hit(hits);
   }
 
+  public handleUndo() {
+    this.game.undoLastTurn();
+  }
+
   public forfeit() {
     this.game.forfeit();
   }

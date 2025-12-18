@@ -9,6 +9,9 @@
 
 <app-board [colouredSections]="colouredSingles" [colouredDoubles]="colouredDoubles" [colouredTriples]="colouredTriples"
     (hit)="recordHit($event)"></app-board>
+<div class="large-top-spacing">
+    <button type="button" class="nes-btn is-warning" (click)="undoTurn()" [disabled]="!canUndo">Undo last turn</button>
+</div>
 <div class="large-top-spacing"></div>
 
 <dialog #confirmDialog class="nes-dialog" id="dialog-default">

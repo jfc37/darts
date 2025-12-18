@@ -5,7 +5,8 @@
     } @else if (game.phase == 'select-settings') {
     <app-golf-settings (settingsSelected)="setSettings($event)"></app-golf-settings>
     } @else if (game.phase == 'play') {
-    <app-play-team-golf [hole]="game.hole" [teams]="game.teams" (hits)="handleHits($event)"></app-play-team-golf>
+    <app-play-team-golf [hole]="game.hole" [teams]="game.teams" [canUndo]="game.canUndo"
+        (hits)="handleHits($event)" (undo)="handleUndo()"></app-play-team-golf>
     } @else if (game.phase == 'game-over') {
     <app-game-over [teams]="game.teams" (startNewGame)="handleNewGame()"></app-game-over>
     }

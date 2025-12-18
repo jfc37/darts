@@ -75,6 +75,10 @@ export class KillerContainer {
     this.game.hit(hits);
   }
 
+  public handleUndo() {
+    this.game.undoLastTurn();
+  }
+
   public handleNewGame() {
     this.game = this.killerGameService.createGame();
   }

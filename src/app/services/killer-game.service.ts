@@ -26,6 +26,7 @@ export class KillerGame {
 
   private _teamTurn = 1;
   private _roundOfThrows = 1;
+  private history: KillerSnapshot[] = [];
 
   public get currentTeam(): KillerTeam {
     return this._teamTurn == 1 ? this.team1 : this.team2;
@@ -102,6 +103,7 @@ export class KillerGame {
   }
 
   public hit(hits: Hit[]) {
+    this.saveSnapshot();
     this.currentTeam.currentThrowerStats.adjustStats(hits, this.currentTeam.targets, this.opponentTeam.targets, this._roundOfThrows);
 
     hits.forEach(hit => {
@@ -124,6 +126,23 @@ export class KillerGame {
     }
   }
 
+  public undoLastTurn() {
+    const previous = this.history.pop();
+    if (!previous) {
+      return;
+    }
+
+    this.phase = previous.phase;
+    this._teamTurn = previous.teamTurn;
+    this._roundOfThrows = previous.roundOfThrows;
+    this.team1 = this.restoreTeam(previous.team1);
+    this.team2 = this.restoreTeam(previous.team2);
+  }
+
+  public get canUndo() {
+    return this.history.length > 0;
+  }
+
   private changeCurrentTeam() {
     this.currentTeam.changeTurn();
     this._teamTurn = this._teamTurn == 1 ? 0 : 1;
@@ -131,6 +150,56 @@ export class KillerGame {
     if (this._teamTurn == 0) {
       this._roundOfThrows++;
     }
+  }
+
+  private saveSnapshot() {
+    this.history.push({
+      phase: this.phase,
+      teamTurn: this._teamTurn,
+      roundOfThrows: this._roundOfThrows,
+      team1: this.cloneTeam(this.team1),
+      team2: this.cloneTeam(this.team2)
+    });
+  }
+
+  private cloneTeam(team: KillerTeam): KillerTeamSnapshot {
+    return {
+      id: team.id,
+      name: team.name,
+      firstThrower: team.firstThrower,
+      secondThrower: team.secondThrower,
+      targets: team.targets.map(target => ({ target: target.target, colour: target.colour, health: target.health })),
+      firstThrowerStats: this.cloneStats(team.firstThrowerStats),
+      secondThrowerStats: this.cloneStats(team.secondThrowerStats),
+      turn: (team as any)._turn ?? 1
+    }
+  }
+
+  private cloneStats(stats: PlayerStats): PlayerStatsSnapshot {
+    return { ...stats } as PlayerStatsSnapshot;
+  }
+
+  private restoreTeam(snapshot: KillerTeamSnapshot): KillerTeam {
+    const restored = KillerTeam.Create(snapshot.name, snapshot.id);
+    restored.addPlayers(snapshot.firstThrower, snapshot.secondThrower);
+    (restored as any)._turn = snapshot.turn;
+
+    restored.targets = snapshot.targets.map(target => {
+      const clone = KillerTarget.Create(target.target, TeamColours.getForTeam(restored.id));
+      clone.health = target.health;
+      return clone;
+    });
+
+    restored.firstThrowerStats = this.restoreStats(snapshot.firstThrowerStats);
+    restored.secondThrowerStats = this.restoreStats(snapshot.secondThrowerStats);
+
+    return restored;
+  }
+
+  private restoreStats(snapshot: PlayerStatsSnapshot): PlayerStats {
+    const restored = new PlayerStats(snapshot.player);
+    Object.assign(restored, snapshot);
+    return restored;
   }
 
 }
@@ -628,3 +697,24 @@ export enum KillerTeamStatus {
   ReadyToPlay = 'ready-to-play',
   Dead = 'dead'
 }
+
+interface KillerSnapshot {
+  phase: KillerGamePhase;
+  teamTurn: number;
+  roundOfThrows: number;
+  team1: KillerTeamSnapshot;
+  team2: KillerTeamSnapshot;
+}
+
+interface KillerTeamSnapshot {
+  id: TeamNumbers;
+  name: string;
+  firstThrower: string;
+  secondThrower: string;
+  targets: { target: number; colour: string; health: number; }[];
+  firstThrowerStats: PlayerStatsSnapshot;
+  secondThrowerStats: PlayerStatsSnapshot;
+  turn: number;
+}
+
+type PlayerStatsSnapshot = Omit<PlayerStats, 'adjustStats'>;
