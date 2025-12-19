@@ -5,6 +5,7 @@ import { GolfSettings } from '../domain-objects/golf/golf-settings';
 import { GolfTeam } from '../domain-objects/golf/golf-team';
 import { GolfRound } from '../domain-objects/golf/golf-round';
 import { TeamNumbers } from '../domain-objects/team-numbers';
+import { GolfPlayer } from '../domain-objects/golf/golf-player';
 
 @Injectable({
   providedIn: 'root'

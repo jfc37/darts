@@ -556,7 +556,7 @@ export class KillerTarget {
    * The health remaining on the target
    * Targets start with 3 health
    */
-  public health: 0 | 1 | 2 | 3 = MAX_HEALTH;
+  public health: HealthOptions = MAX_HEALTH;
 
   private constructor(target: number, colour: string) {
     this.target = target;
@@ -662,6 +662,8 @@ export enum HitMultiplier {
   Double = 2
 }
 
+export type HealthOptions = 0 | 1 | 2 | 3;
+
 export const MAX_HEALTH = 3;
 export const ZERO_HEALTH = 0;
 export const TOTAL_TARGETS_PER_TEAM = 6;
@@ -711,7 +713,7 @@ interface KillerTeamSnapshot {
   name: string;
   firstThrower: string;
   secondThrower: string;
-  targets: { target: number; colour: string; health: number; }[];
+  targets: { target: number; colour: string; health: HealthOptions; }[];
   firstThrowerStats: PlayerStatsSnapshot;
   secondThrowerStats: PlayerStatsSnapshot;
   turn: number;
