@@ -7,6 +7,7 @@ import { TeamGolfContainer } from './pages/team-golf/team-golf.container';
 import { MultiplierPracticeContainer } from './pages/multiplier-practice/multiplier-practice.container';
 import { CricketContainer } from './pages/cricket/cricket.container';
 import { OhOneContainer } from './pages/oh-one/oh-one.container';
+import { KillerPracticeContainer } from './pages/killer-practice/killer-practice.container';
 
 export const routes: Routes = [
     {
@@ -38,6 +39,11 @@ export const routes: Routes = [
         path: 'killer',
         component: KillerContainer,
         title: 'Darts | Killer'
+    },
+    {
+        path: 'killer-practice',
+        component: KillerPracticeContainer,
+        title: 'Darts | Killer Practice'
     },
     {
         path: 'target-practice',

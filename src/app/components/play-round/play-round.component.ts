@@ -35,7 +35,8 @@ export class PlayRoundComponent {
         lastFiveGames: round.hits.slice(0, 5),
         lastTenGames: round.hits.slice(0, 10),
         lastTwentyGames: round.hits.slice(0, 20),
-        totalGames: round.hits
+        totalGames: round.hits,
+        maxScorePerThrow: round.maxScorePerThrow ?? 1
       }
     }), {});
 
@@ -90,4 +91,5 @@ interface RecentScores {
   lastTenGames: number[],
   lastTwentyGames: number[],
   totalGames: number[],
+  maxScorePerThrow: number,
 }

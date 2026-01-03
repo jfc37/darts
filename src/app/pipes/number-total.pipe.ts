@@ -5,15 +5,16 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class NumberTotalPipe implements PipeTransform {
 
-    transform(value: number[]): string {
+    transform(value: number[], maxScorePerThrow: number = 1): string {
         const totalThrows = value.length * 3;
+        const totalPossibleScore = totalThrows * maxScorePerThrow;
         const totalHits = value.reduce((acc, curr) => acc + curr, 0);
 
-        if (totalThrows === 0) {
-            return `${totalHits} / ${totalThrows}`;
+        if (totalPossibleScore === 0) {
+            return `${totalHits} / ${totalPossibleScore}`;
         }
 
-        const percentage = (totalHits / totalThrows).toFixed(3);
-        return `${totalHits} / ${totalThrows} (${percentage})`;
+        const percentage = (totalHits / totalPossibleScore).toFixed(3);
+        return `${totalHits} / ${totalPossibleScore} (${percentage})`;
     }
 }

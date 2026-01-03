@@ -18,7 +18,7 @@
                     @for (number of worstRecentRounds; track $index) {
                     <tr>
                         <td>{{number.round}}</td>
-                        <td>{{number.hits | numberTotal}}</td>
+                        <td>{{number.hits | numberTotal: number.maxScorePerThrow}}</td>
                     </tr>
                     }
                 </tbody>
@@ -37,7 +37,7 @@
                     @for (number of bestRecentRounds; track $index) {
                     <tr>
                         <td>{{number.round}}</td>
-                        <td>{{number.hits | numberTotal}}</td>
+                        <td>{{number.hits | numberTotal: number.maxScorePerThrow}}</td>
                     </tr>
                     }
                 </tbody>
@@ -64,7 +64,7 @@
                         <td>{{number.hits | numberHits: 1}}</td>
                         <td>{{number.hits | numberHits: 2}}</td>
                         <td>{{number.hits | numberHits: 3}}</td>
-                        <td>{{number.hits | numberTotal}}</td>
+                        <td>{{number.hits | numberTotal: number.maxScorePerThrow}}</td>
                     </tr>
                     }
                 </tbody>
@@ -94,7 +94,7 @@
                         <td>{{number.hits | numberHits: 1}}</td>
                         <td>{{number.hits | numberHits: 2}}</td>
                         <td>{{number.hits | numberHits: 3}}</td>
-                        <td>{{number.hits | numberTotal}}</td>
+                        <td>{{number.hits | numberTotal: number.maxScorePerThrow}}</td>
                     </tr>
                     }
                 </tbody>

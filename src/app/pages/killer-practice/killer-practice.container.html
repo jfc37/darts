@@ -1,0 +1,18 @@
+<section class="nes-container is-rounded with-title">
+    <p class="title">Killer Practice</p>
+    @if (game.phase == 'select-players') {
+    <app-select-players (playersSelected)="setPlayers($event)"></app-select-players>
+    } @else if (game.phase == 'play') {
+    <app-play-round [round]="game.round" [players]="game.players" localStorageName="killerPracticeGame"
+        (hits)="handleHits($event)"></app-play-round>
+    } @else if (game.phase == 'game-over') {
+    <app-game-over [players]="game.players" (startNewGame)="handleNewGame()"></app-game-over>
+    }
+</section>
+
+<details class="large-top-spacing">
+    <summary>Debugging</summary>
+    <pre>{{game | json}}</pre>
+</details>
+
+<app-stats localStorageName="killerPracticeGame"></app-stats>
