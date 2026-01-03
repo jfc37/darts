@@ -6,11 +6,11 @@
         }
         @if (recentRoundStats[round]) {
         <div>
-            <div>{{recentRoundStats[round].lastGame| numberTotal}}</div>
-            <div>{{recentRoundStats[round].lastFiveGames| numberTotal}}</div>
-            <div>{{recentRoundStats[round].lastTenGames| numberTotal}}</div>
-            <div>{{recentRoundStats[round].lastTwentyGames| numberTotal}}</div>
-            <div>{{recentRoundStats[round].totalGames| numberTotal}}</div>
+            <div>{{recentRoundStats[round].lastGame| numberTotal: recentRoundStats[round].maxScorePerThrow}}</div>
+            <div>{{recentRoundStats[round].lastFiveGames| numberTotal: recentRoundStats[round].maxScorePerThrow}}</div>
+            <div>{{recentRoundStats[round].lastTenGames| numberTotal: recentRoundStats[round].maxScorePerThrow}}</div>
+            <div>{{recentRoundStats[round].lastTwentyGames| numberTotal: recentRoundStats[round].maxScorePerThrow}}</div>
+            <div>{{recentRoundStats[round].totalGames| numberTotal: recentRoundStats[round].maxScorePerThrow}}</div>
         </div>
         }
     </div>

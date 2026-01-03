@@ -10,6 +10,7 @@ export interface RoundStat {
     round: number;
     hits: number[];
     points: HitPoint[];
+    maxScorePerThrow?: number;
 }
 
 export function updateGameStats(localStorageName: string, players: Player[]) {
@@ -23,8 +24,9 @@ export function updateGameStats(localStorageName: string, players: Player[]) {
             if (existingRoundStat) {
                 existingRoundStat.hits = [round.makes, ...existingRoundStat.hits];
                 existingRoundStat.points = [...round.points, ...(existingRoundStat.points || [])];
+                existingRoundStat.maxScorePerThrow = round.maxScorePerThrow ?? existingRoundStat.maxScorePerThrow ?? 1;
             } else {
-                gameStats.rounds.push({ round: round.hole, hits: [round.makes], points: round.points });
+                gameStats.rounds.push({ round: round.hole, hits: [round.makes], points: round.points, maxScorePerThrow: round.maxScorePerThrow });
             }
         })
     })

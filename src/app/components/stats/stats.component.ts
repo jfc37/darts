@@ -25,6 +25,7 @@ export class StatsComponent {
 
     const existingGameStat = localStorage.getItem(name);
     this.stats = existingGameStat ? JSON.parse(existingGameStat) : { totalHits: [], rounds: [] };
+    this.stats.rounds = this.stats.rounds.map(round => ({ ...round, maxScorePerThrow: round.maxScorePerThrow ?? 1 }));
 
     this.recentStats = {
       totalHits: this.stats.totalHits.slice(0, 5),

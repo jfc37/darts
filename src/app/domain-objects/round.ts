@@ -4,27 +4,39 @@ export class Round {
     public hole: number;
     private _hits: Hit[];
 
-    private _didHitFunction: (hit: Hit, hole: number) => boolean;
+    private _scoreFunction: (hit: Hit, hole: number) => boolean | number;
+    public readonly maxScorePerThrow: number;
 
     constructor(
         hole: number,
         hits: Hit[],
-        didHitFunction: (hit: Hit, hole: number) => boolean) {
+        didHitFunction: (hit: Hit, hole: number) => boolean | number,
+        maxScorePerThrow: number = 1) {
         this.hole = hole;
         this._hits = hits;
-        this._didHitFunction = didHitFunction;
+        this._scoreFunction = didHitFunction;
+        this.maxScorePerThrow = maxScorePerThrow;
     }
 
     public get misses(): number {
-        return this._hits.filter(x => !this._didHitFunction(x, this.hole)).length;
+        return this._hits.filter(x => this.scoreHit(x) === 0).length;
     }
 
     public get makes(): number {
-        return this._hits.filter(x => this._didHitFunction(x, this.hole)).length;
+        return this._hits.reduce((total, hit) => total + this.scoreHit(hit), 0);
+    }
+
+    public get maxScore(): number {
+        return this._hits.length * this.maxScorePerThrow;
     }
 
     public get points(): HitPoint[] {
         return this._hits.map(hit => hit.point!);
+    }
+
+    private scoreHit(hit: Hit): number {
+        const result = this._scoreFunction(hit, this.hole);
+        return typeof result === 'boolean' ? result ? 1 : 0 : result;
     }
 }
 
